@@ -8,21 +8,21 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 const Teste: React.FC = () => {
-     const { token } = useAuth();
-    console.log(token)
-    useEffect(() => {
+  const { token } = useAuth();
+  console.log(token)
+  useEffect(() => {
     // Garantir que o código só é executado no lado do cliente
     console.log("Current token:", token.token);
   }, [token.token]);
   const searchParams = useSearchParams();
-  const message = searchParams.get('message');
+  const message = searchParams.get('message')
 
   return (
-    <div> 
-            <p>aaaa</p>
-        <p>aaa{message}</p>
-        <p>{token.token}</p>
-    </div>) 
+    <div>
+      <p>aaaa</p>
+      <p>aaa{message}</p>
+      <p>{token.token}</p>
+    </div>)
 };
 
 export default Teste;
