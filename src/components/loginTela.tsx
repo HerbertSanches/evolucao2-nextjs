@@ -6,13 +6,11 @@ import cadeadoIcon from '../../public/assets/images/cadeado.png';
 import logo from '../../public/assets/images/logo.png';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import CryptoJS from 'crypto-js';
+//import CryptoJS from 'crypto-js';
 
-interface passwordState {
-  password:string;
-}
 
-const Logar: React.FC = () => {
+
+const loginTela: React.FC = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -31,9 +29,9 @@ const Logar: React.FC = () => {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     return hashHex;
-}
+  }
 
-  async function main(input) {
+  async function main(input:string) {
     const hash1 = await sha256(input);
     const p1 = hash1.slice(0, 64);
     const p2 = await sha256(p1);
@@ -41,14 +39,14 @@ const Logar: React.FC = () => {
     return result;
   }
 
-  async function encryptPassword(input) {
+  async function encryptPassword(input:string) {
     let encryptedPassword:string;
     return encryptedPassword = await main(input);
   }
 
   async function chamarCryptografia() { 
-    let input = {password};
-    password = await encryptPassword(input);
+    //let input = {password};
+    setPassword(password = await encryptPassword(password));
     console.log(password)
   }  
 
@@ -58,7 +56,7 @@ const Logar: React.FC = () => {
     console.log(password)
     await chamarCryptografia();
     //password = encryptedPassword;
-    await signIn({ username, password })
+    //await signIn({ username, password })
     console.log(password)
 
     console.log("After signIn call, token:", token.token); 
@@ -69,7 +67,7 @@ const Logar: React.FC = () => {
   }, [username, password, signIn, token.token]);
 
   return (
-    <div className='flex items-center justify-center min-h-screen bg-azulEscuro md:bg-green-500'>
+    <div className='flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro'>
       <div id="login_container" className="flex flex-col h-[80vh] w-[100vh]  items-center justify-center bg-azulEscuro text-white p-10 rounded-[20px] sm:shadow-global">
         <div id="evo_icon" className="mb-8 mt-2.5">
           <Image src={logo} alt="Logo" className='h-[30vh] w-[30vh]' />
@@ -109,4 +107,4 @@ const Logar: React.FC = () => {
   );
 };
 
-export default Logar;
+export default loginTela;

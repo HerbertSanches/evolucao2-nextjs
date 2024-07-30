@@ -6,8 +6,9 @@ import cadeadoIcon from '../../public/assets/images/cadeado.png';
 import logo from '../../public/assets/images/logo.png';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
+//import Dashboard from '@/app/dashboard/page';
 
-const Teste: React.FC = () => {
+const DashboardComponent: React.FC = () => {
   const { token } = useAuth();
   console.log(token)
   useEffect(() => {
@@ -25,5 +26,5 @@ const Teste: React.FC = () => {
     </div>)
 };
 
-export default Teste;
+export default DashboardComponent;
 

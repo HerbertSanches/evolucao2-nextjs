@@ -1,21 +1,14 @@
 'use client'
 import React, { useRef, useEffect, Suspense } from 'react';
-
-import type { Metadata } from "next";
 import "../globals.css";
-import Teste from '../../components/dashboard';
+import DashboardComponent from '../../components/dashboard';
 
-
-
-
-
-const Login: React.FC = () => {
-
+const Dashboard: React.FC = () => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <Teste />
+            <DashboardComponent />
         </Suspense>
     );
 };
 
-export default Login;
+export default Dashboard;
