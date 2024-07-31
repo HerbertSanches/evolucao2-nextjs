@@ -7,7 +7,7 @@ import logo from '../../public/assets/images/logo.png';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
-const loginTela: React.FC = () => {
+const LoginTela: React.FC = () => {
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -110,4 +110,4 @@ const loginTela: React.FC = () => {
   );
 };
 
-export default loginTela;
+export default LoginTela;
