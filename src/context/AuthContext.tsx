@@ -42,8 +42,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             us_idempresa: 2,
             us_usuario: username,
             us_senha: password,
-            us_permissaoapp: 50,
-            
+            us_permissaoapp: 190,
         });
         
         console.log(response.data);

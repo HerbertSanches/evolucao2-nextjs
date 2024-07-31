@@ -6,73 +6,76 @@ import cadeadoIcon from '../../public/assets/images/cadeado.png';
 import logo from '../../public/assets/images/logo.png';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-//import CryptoJS from 'crypto-js';
-
-
 
 const loginTela: React.FC = () => {
   const router = useRouter();
-
-  useEffect(() => {
-    // Garantir que o código só é executado no lado do cliente
-  }, []);
-  
   const [username, setUsername] = useState('');
-  let [password, setPassword] = useState('');
+  const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
-
   const { signIn, token } = useAuth();
+  const masterKey = '#-6!HY]sK!AHDqg1';
 
-  async function sha256(message:string) {
-    const msgBuffer = new TextEncoder().encode(message);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-  }
+  //obter a chave de criptografia
+  const getKey = async (masterKey:string) => {
+    let result = Array.from({ length: 256 }, (_, i) => i);
+    let k = new Array(256).fill(0);
 
-  async function main(input:string) {
-    const hash1 = await sha256(input);
-    const p1 = hash1.slice(0, 64);
-    const p2 = await sha256(p1);
-    const result = p2 + await sha256(input);
+    for (let i = 0; i < k.length; i++) {
+      k[i] =
+        masterKey.charCodeAt((i * 2) % masterKey.length) +
+        masterKey.charCodeAt(((i * 2) + 1) % masterKey.length);
+    }
+
+    let x = 0;
+    for (let i = 0; i < result.length; i++) {
+      x = (x + result[i] + k[i]) % result.length;
+      [result[i], result[x]] = [result[x], result[i]]; // Swap elements
+    }
+
     return result;
-  }
+  };
 
-  async function encryptPassword(input:string) {
-    let encryptedPassword:string;
-    return encryptedPassword = await main(input);
-  }
+  //converter número em hexadecimal com dois dígitos
+  const intToHex = async (num:number, length:number) => {
+    let hex = num.toString(16);
+    return hex.padStart(length, '0').toUpperCase();
+  };
 
-  async function chamarCryptografia() { 
-    //let input = {password};
-    setPassword(password = await encryptPassword(password));
-    console.log(password)
-  }  
+  //codificação
+  const encode = async (pValue:string, masterKey:string) => {
+    let result = '';
+    let i = 0;
+    let x = 0;
+    let aux = await getKey(masterKey);
 
-  const handleLogin = useCallback(async (e: React.FormEvent) => {
+    for (let secao = 0; secao < pValue.length; secao++) {
+      let secaoTxt = pValue.charCodeAt(secao);
+      i = (i + 1) % aux.length;
+      x = (x + aux[i]) % aux.length;
+      [aux[i], aux[x]] = [aux[x], aux[i]]; // Swap elements
+      let t = (aux[i] + aux[x]) % aux.length;
+      result += await intToHex(secaoTxt ^ aux[t], 2);
+    }
+
+    return result;
+  };
+
+  const handleEncode = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(username)
-    console.log(password)
-    await chamarCryptografia();
-    //password = encryptedPassword;
-    //await signIn({ username, password })
-    console.log(password)
+    const encoded = await encode(password, masterKey)
 
-    console.log("After signIn call, token:", token.token); 
+    await signIn({ username, password: encoded });
     
-    //router.push("/dashboard?message=Hello%20from%20login")
-   
-    console.log("Current token:", token.token);
+   // router.push("/dashboard?message=Hello%20from%20login")
   }, [username, password, signIn, token.token]);
-
+    
   return (
     <div className='flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro'>
       <div id="login_container" className="flex flex-col h-[80vh] w-[100vh]  items-center justify-center bg-azulEscuro text-white p-10 rounded-[20px] sm:shadow-global">
         <div id="evo_icon" className="mb-8 mt-2.5">
           <Image src={logo} alt="Logo" className='h-[30vh] w-[30vh]' />
         </div>
-        <form id="login" className="flex flex-col items-center gap-4 p-10" onSubmit={handleLogin}>
+        <form id="login" className="flex flex-col items-center gap-4 p-10" onSubmit={handleEncode}>
           <div className="userEpassword flex items-center border-b-3 border-white  2xl:mt-2.5 xl:mt-1">
             <Image src={usuarioIcon} alt="Usuário" className='h-[30px] w-[30px] mb-1.5' />
             <input 

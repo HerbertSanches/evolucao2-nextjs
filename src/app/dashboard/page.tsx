@@ -1,7 +1,7 @@
 'use client'
 import React, { useRef, useEffect, Suspense } from 'react';
 import "../globals.css";
-import DashboardComponent from '../../components/dashboard';
+import DashboardComponent from '../../components/DashboardComponent';
 
 const Dashboard: React.FC = () => {
     return (
