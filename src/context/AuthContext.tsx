@@ -79,5 +79,5 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
 
     return AuthComponent;
 }
-
+//teste
 export { AuthProvider, useAuth, withAuth };
