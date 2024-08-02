@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, Suspense } from 'react';
 import "../globals.css";
 import DashboardComponent from '../../components/DashboardComponent';
+import {withAuth} from '@/context/AuthContext';
 
 const Dashboard: React.FC = () => {
     return (
@@ -11,4 +12,4 @@ const Dashboard: React.FC = () => {
     );
 };
 
-export default Dashboard;
+export default withAuth(Dashboard);

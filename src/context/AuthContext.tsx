@@ -1,6 +1,8 @@
 "use client"
-import { createContext, ReactNode, useCallback, useContext, useState, useEffect } from "react";
+import React, { createContext, ReactNode, useCallback, useContext, useState, useEffect } from "react";
 import api from "@/services/api";
+import { useRouter } from 'next/navigation';
+
 
 interface AuthContextState {
     token: TokenState;
@@ -24,13 +26,6 @@ const AuthContext = createContext<AuthContextState>({} as AuthContextState);
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [token, setToken] = useState<TokenState>(() => {
-        // Tenta carregar o token do localStorage
-        // if (typeof window !== "undefined") {
-        //     const storedToken = localStorage.getItem("token");
-        //     return storedToken ? { token: storedToken } : { token: '' };
-        // } else {
-        //     return { token: '' };
-        // }
         return {token: ''}
     });
 
@@ -45,7 +40,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             us_permissaoapp: 190,
         });
         
+
         console.log(response.data);
+        localStorage.setItem("token", fetchedToken);
         //localStorage.setItem("token", fetchedToken);  
         console.log("Token set to:", fetchedToken);
     }, []);
@@ -69,4 +66,18 @@ function useAuth(): AuthContextState {
     return context;
 }
 
-export { AuthProvider, useAuth };
+const withAuth = (WrappedComponent: React.ComponentType) => {
+    const AuthComponent = (props: any) => {
+        const router = useRouter();
+        useEffect(() => {
+            if (!localStorage.getItem('token')) {
+                router.push('/login/evolucao');
+            }
+        },[router]);
+        return <WrappedComponent {...props} />;
+    };
+
+    return AuthComponent;
+}
+
+export { AuthProvider, useAuth, withAuth };
