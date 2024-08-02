@@ -7,7 +7,12 @@ import logo from '../../public/assets/images/logo.png';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
-const LoginTela: React.FC = () => {
+interface LoginTelaProps {
+  idEmpresa: string;
+}
+
+const LoginTela: React.FC<LoginTelaProps> = (props) => {
+  console.log(props.idEmpresa)
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -77,6 +82,7 @@ const LoginTela: React.FC = () => {
         </div>
         <form id="login" className="flex flex-col items-center gap-4 p-10" onSubmit={handleEncode}>
           <div className="userEpassword flex items-center border-b-3 border-white  2xl:mt-2.5 xl:mt-1">
+            <p>{props.idEmpresa}</p>
             <Image src={usuarioIcon} alt="Usuário" className='h-[30px] w-[30px] mb-1.5' />
             <input 
               type="text" 
