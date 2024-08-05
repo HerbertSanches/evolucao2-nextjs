@@ -37,7 +37,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             us_idempresa: 2,
             us_usuario: username,
             us_senha: password,
-            us_permissaoapp: 190,
+            us_permissaoapp: 50,//certo 50 teste estava com 190
         });
         
 
@@ -69,7 +69,7 @@ function useAuth(): AuthContextState {
 const withAuth = (WrappedComponent: React.ComponentType) => {
     const AuthComponent = (props: any) => {
         const router = useRouter();
-        useEffect(() => {
+        useEffect(() => { 
             if (!localStorage.getItem('token')) {
                 router.push('/login/evolucao');
             }
@@ -79,5 +79,5 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
 
     return AuthComponent;
 }
-//teste
+
 export { AuthProvider, useAuth, withAuth };

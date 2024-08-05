@@ -5,16 +5,12 @@ import { useMemo } from 'react';
 import "../../globals.css";
 import LoginTela from '../../../components/loginTela';
 
-// interface LoginProps {
-//   idEmpresa: string;
-// }
-
 const Login: React.FC = () =>  {
   const pathname = usePathname();
-
+  
   // Extrai o último segmento da URL como parâmetro da empresa
   const company = useMemo(() => pathname?.split('/').pop(), [pathname]);
-
+  console.log(company)
   const idEmpresa = useMemo(() => {
     switch (company) {
       case 'evolucao':
@@ -30,7 +26,7 @@ const Login: React.FC = () =>  {
         return '753';
     }
   }, [company]);
-
+  
   return (
     <LoginTela idEmpresa={idEmpresa} />
   );

@@ -6,6 +6,7 @@ import cadeadoIcon from '../../public/assets/images/cadeado.png';
 import logo from '../../public/assets/images/logo.png';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import api from "@/services/api";
 
 interface LoginTelaProps {
   idEmpresa: string;
@@ -19,6 +20,24 @@ const LoginTela: React.FC<LoginTelaProps> = (props) => {
   const [loginError, setLoginError] = useState(false);
   const { signIn, token } = useAuth();
   const masterKey = '#-6!HY]sK!AHDqg1';
+
+  const getToken = useCallback(async () => {
+    const fetchedToken = '23';
+  
+    //chama a api com o id da empresa e embaixo já chama ela mesmo (auto invocável)
+    const response = await api.post("autenticacao/validacao-dashboard/{company}", {
+        us_idempresa: 2,
+        us_usuario: username,
+        us_senha: password,
+        us_permissaoapp: 50,//certo 50 teste estava com 190
+    });
+    
+    console.log(response.data);
+    localStorage.setItem("token", fetchedToken);
+    //localStorage.setItem("token", fetchedToken);  
+    console.log("Token set to:", fetchedToken);
+  }, []);
+  //getToken();
 
   //obter a chave de criptografia
   const getKey = async (masterKey:string) => {
@@ -69,9 +88,18 @@ const LoginTela: React.FC<LoginTelaProps> = (props) => {
     e.preventDefault();
     const encoded = await encode(password, masterKey)
 
-    await signIn({ username, password: encoded });
+    try {
+      await signIn({ username, password: encoded });
+      
+      router.push("/dashboard?message=Hello%20from%20login");
+
+    } catch (error) {
+      console.error("Erro ao fazer o request do login" + error );
+      alert("Erro ao fazerr login")
     
-   // router.push("/dashboard?message=Hello%20from%20login")
+    }
+    
+    
   }, [username, password, signIn, token.token]);
     
   return (
@@ -81,7 +109,7 @@ const LoginTela: React.FC<LoginTelaProps> = (props) => {
           <Image src={logo} alt="Logo" className='h-[30vh] w-[30vh]' />
         </div>
         <form id="login" className="flex flex-col items-center gap-4 p-10" onSubmit={handleEncode}>
-          <div className="userEpassword flex items-center border-b-3 border-white  2xl:mt-2.5 xl:mt-1">
+          <div className="userEpassword flex items-center border-b-3 border-white 2xl:mt-2.5 xl:mt-1">
             <p>{props.idEmpresa}</p>
             <Image src={usuarioIcon} alt="Usuário" className='h-[30px] w-[30px] mb-1.5' />
             <input 
