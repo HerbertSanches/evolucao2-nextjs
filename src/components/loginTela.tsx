@@ -7,13 +7,19 @@ import logo from '../../public/assets/images/logo.png';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import api from "@/services/api";
+import { usePathname } from 'next/navigation';
+import { useMemo } from 'react';
 
-interface LoginTelaProps {
-  idEmpresa: string;
-}
+// interface LoginTelaProps {
+//   idEmpresa: string;
+// }
 
-const LoginTela: React.FC<LoginTelaProps> = (props) => {
-  console.log(props.idEmpresa)
+const LoginTela: React.FC = () => {
+  const pathname = usePathname();
+  const company = useMemo(() => pathname?.split('/').pop(), [pathname]);
+  console.log(company)
+
+
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +31,7 @@ const LoginTela: React.FC<LoginTelaProps> = (props) => {
     const fetchedToken = '23';
   
     //chama a api com o id da empresa e embaixo já chama ela mesmo (auto invocável)
-    const response = await api.post("autenticacao/validacao-dashboard/{company}", {
+    const response = await api.post(`autenticacao/validacao-dashboard/${company}`, {
         us_idempresa: 2,
         us_usuario: username,
         us_senha: password,
@@ -110,7 +116,7 @@ const LoginTela: React.FC<LoginTelaProps> = (props) => {
         </div>
         <form id="login" className="flex flex-col items-center gap-4 p-10" onSubmit={handleEncode}>
           <div className="userEpassword flex items-center border-b-3 border-white 2xl:mt-2.5 xl:mt-1">
-            <p>{props.idEmpresa}</p>
+            {/* <p>{props.idEmpresa}</p> */}
             <Image src={usuarioIcon} alt="Usuário" className='h-[30px] w-[30px] mb-1.5' />
             <input 
               type="text" 
