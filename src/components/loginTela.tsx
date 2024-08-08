@@ -9,10 +9,8 @@ import { useAuth } from '@/context/AuthContext';
 import api from "@/services/api";
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
+import { ComboBox } from './ComboBox'
 
-// interface LoginTelaProps {
-//   idEmpresa: string;
-// }
 
 const LoginTela: React.FC = () => {
   const pathname = usePathname();
@@ -26,6 +24,7 @@ const LoginTela: React.FC = () => {
   const [loginError, setLoginError] = useState(false);
   const { signIn, token } = useAuth();
   const masterKey = '#-6!HY]sK!AHDqg1';
+  const [selectedCompanyId, setSelectedCompanyId] = useState(0);
 
   const getToken = useCallback(async () => {
     const fetchedToken = '23';
@@ -95,7 +94,8 @@ const LoginTela: React.FC = () => {
     const encoded = await encode(password, masterKey)
 
     try {
-      await signIn({ username, password: encoded });
+      console.log(selectedCompanyId)
+      await signIn({ username, password: encoded, selectedCompanyId });
       
       router.push("/dashboard?message=Hello%20from%20login");
 
@@ -106,18 +106,35 @@ const LoginTela: React.FC = () => {
     }
     
     
-  }, [username, password, signIn, token.token]);
+  }, [username, password, signIn, selectedCompanyId, token.token]);
     
+  interface EmpresaOption {
+    ep_id: number;
+    ep_nomerao: string;
+    ep_nomefantasia: string;
+  }
+  
+  const empresas: EmpresaOption[] = [
+    { ep_id: 1, ep_nomerao: "Razao da Empresa", ep_nomefantasia: "Fantasia da Empresa" },
+    { ep_id: 2, ep_nomerao: "EVOLUCAO DESENVOLVIMENTO DE SISTEMAS LTDA ME", ep_nomefantasia: "EVOLUCAO SISTEMAS PROGRAMACAO" }
+  ];
+  console.log(selectedCompanyId)
   return (
     <div className='flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro'>
-      <div id="login_container" className="flex flex-col h-[80vh] w-[100vh]  items-center justify-center bg-azulEscuro text-white p-10 rounded-[20px] sm:shadow-global">
+      <div id="login_container" className="flex flex-col h-[80vh] w-full md:max-w-[100vh] items-center justify-center bg-azulEscuro text-white p-10 rounded-[20px] sm:shadow-global">
         <div id="evo_icon" className="mb-8 mt-2.5">
           <Image src={logo} alt="Logo" className='h-[30vh] w-[30vh]' />
         </div>
         <form id="login" className="flex flex-col items-center gap-4 p-10" onSubmit={handleEncode}>
+        <div>
+          <ComboBox options={empresas} onChange={setSelectedCompanyId} />
+        </div>
+        <br />
           <div className="userEpassword flex items-center border-b-3 border-white 2xl:mt-2.5 xl:mt-1">
             {/* <p>{props.idEmpresa}</p> */}
+            
             <Image src={usuarioIcon} alt="Usuário" className='h-[30px] w-[30px] mb-1.5' />
+            
             <input 
               type="text" 
               name="user_name" 
@@ -141,7 +158,7 @@ const LoginTela: React.FC = () => {
             />
           </div>
           {loginError && <div className="login_erro text-red-500">Usuário e/ou senha inválidos</div>}
-          <button type="submit" className="btn-entrar flex items-center justify-center w-45 h-[38px] bg-white text-blue-900 font-bold py-2 px-4 rounded-[10px] 2xl:mt-10 xl:mt-4 hover:bg-gray-200 transition-transform">
+          <button type="submit" className="btn-entrar flex items-center justify-center max-w-45  h-[38px] bg-white text-blue-900 font-bold py-2 px-4 rounded-[10px] 2xl:mt-10 xl:mt-4 hover:bg-gray-200 transition-transform">
             Entrar {token.token}
           </button>
         </form>

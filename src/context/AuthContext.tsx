@@ -16,6 +16,7 @@ interface AuthProviderProps {
 interface UserData {
     username: string;
     password: string;
+    selectedCompanyId: number;
 }
 
 interface TokenState {
@@ -29,17 +30,18 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return {token: ''}
     });
 
-    const signIn = useCallback(async ({ username, password }: UserData) => {
+    const signIn = useCallback(async ({ username, password, selectedCompanyId }: UserData) => {
         const fetchedToken = '23';
         setToken({ token: fetchedToken });
-
+        console.log(selectedCompanyId)
         const response = await api.post("/usuario/login", {
-            us_idempresa: 2,
+            us_idempresa: selectedCompanyId,
             us_usuario: username,
             us_senha: password,
             us_permissaoapp: 50,//certo 50 teste estava com 190
         });
-        
+
+        //se de ok o sigIn, pegar o token
 
         console.log(response.data);
         localStorage.setItem("token", fetchedToken);
