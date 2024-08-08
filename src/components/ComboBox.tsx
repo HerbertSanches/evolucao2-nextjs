@@ -1,6 +1,7 @@
 import React from 'react';
 import Select, { StylesConfig } from 'react-select';
 
+
 interface EmpresaOption {
     ep_id: number;
     ep_nomerao: string;
@@ -33,12 +34,20 @@ const customStyles: StylesConfig<OptionType, false> = {
 };
 
 const ComboBox: React.FC<ComboBoxProps> = ({ options, onChange }) => {
+    // Adicionar uma verificação para garantir que options é um array
+    if (!Array.isArray(options)) {
+        console.error('ComboBox espera um array para options, recebido:', options);
+        return null;  // Renderiza nada se options não for um array
+    }
+
     const handleChange = (option: any) => {
         onChange(option.value); // Notifica o componente pai
+        console.log( option.value)
     };
 
     // Preparar as opções para o react-select
     const formattedOptions = options.map(option => ({
+
         value: option.ep_id,
         label: (
             <div className='custom-div'>

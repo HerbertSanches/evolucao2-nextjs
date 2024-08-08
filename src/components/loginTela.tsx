@@ -12,11 +12,10 @@ import { useMemo } from 'react';
 import { ComboBox } from './ComboBox'
 
 
+
 const LoginTela: React.FC = () => {
   const pathname = usePathname();
   const company = useMemo(() => pathname?.split('/').pop(), [pathname]);
-  console.log(company)
-
 
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -25,6 +24,8 @@ const LoginTela: React.FC = () => {
   const { signIn, token } = useAuth();
   const masterKey = '#-6!HY]sK!AHDqg1';
   const [selectedCompanyId, setSelectedCompanyId] = useState(0);
+  const [empresas, setEmpresas] = useState([]);
+  const [isClient, setIsClient] = useState(false);
 
   const getToken = useCallback(async () => {
     const fetchedToken = '23';
@@ -102,23 +103,32 @@ const LoginTela: React.FC = () => {
     } catch (error) {
       console.error("Erro ao fazer o request do login" + error );
       alert("Erro ao fazerr login")
-    
+
     }
-    
-    
   }, [username, password, signIn, selectedCompanyId, token.token]);
-    
-  interface EmpresaOption {
-    ep_id: number;
-    ep_nomerao: string;
-    ep_nomefantasia: string;
-  }
+   
+  useEffect(() => {
+    console.log('Componente montado ou pathname alterado:', company);
+    setIsClient(true);
+    const chamarEmpresa = async () => {
+      try {
+        console.log('Chamando API para company:', company);
+        const response = await api.get(`/autenticacao/validacao-dashboard/${company}`);
+        console.log('Dados recebidos:', response.data);
+        console.log('chamou');
+        setEmpresas(response.data.empresa);
+      } catch (error) {
+        console.error('Erro ao chamar a empresa:', error);
+      }
+    };
   
-  const empresas: EmpresaOption[] = [
-    { ep_id: 1, ep_nomerao: "Razao da Empresa", ep_nomefantasia: "Fantasia da Empresa" },
-    { ep_id: 2, ep_nomerao: "EVOLUCAO DESENVOLVIMENTO DE SISTEMAS LTDA ME", ep_nomefantasia: "EVOLUCAO SISTEMAS PROGRAMACAO" }
-  ];
-  console.log(selectedCompanyId)
+    chamarEmpresa();
+  
+    return () => {
+      console.log('Componente desmontado');
+    };
+  }, []);
+   
   return (
     <div className='flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro'>
       <div id="login_container" className="flex flex-col h-[80vh] w-full md:max-w-[100vh] items-center justify-center bg-azulEscuro text-white p-10 rounded-[20px] sm:shadow-global">
@@ -127,7 +137,8 @@ const LoginTela: React.FC = () => {
         </div>
         <form id="login" className="flex flex-col items-center gap-4 p-10" onSubmit={handleEncode}>
         <div>
-          <ComboBox options={empresas} onChange={setSelectedCompanyId} />
+          {/* <ComboBox options={empresas} onChange={setSelectedCompanyId} /> */}
+          {isClient && <ComboBox options={empresas} onChange={setSelectedCompanyId} />}
         </div>
         <br />
           <div className="userEpassword flex items-center border-b-3 border-white 2xl:mt-2.5 xl:mt-1">

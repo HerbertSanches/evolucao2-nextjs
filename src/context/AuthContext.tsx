@@ -23,6 +23,10 @@ interface TokenState {
     token: string;
 }
 
+interface Response {
+
+}
+
 const AuthContext = createContext<AuthContextState>({} as AuthContextState);
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -40,6 +44,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             us_senha: password,
             us_permissaoapp: 50,//certo 50 teste estava com 190
         });
+        console.log('Status da resposta:', response.status);
+        //console.log(response.usuario.us_id)
+        //if (response.data.us_id)
 
         //se de ok o sigIn, pegar o token
 
