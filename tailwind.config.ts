@@ -29,6 +29,21 @@ const config: Config = {
       width: {
         '45': '45%',
       },
+      screens:{
+        'tablet': '600px',
+        // => @media (min-width: 640px) { ... }
+  
+        'laptop': '1024px',
+        // => @media (min-width: 1024px) { ... }
+  
+        'desktop': '1280px',
+        // => @media (min-width: 1280px) { ... }
+
+        'smartphone': '1px',
+
+        'tablet2': '870px'
+      
+      }
     },
   },
   plugins: [],
