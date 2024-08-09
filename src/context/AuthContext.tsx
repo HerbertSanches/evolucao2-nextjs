@@ -1,7 +1,8 @@
 "use client"
 import React, { createContext, ReactNode, useCallback, useContext, useState, useEffect } from "react";
-import api from "@/services/api";
+import api from '@/services/api';
 import { useRouter } from 'next/navigation';
+import { encode, RESTCHAVE_REQUEST, getSHA } from '../criptografia/criptografia';
 
 
 interface AuthContextState {
@@ -19,41 +20,52 @@ interface UserData {
     selectedCompanyId: number;
 }
 
-interface TokenState {
-    token: string;
+interface chamarToken {
+    username: string;
+    selectedCompanyId: number;
+    userId: number;
 }
 
-interface Response {
-
+interface TokenState {
+    token: string;
 }
 
 const AuthContext = createContext<AuthContextState>({} as AuthContextState);
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+    const [userId, setUserId] = useState(0);
     const [token, setToken] = useState<TokenState>(() => {
         return {token: ''}
     });
 
     const signIn = useCallback(async ({ username, password, selectedCompanyId }: UserData) => {
-        const fetchedToken = '23';
-        setToken({ token: fetchedToken });
+        // const fetchedToken = '23';
+        // setToken({ token: fetchedToken });
         console.log(selectedCompanyId)
         const response = await api.post("/usuario/login", {
             us_idempresa: selectedCompanyId,
             us_usuario: username,
             us_senha: password,
-            us_permissaoapp: 50,//certo 50 teste estava com 190
+            us_permissaoapp: 50,
         });
         console.log('Status da resposta:', response.status);
         //console.log(response.usuario.us_id)
-        //if (response.data.us_id)
+        if (response.data.usuario[0].us_id) {
+            const id = response.data.usuario[0].us_id;
+            setUserId(id)
+            console.log(userId)
+            console.log(response.data.usuario[0].us_id)
+            const responseToken = await criarToken( {username, selectedCompanyId, userId:id} );
+            setToken({ token:responseToken})
+
+        }
 
         //se de ok o sigIn, pegar o token
 
         console.log(response.data);
-        localStorage.setItem("token", fetchedToken);
+        // localStorage.setItem("token", fetchedToken);
         //localStorage.setItem("token", fetchedToken);  
-        console.log("Token set to:", fetchedToken);
+        // console.log("Token set to:", fetchedToken);
     }, []);
 
     useEffect(() => {
@@ -66,6 +78,21 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) => {
+    
+    const encoded = await getSHA( RESTCHAVE_REQUEST )
+    console.log(encoded)
+
+    const responseToken = await api.post("/autenticacao/create-token", {
+        "au_chave":  encoded,
+        "au_usuario": username,
+        "au_idusuario": userId,
+        "au_idempresa": selectedCompanyId,
+    });
+    console.log(responseToken.data)
+    return responseToken.data
+}
 
 function useAuth(): AuthContextState {
     const context = useContext(AuthContext);
