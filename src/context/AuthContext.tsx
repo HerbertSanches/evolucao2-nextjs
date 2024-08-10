@@ -3,6 +3,7 @@ import React, { createContext, ReactNode, useCallback, useContext, useState, use
 import api from '@/services/api';
 import { useRouter } from 'next/navigation';
 import { encode, RESTCHAVE_REQUEST, getSHA } from '../criptografia/criptografia';
+import { error } from "console";
 
 
 interface AuthContextState {
@@ -33,6 +34,8 @@ interface TokenState {
 const AuthContext = createContext<AuthContextState>({} as AuthContextState);
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+    const router = useRouter();
+
     const [userId, setUserId] = useState(0);
     const [token, setToken] = useState<TokenState>(() => {
         return {token: ''}
@@ -57,8 +60,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             console.log(response.data.usuario[0].us_id)
             const responseToken = await criarToken( {username, selectedCompanyId, userId:id} );
             setToken({ token:responseToken})
-
-        }
+            router.push("/dashboard?message=Hello%20from%20login");
+        } 
 
         //se de ok o sigIn, pegar o token
 

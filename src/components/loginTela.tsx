@@ -21,74 +21,11 @@ const LoginTela: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
-  const { signIn, token } = useAuth();
-  // const masterKey = '#-6!HY]sK!AHDqg1';
   const [selectedCompanyId, setSelectedCompanyId] = useState(0);
   const [empresas, setEmpresas] = useState([]);
   const [isClient, setIsClient] = useState(false);
 
-  // const getToken = useCallback(async () => {
-  //   const fetchedToken = '23';
-  
-  //   //chama a api com o id da empresa e embaixo já chama ela mesmo (auto invocável)
-  //   const response = await api.post(`autenticacao/validacao-dashboard/${company}`, {
-  //       us_idempresa: 2,
-  //       us_usuario: username,
-  //       us_senha: password,
-  //       us_permissaoapp: 50,//certo 50 teste estava com 190
-  //   });
-    
-  //   console.log(response.data);
-  //   localStorage.setItem("token", fetchedToken);
-  //   //localStorage.setItem("token", fetchedToken);  
-  //   console.log("Token set to:", fetchedToken);
-  // }, []);
-  //getToken();
-
-  //obter a chave de criptografia
-  // const getKey = async (masterKey:string) => {
-  //   let result = Array.from({ length: 256 }, (_, i) => i);
-  //   let k = new Array(256).fill(0);
-
-  //   for (let i = 0; i < k.length; i++) {
-  //     k[i] =
-  //       masterKey.charCodeAt((i * 2) % masterKey.length) +
-  //       masterKey.charCodeAt(((i * 2) + 1) % masterKey.length);
-  //   }
-
-  //   let x = 0;
-  //   for (let i = 0; i < result.length; i++) {
-  //     x = (x + result[i] + k[i]) % result.length;
-  //     [result[i], result[x]] = [result[x], result[i]]; // Swap elements
-  //   }
-
-  //   return result;
-  // };
-
-  // //converter número em hexadecimal com dois dígitos
-  // const intToHex = async (num:number, length:number) => {
-  //   let hex = num.toString(16);
-  //   return hex.padStart(length, '0').toUpperCase();
-  // };
-
-  // //codificação
-  // const encode = async (pValue:string, masterKey:string) => {
-  //   let result = '';
-  //   let i = 0;
-  //   let x = 0;
-  //   let aux = await getKey(masterKey);
-
-  //   for (let secao = 0; secao < pValue.length; secao++) {
-  //     let secaoTxt = pValue.charCodeAt(secao);
-  //     i = (i + 1) % aux.length;
-  //     x = (x + aux[i]) % aux.length;
-  //     [aux[i], aux[x]] = [aux[x], aux[i]]; // Swap elements
-  //     let t = (aux[i] + aux[x]) % aux.length;
-  //     result += await intToHex(secaoTxt ^ aux[t], 2);
-  //   }
-
-  //   return result;
-  // };
+  const { signIn, token } = useAuth();
 
   const handleEncode = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,7 +35,7 @@ const LoginTela: React.FC = () => {
       console.log(selectedCompanyId)
       await signIn({ username, password: encoded, selectedCompanyId });
       
-      router.push("/dashboard?message=Hello%20from%20login");
+      // router.push("/dashboard?message=Hello%20from%20login");
 
     } catch (error) {
       console.error("Erro ao fazer o request do login" + error );
@@ -121,6 +58,7 @@ const LoginTela: React.FC = () => {
         setEmpresas(response.data.empresa);
       } catch (error) {
         console.error('Erro ao chamar a empresa:', error);
+        setLoginError(true);
       }
     };
   
