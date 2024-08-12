@@ -81,3 +81,25 @@ class User {
     }
 }
 
+const TUsuario = ({
+
+    FIELD1: 'us_id', 
+    FIELD2: 'us_idempresa',
+    FIELD3: 'us_idfuncionario',
+    FIELD4: 'us_usuario',
+    FIELD5: 'us_senha',
+    FIELD6: 'us_histdtcadastro',
+    FIELD7: 'us_histuscadastro',
+    FIELD8: 'us_histdtalteracao',
+    FIELD9: 'us_histusalteracao',
+    FIELD10: 'us_histdtdeletado',
+    FIELD11: 'us_histusdeletado',
+    FIELD12: 'us_deletado',
+    FIELD100: 'us_funcionario',
+    FIELD101: 'us_grupoxusuario',
+    FIELD102: 'us_uscadastro',
+    FIELD103: 'us_cargo'
+
+}) 
+
+export{usuarioRoot, TUsuario};
