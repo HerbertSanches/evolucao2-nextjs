@@ -14,76 +14,70 @@ class usuarioRoot {
             this.RegistroTotal = registro_total;
             this.Situacao = situacao;
             this.Usuario = usuario.map(user => new User(
-            user.usuario, user.us_id, user.us_usuario, user.us_senha, user.cliente, 
-            user.gerarliberacao, user.cadastrar, user.prazo, user.cpf, user.us_idlocalidade,
-            user.alteraliberacaolimmax, user.us_idfuncionario, user.us_idmonitoramento, 
-            user.us_idsistema, user.us_idlocadicional, user.us_codtv, user.us_histuscadastro, 
-            user.us_histdtcadastro, user.us_histusalteracao, user.us_histdtalteracao, 
-            user.us_histusdeletado, user.us_histdtdeletado, user.us_deletado)
+            user.usuario, user.us_deletado, user.us_histdtalteracao, user.us_histdtcadastro, user.us_histdtdeletado, 
+            user.us_histusalteracao, user.histuscadastro,user.us_histusdeletado,user.us_usuario, user.us_id, user.us_senha, user.us_idempresa,
+            user.us_idfuncionario, user.us_us_cargo, user.us_funcionario, 
+            user.us_uscadastro, user.us_grupoxusuario)
         );
     }
 }
 
 
 class User {
-    
-    RECURSO: string;
-    UsId: number;
+    RECURSO: string; 
+    UsDeletado: number;
+    UsHistdtalteracao: string;
+    UsHistdtcadastro: string;
+    UsHistdtdeletado: string;
+    UsHistusalteracao: number;
+    UsHistuscadastro: number;
+    UsHistusdeletado: number;
     UsUsuario: string;
+    UsId: number;
     UsSenha: string;
-    UsCliente: string;
-    UsGerarLiberacao: boolean;
-    UsCadastrar: boolean;
-    UsPrazo: string;
-    UsCPF: string;
-    UsIdLocalidade: number;
-    UsAlteraLiberacaoLimMax: boolean;
-    UsIdFuncionario: number;
-    UsIdMonitoramento: number;
-    UsIdSistema: number;
-    UsIdLocalidadeAdicional: number;
-    UsCodTv: string;
-    Ushistuscadastro: string;
-    Ushistdtcadastro: string;
-    Ushistusalteracao: string;
-    Ushistdtalteracao: string;
-    Ushistusdeletado: string;
-    Ushistdtdeletado: string;
-    Usdeletado: boolean;
+    UsIdempresa: number;
+    UsIdfuncionario: number;
+    Cargo: string;
+    UsFuncionario: string;
+    UsCadastro: string;
+    UsGrupoxUsuario: string[];
 
     constructor(
-        usuario: string, us_id: number, us_usuario: string, us_senha: string, cliente: string, 
-        gerarliberacao: boolean, cadastrar: boolean, prazo: string, cpf: string, us_idlocalidade: number, 
-        alteraliberacaolimmax: boolean, us_idfuncionario: number, us_idmonitoramento: number, 
-        us_idsistema: number, us_idlocadicional: number, us_codtv: string, us_histuscadastro: string, 
-        us_histdtcadastro: string, us_histusalteracao: string, us_histdtalteracao: string, 
-        us_histusdeletado: string, us_histdtdeletado: string, us_deletado: boolean
-    ) 
-    
-    { 
+        usuario: string,
+        us_deletado: number,
+        us_histdtalteracao: string,
+        us_histdtcadastro: string,
+        us_histdtdeletado: string,
+        us_histusalteracao: number,
+        us_histuscadastro: number,
+        us_histusdeletado: number,
+        us_usuario: string,
+        us_id: number,
+        us_senha: string,
+        us_idempresa: number,
+        us_idfuncionario: number,
+        us_cargo: string,
+        us_funcionario: string,
+        us_uscadastro: string,
+        us_grupoxusuario: string[] 
+    ) { 
         this.RECURSO = usuario;
-        this.UsId = us_id;
+        this.UsDeletado = us_deletado;
+        this.UsHistdtalteracao = us_histdtalteracao;
+        this.UsHistdtcadastro = us_histdtcadastro;
+        this.UsHistdtdeletado = us_histdtdeletado;
+        this.UsHistusalteracao = us_histusalteracao;
+        this.UsHistuscadastro = us_histuscadastro;
+        this.UsHistusdeletado = us_histusdeletado;
         this.UsUsuario = us_usuario;
+        this.UsId = us_id;
         this.UsSenha = us_senha;
-        this.UsCliente = cliente;
-        this.UsGerarLiberacao = gerarliberacao;
-        this.UsCadastrar = cadastrar;
-        this.UsPrazo = prazo;
-        this.UsCPF = cpf;
-        this.UsIdLocalidade = us_idlocalidade;
-        this.UsAlteraLiberacaoLimMax = alteraliberacaolimmax;
-        this.UsIdFuncionario = us_idfuncionario;
-        this.UsIdMonitoramento = us_idmonitoramento;
-        this.UsIdSistema = us_idsistema;
-        this.UsIdLocalidadeAdicional = us_idlocadicional;
-        this.UsCodTv = us_codtv;
-        this.Ushistuscadastro = us_histuscadastro;
-        this.Ushistdtcadastro = us_histdtcadastro;
-        this.Ushistusalteracao = us_histusalteracao;
-        this.Ushistdtalteracao = us_histdtalteracao;
-        this.Ushistusdeletado = us_histusdeletado;
-        this.Ushistdtdeletado = us_histdtdeletado;
-        this.Usdeletado = us_deletado;
+        this.UsIdempresa = us_idempresa;
+        this.UsIdfuncionario = us_idfuncionario;
+        this.Cargo = us_cargo;
+        this.UsFuncionario = us_funcionario;
+        this.UsCadastro = us_uscadastro;
+        this.UsGrupoxUsuario = us_grupoxusuario;
     }
 }
 
