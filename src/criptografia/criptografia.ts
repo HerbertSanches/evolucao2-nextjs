@@ -3,19 +3,12 @@ const RESTCHAVE_REQUEST = '$4060_REST@Evol#Sistema'
 import * as CryptoJS from 'crypto-js';
 
  const getSHA = (input: string): string => {
-  // Calcula o hash SHA-256 do input e obtém os primeiros 64 caracteres
   const hash1 = CryptoJS.SHA256(input).toString(CryptoJS.enc.Hex).slice(0, 64);
-
-  // Calcula o hash SHA-256 do hash1
   const hash2 = CryptoJS.SHA256(hash1).toString(CryptoJS.enc.Hex);
-
-  // Calcula o hash SHA-256 do input original
   const hash3 = CryptoJS.SHA256(input).toString(CryptoJS.enc.Hex);
 
-  // Concatena hash2 e hash3 como resultado final
   return hash2 + hash3;
 }
-
 
 const getKey = async (masterKey:string) => {
     let result = Array.from({ length: 256 }, (_, i) => i);

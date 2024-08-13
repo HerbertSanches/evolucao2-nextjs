@@ -2,7 +2,7 @@
 import React, { createContext, ReactNode, useCallback, useContext, useState, useEffect } from "react";
 import api from '@/services/api';
 import { useRouter } from 'next/navigation';
-import { encode, RESTCHAVE_REQUEST, getSHA } from '../criptografia/criptografia';
+// import { encode, RESTCHAVE_REQUEST, getSHA } from '../pages/api/criptografia';
 import { error } from "console";
 
 
@@ -42,8 +42,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     const signIn = useCallback(async ({ username, password, selectedCompanyId }: UserData) => {
-        // const fetchedToken = '23';
-        // setToken({ token: fetchedToken });
         console.log(selectedCompanyId)
         const response = await api.post("/usuario/login", {
             us_idempresa: selectedCompanyId,
@@ -51,24 +49,25 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             us_senha: password,
             us_permissaoapp: 50,
         });
-        console.log('Status da resposta:', response.status);
+        console.log('Status da resposta:', response.data);
         //console.log(response.usuario.us_id)
         if (response.data.usuario[0].us_id) {
             const id = response.data.usuario[0].us_id;
             setUserId(id)
+
             console.log(userId)
             console.log(response.data.usuario[0].us_id)
+
             const responseToken = await criarToken( {username, selectedCompanyId, userId:id} );
             setToken({ token:responseToken})
-            router.push("/dashboard?message=Hello%20from%20login");
+            
+            localStorage.setItem("token", responseToken);
+            localStorage.setItem("idUsuario", response.data.usuario[0].us_id);
+            localStorage.setItem("nome", response.data.usuario[0].us_usuario);
+            localStorage.setItem("idEmpresa", selectedCompanyId.toString());
         } 
 
-        //se de ok o sigIn, pegar o token
-
         console.log(response.data);
-        // localStorage.setItem("token", fetchedToken);
-        //localStorage.setItem("token", fetchedToken);  
-        // console.log("Token set to:", fetchedToken);
     }, []);
 
     useEffect(() => {
@@ -84,7 +83,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) => {
     
-    const encoded = await getSHA( RESTCHAVE_REQUEST )
+    // const encoded = await getSHA( RESTCHAVE_REQUEST )
+    const encoded = process.env.NEXT_PUBLIC_REACT_APP_RESTCHAVE_REQUEST;
     console.log(encoded)
 
     const responseToken = await api.post("/autenticacao/create-token", {

@@ -10,7 +10,7 @@ import api from "@/services/api";
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { ComboBox } from './ComboBox'
-import { encode, masterKey } from '../criptografia/criptografia';
+// import { encode, masterKey } from '../pages/api/criptografia';
 
 
 const LoginTela: React.FC = () => {
@@ -27,23 +27,33 @@ const LoginTela: React.FC = () => {
 
   const { signIn, token } = useAuth();
 
-  const handleEncode = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    const encoded = await encode(password, masterKey)
-
+  const handleEncode = async (e) => {
+    e.preventDefault(); 
     try {
-      console.log(selectedCompanyId)
-      await signIn({ username, password: encoded, selectedCompanyId });
+      const response = await fetch('/api/criptografia', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          type: 'encode', 
+          input: password 
+        })
+      });
       
-      // router.push("/dashboard?message=Hello%20from%20login");
-
+      if (!response.ok) {
+        throw new Error('Falha ao criptografar a senha');
+      }
+  
+      const { result: encodedPassword } = await response.json();
+  
+      await signIn({ username, password: encodedPassword, selectedCompanyId });
     } catch (error) {
-      console.error("Erro ao fazer o request do login" + error );
-      alert("Erro ao fazerr login")
-
+      console.error("Erro ao fazer o request do login: ", error);
+      alert("Erro ao fazer login");
     }
-  }, [username, password, signIn, selectedCompanyId, token.token]);
-   
+  };
+  
   useEffect(() => {
     console.log('Componente montado ou pathname alterado:', company);
     setIsClient(true);
