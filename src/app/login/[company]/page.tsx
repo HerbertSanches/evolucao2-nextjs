@@ -1,9 +1,7 @@
 'use client'
 import React from 'react';
-import { usePathname } from 'next/navigation';
-import { useMemo } from 'react';
 import "../../globals.css";
-import LoginTela from '../../../components/loginTela';
+import LoginTela from '../../../components/LoginTela';
 
 const Login: React.FC = () =>  {
   

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import usuarioIcon from '../../public/assets/images/usuario.png';
 import cadeadoIcon from '../../public/assets/images/cadeado.png';
@@ -10,8 +10,6 @@ import api from "@/services/api";
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { ComboBox } from './ComboBox'
-// import { encode, masterKey } from '../pages/api/criptografia';
-
 
 const LoginTela: React.FC = () => {
   const pathname = usePathname();
@@ -27,7 +25,7 @@ const LoginTela: React.FC = () => {
 
   const { signIn, token } = useAuth();
 
-  const handleEncode = async (e) => {
+  const handleEncode = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); 
     try {
       const response = await fetch('/api/criptografia', {
