@@ -7,6 +7,7 @@
 //   return hash2 + hash3;
 // };
 import { NextApiRequest, NextApiResponse } from 'next';
+import api from '@/services/api';
 
 const masterKey = '#-6!HY]sK!AHDqg1';
 const getKey = (masterKey:string) => {
@@ -45,23 +46,77 @@ const intToHex = (num:number, length:number) => {
   return hex.padStart(length, '0').toUpperCase();
 };
 
+// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+//   if (req.method === 'POST') {
+//     const { type, input } = req.body;
+//     try {
+
+//       if (type === 'encode') {
+//         const encoded = await encode(input, masterKey);
+//         res.status(200).json({ result: encoded });
+//       } else {
+//         return console.error("Type inválido", );
+//       }
+//     } catch (error) {
+//       console.error("Erro ao criptografar:", error);
+//       res.status(500).json({ error: "Erro durante a criptografia" });
+//     }
+//   } else {
+//     res.setHeader('Allow', ['POST']);
+//     res.status(405).end(`Método ${req.method} Não Permitido`);
+//   }
+// }
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { type, input } = req.body;
+    const { type, input, input2, input3, input4 } = req.body;
     try {
+      let result;
+      switch(type) {
+        case "encode":
+          const encoded = await encode(input, masterKey);
+          res.status(200).json({ result: encoded });
+          break
 
-      if (type === 'encode') {
-        const encoded = await encode(input, masterKey);
-        res.status(200).json({ result: encoded });
-      } else {
-        return console.error("Type invalido", );
+        case "token":
+          const token = await api.post("autenticacao/create-token", {
+            "au_chave":  process.env.RESTCHAVE_REQUEST,
+            "au_usuario": input,
+            "au_idusuario": input2,
+            "au_idempresa": input3,
+          });
+          result= token.data; // ou outro campo que contenha os dados do login
+          res.status(200).json({ data: result });
+
+        case "login":
+          // console.log("chamou AQUIIIIIIIIII")
+          // const login = await api.post("usuario/login", {
+          //   "us_idempresa": input3,
+          //   "us_usuario": input,
+          //   "us_senha": input2,
+          //   "us_permissaoapp": input4,
+          // });
+          // console.log(login)
+          // res.status(200).json({ result: login });
+
+          const loginResponse = await api.post("usuario/login", {
+            "us_idempresa": input3,
+            "us_usuario": input,
+            "us_senha": input2,
+            "us_permissaoapp": 50,
+          });
+          result = loginResponse.data; // ou outro campo que contenha os dados do login
+          res.status(200).json({ data: result });
+          break;
+
+      
       }
     } catch (error) {
-      console.error("Encryption error:", error);
-      res.status(500).json({ error: "Error during encryption" });
+      console.error("Erro ao criptografar:", error);
+      res.status(500).json({ error: "Erro durante a criptografia" });
     }
   } else {
     res.setHeader('Allow', ['POST']);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    res.status(405).end(`Método ${req.method} Não Permitido`);
   }
 }

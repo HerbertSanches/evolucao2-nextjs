@@ -52,18 +52,43 @@ const LoginTela: React.FC = () => {
     }
   };
   
+  // useEffect(() => {
+  //   console.log('Componente montado ou pathname alterado:', company);
+  //   setIsClient(true);
+  //   const chamarEmpresa = async () => {
+  //     try {
+  //       console.log('Chamando API para company:', company);
+
+  //       const response = await api.get(`/autenticacao/validacao-dashboard/${company}`);
+        
+  //       console.log('Dados recebidos:', response.data);
+
+  //       setEmpresas(response.data.empresa);
+  //     } catch (error) {
+  //       console.error('Erro ao chamar a empresa:', error);
+  //       setLoginError(true);
+  //     }
+  //   };
+  
+  //   chamarEmpresa();
+
   useEffect(() => {
     console.log('Componente montado ou pathname alterado:', company);
     setIsClient(true);
     const chamarEmpresa = async () => {
       try {
         console.log('Chamando API para company:', company);
-
-        const response = await api.get(`/autenticacao/validacao-dashboard/${company}`);
-        
-        console.log('Dados recebidos:', response.data);
-
-        setEmpresas(response.data.empresa);
+  
+        const response = await fetch(`/api/validacao-dashboard?company=${company}`);
+        const data = await response.json();
+  
+        if (!response.ok) {
+          throw new Error(data.error || 'Erro ao chamar a API');
+        }
+  
+        console.log('Dados recebidos:', data);
+  
+        setEmpresas(data.empresa);
       } catch (error) {
         console.error('Erro ao chamar a empresa:', error);
         setLoginError(true);

@@ -1,6 +1,6 @@
 "use client"
 import React, { createContext, ReactNode, useCallback, useContext, useState, useEffect } from "react";
-import api from '@/services/api';
+// import api from '@/services/api';
 import { useRouter } from 'next/navigation';
 // import { encode, RESTCHAVE_REQUEST, getSHA } from '../pages/api/criptografia';
 import { error } from "console";
@@ -43,31 +43,84 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const signIn = useCallback(async ({ username, password, selectedCompanyId }: UserData) => {
         console.log(selectedCompanyId)
-        const response = await api.post("/usuario/login", {
-            us_idempresa: selectedCompanyId,
-            us_usuario: username,
-            us_senha: password,
-            us_permissaoapp: 50,
-        });
-        console.log('Status da resposta:', response.data);
+        
+        // const response = await api.post("/usuario/login", {
+        //     us_idempresa: selectedCompanyId,
+        //     us_usuario: username,
+        //     us_senha: password,
+        //     us_permissaoapp: 50,
+        // });
+        // console.log('Status da resposta:', response.data);
+
+
+        try {
+            const responseLogin = await fetch('/api/criptografia', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  type: 'login', 
+                  input: username,
+                  input2: password,
+                  input3: selectedCompanyId, 
+                  
+                })
+              });
+              
+              const responseData = await responseLogin.json();
+              
+              if (!responseLogin.ok || !responseData || !responseData.data) {
+                throw new Error('Falha ao realizar login');
+              }
+              
+              console.log(responseData.data, "criou login");
+
+
+            if (responseData.data.usuario[0].us_id) {
+                const id = responseData.data.usuario[0].us_id;
+                setUserId(id)
+    
+                console.log(userId)
+                console.log(responseData.data.usuario[0].us_id)
+    
+                const responseToken = await criarToken( {username, selectedCompanyId, userId:id} );
+                setToken({ token:responseToken})
+                
+                localStorage.setItem("token", responseToken);
+                localStorage.setItem("idUsuario", responseData.data.usuario[0].us_id);
+                localStorage.setItem("nome", responseData.data.usuario[0].us_usuario);
+                localStorage.setItem("idEmpresa", selectedCompanyId.toString());
+            } 
+        } catch (error) {
+            console.error("Erro ao fazer login: ", error);
+            alert("Erro ");
+            // return "Erro ao fazer login"
+        }
+
+
+
+
+
+
         //console.log(response.usuario.us_id)
-        if (response.data.usuario[0].us_id) {
-            const id = response.data.usuario[0].us_id;
-            setUserId(id)
+        // if (response.data.usuario[0].us_id) {
+        //     const id = response.data.usuario[0].us_id;
+        //     setUserId(id)
 
-            console.log(userId)
-            console.log(response.data.usuario[0].us_id)
+        //     console.log(userId)
+        //     console.log(response.data.usuario[0].us_id)
 
-            const responseToken = await criarToken( {username, selectedCompanyId, userId:id} );
-            setToken({ token:responseToken})
+        //     const responseToken = await criarToken( {username, selectedCompanyId, userId:id} );
+        //     setToken({ token:responseToken})
             
-            localStorage.setItem("token", responseToken);
-            localStorage.setItem("idUsuario", response.data.usuario[0].us_id);
-            localStorage.setItem("nome", response.data.usuario[0].us_usuario);
-            localStorage.setItem("idEmpresa", selectedCompanyId.toString());
-        } 
+        //     localStorage.setItem("token", responseToken);
+        //     localStorage.setItem("idUsuario", response.data.usuario[0].us_id);
+        //     localStorage.setItem("nome", response.data.usuario[0].us_usuario);
+        //     localStorage.setItem("idEmpresa", selectedCompanyId.toString());
+        // } 
 
-        console.log(response.data);
+        // console.log(response.data);
     }, []);
 
     useEffect(() => {
@@ -84,17 +137,52 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) => {
     
     // const encoded = await getSHA( RESTCHAVE_REQUEST )
-    const encoded = process.env.RESTCHAVE_REQUEST;
-    console.log(encoded)
+    // console.log(process.env.RESTCHAVE_REQUEST)
+    
+    // console.log(process.env.NEXT_PUBLIC_REACT_APP_API)
+    // console.log(process.env.NEXT_PUBLIC_REACT_APP_RESTCHAVE_REQUEST)
+    
 
-    const responseToken = await api.post("/autenticacao/create-token", {
-        "au_chave":  encoded,
-        "au_usuario": username,
-        "au_idusuario": userId,
-        "au_idempresa": selectedCompanyId,
-    });
-    console.log(responseToken.data)
-    return responseToken.data
+    // const encoded = process.env.NEXT_PUBLIC_REACT_APP_RESTCHAVE_REQUEST;
+    // console.log(encoded)
+
+    // const responseToken = await api.post("/autenticacao/create-token", {
+    //     "au_chave":  encoded,
+    //     "au_usuario": username,
+    //     "au_idusuario": userId,
+    //     "au_idempresa": selectedCompanyId,
+    // });
+
+    try {
+        const responseToken = await fetch('/api/criptografia', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            type: 'token', 
+            input: username,
+            input2: userId,
+            input3: selectedCompanyId, 
+          })
+        });
+        
+        if (!responseToken.ok) {
+          throw new Error('Falha ao criptografar a senha');
+        }
+        const responseTokenData = await responseToken.json();
+        console.log(responseTokenData.data, responseTokenData)
+        // const { response} = await responseToken.json();
+        // console.log(response.data)
+        return responseTokenData.data
+
+    } catch (error) {
+        console.error("Erro ao criar token: ", error);
+        alert("Erro ao fazer login");
+        return "Erro ao criar token"
+    }
+ 
+    
 }
 
 function useAuth(): AuthContextState {

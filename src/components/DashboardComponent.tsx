@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Metas  from '../components/Metas'
