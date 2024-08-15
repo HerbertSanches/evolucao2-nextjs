@@ -6,6 +6,7 @@
 //   const hash3 = CryptoJS.SHA256(input).toString(CryptoJS.enc.Hex);
 //   return hash2 + hash3;
 // };
+import { NextApiRequest, NextApiResponse } from 'next';
 
 const masterKey = '#-6!HY]sK!AHDqg1';
 const getKey = (masterKey:string) => {
@@ -44,7 +45,7 @@ const intToHex = (num:number, length:number) => {
   return hex.padStart(length, '0').toUpperCase();
 };
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { type, input } = req.body;
     try {
