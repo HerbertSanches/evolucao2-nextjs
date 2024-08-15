@@ -84,7 +84,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) => {
     
     // const encoded = await getSHA( RESTCHAVE_REQUEST )
-    const encoded = process.env.NEXT_PUBLIC_REACT_APP_RESTCHAVE_REQUEST;
+    const encoded = process.env.RESTCHAVE_REQUEST;
     console.log(encoded)
 
     const responseToken = await api.post("/autenticacao/create-token", {
