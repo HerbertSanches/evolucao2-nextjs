@@ -23,7 +23,7 @@ const TToken = ({
     FIELD2: 'au_usuario',
     FIELD3: 'au_idusuario',
     FIELD4: 'au_idempresa'
-    
+
 })
 
-export {tokenRoot};
+export {tokenRoot, TToken};
