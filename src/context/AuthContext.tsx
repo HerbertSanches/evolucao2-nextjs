@@ -1,9 +1,7 @@
 "use client"
 import React, { createContext, ReactNode, useCallback, useContext, useState, useEffect } from "react";
-// import api from '@/services/api';
 import { useRouter } from 'next/navigation';
-// import { encode, RESTCHAVE_REQUEST, getSHA } from '../pages/api/criptografia';
-import { error } from "console";
+import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
 
 
 interface AuthContextState {
@@ -42,85 +40,58 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     const signIn = useCallback(async ({ username, password, selectedCompanyId }: UserData) => {
-        console.log(selectedCompanyId)
-        
-        // const response = await api.post("/usuario/login", {
-        //     us_idempresa: selectedCompanyId,
-        //     us_usuario: username,
-        //     us_senha: password,
-        //     us_permissaoapp: 50,
-        // });
-        // console.log('Status da resposta:', response.data);
 
-
+        let user
         try {
             const responseLogin = await fetch('/api/criptografia', {
                 method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  type: 'login', 
-                  input: username,
-                  input2: password,
-                  input3: selectedCompanyId, 
-                  
+                    type: 'login', 
+                    input: username,
+                    input2: password,
+                    input3: selectedCompanyId, 
+                    
                 })
-              });
+            });
               
-              const responseData = await responseLogin.json();
-              
-              if (!responseLogin.ok || !responseData || !responseData.data) {
-                throw new Error('Falha ao realizar login');
-              }
-              
-              console.log(responseData.data, "criou login");
+            const responseData = await responseLogin.json();
+            
+            if (!responseLogin.ok || !responseData || !responseData.data) {
+            throw new Error('Falha ao realizar login');
+            }
+            
+            console.log(responseData.data, "criou login");
 
 
-            if (responseData.data.usuario[0].us_id) {
+            if (Array.isArray(responseData.data.usuario) && responseData.data.usuario.length > 0) {
+                user = new usuarioRoot(responseData.data);
+
+                console.log(user)
+                console.log(user.Usuario)
+                console.log(user.Usuario[0].UsId)
+
                 const id = responseData.data.usuario[0].us_id;
                 setUserId(id)
-    
-                console.log(userId)
-                console.log(responseData.data.usuario[0].us_id)
     
                 const responseToken = await criarToken( {username, selectedCompanyId, userId:id} );
                 setToken({ token:responseToken})
                 
                 localStorage.setItem("token", responseToken);
-                localStorage.setItem("idUsuario", responseData.data.usuario[0].us_id);
-                localStorage.setItem("nome", responseData.data.usuario[0].us_usuario);
+                localStorage.setItem("idUsuario", user.Usuario[0].UsId.toString());
+                localStorage.setItem("nome", user.Usuario[0].UsUsuario);
                 localStorage.setItem("idEmpresa", selectedCompanyId.toString());
-            } 
+            } else {
+                console.error("Erro: 'usuario' está indefinido ou não é um array.");
+            }
+                 
         } catch (error) {
             console.error("Erro ao fazer login: ", error);
             alert("Erro ");
-            // return "Erro ao fazer login"
         }
 
-
-
-
-
-
-        //console.log(response.usuario.us_id)
-        // if (response.data.usuario[0].us_id) {
-        //     const id = response.data.usuario[0].us_id;
-        //     setUserId(id)
-
-        //     console.log(userId)
-        //     console.log(response.data.usuario[0].us_id)
-
-        //     const responseToken = await criarToken( {username, selectedCompanyId, userId:id} );
-        //     setToken({ token:responseToken})
-            
-        //     localStorage.setItem("token", responseToken);
-        //     localStorage.setItem("idUsuario", response.data.usuario[0].us_id);
-        //     localStorage.setItem("nome", response.data.usuario[0].us_usuario);
-        //     localStorage.setItem("idEmpresa", selectedCompanyId.toString());
-        // } 
-
-        // console.log(response.data);
     }, []);
 
     useEffect(() => {
@@ -171,9 +142,9 @@ const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) 
           throw new Error('Falha ao criptografar a senha');
         }
         const responseTokenData = await responseToken.json();
+
         console.log(responseTokenData.data, responseTokenData)
-        // const { response} = await responseToken.json();
-        // console.log(response.data)
+        
         return responseTokenData.data
 
     } catch (error) {
@@ -181,8 +152,6 @@ const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) 
         alert("Erro ao fazer login");
         return "Erro ao criar token"
     }
- 
-    
 }
 
 function useAuth(): AuthContextState {

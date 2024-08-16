@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
+// import { grafico-de-barras } from '../../'
 
 const Metas: React.FC = () => {
   const { token } = useAuth();
