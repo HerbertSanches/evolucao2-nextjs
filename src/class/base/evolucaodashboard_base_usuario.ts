@@ -83,6 +83,7 @@ class User {
 
 const TUsuario = ({
 
+    RECURSO: 'usuario',
     FIELD1: 'us_id', 
     FIELD2: 'us_idempresa',
     FIELD3: 'us_idfuncionario',

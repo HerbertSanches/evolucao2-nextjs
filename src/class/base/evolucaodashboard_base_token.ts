@@ -19,6 +19,7 @@ class tokenRoot {
 
 const TToken = ({
 
+    RECURSO: 'autenticacao',
     FIELD1: 'au_chave',
     FIELD2: 'au_usuario',
     FIELD3: 'au_idusuario',
