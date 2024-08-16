@@ -17,4 +17,13 @@ class tokenRoot {
     }
 }
 
+const TToken = ({
+
+    FIELD1: 'au_chave',
+    FIELD2: 'au_usuario',
+    FIELD3: 'au_idusuario',
+    FIELD4: 'au_idempresa'
+    
+})
+
 export {tokenRoot};
