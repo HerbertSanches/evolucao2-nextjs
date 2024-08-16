@@ -2,7 +2,7 @@
 import React, { createContext, ReactNode, useCallback, useContext, useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
-
+import {tokenRoot, TToken} from '@/class/base/evolucaodashboard_base_token';
 
 interface AuthContextState {
     token: TokenState;
@@ -42,6 +42,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const signIn = useCallback(async ({ username, password, selectedCompanyId }: UserData) => {
 
         let user
+        // let token
         try {
             const responseLogin = await fetch('/api/criptografia', {
                 method: 'POST',
@@ -106,24 +107,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 };
 
 const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) => {
-    
-    // const encoded = await getSHA( RESTCHAVE_REQUEST )
-    // console.log(process.env.RESTCHAVE_REQUEST)
-    
-    // console.log(process.env.NEXT_PUBLIC_REACT_APP_API)
-    // console.log(process.env.NEXT_PUBLIC_REACT_APP_RESTCHAVE_REQUEST)
-    
-
-    // const encoded = process.env.NEXT_PUBLIC_REACT_APP_RESTCHAVE_REQUEST;
-    // console.log(encoded)
-
-    // const responseToken = await api.post("/autenticacao/create-token", {
-    //     "au_chave":  encoded,
-    //     "au_usuario": username,
-    //     "au_idusuario": userId,
-    //     "au_idempresa": selectedCompanyId,
-    // });
-
+    // let token
     try {
         const responseToken = await fetch('/api/criptografia', {
           method: 'POST',
@@ -145,6 +129,10 @@ const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) 
 
         console.log(responseTokenData.data, responseTokenData)
         
+        // token = new tokenRoot(responseTokenData.data);
+        // console.log(token.AuChave)
+        // console.log(token.AuIDEmpresa)
+
         return responseTokenData.data
 
     } catch (error) {

@@ -8,7 +8,7 @@
 // };
 import { NextApiRequest, NextApiResponse } from 'next';
 import api from '@/services/api';
-import { tokenRoot } from '@/class/base/evolucaodashboard_base_token';
+import { tokenRoot, TToken } from '@/class/base/evolucaodashboard_base_token';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
 
 
@@ -52,6 +52,7 @@ const intToHex = (num:number, length:number) => {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { type, input, input2, input3, input4 } = req.body;
+
     try {
       let result;
       switch(type) {
@@ -62,10 +63,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         case "token":
           const token = await api.post("autenticacao/create-token", {
-            "au_chave":  process.env.RESTCHAVE_REQUEST,
-            "au_usuario": input,
-            "au_idusuario": input2,
-            "au_idempresa": input3,
+            [TToken.FIELD1]:  process.env.RESTCHAVE_REQUEST,
+            [TToken.FIELD2]: input,
+            [TToken.FIELD3]: input2,
+            [TToken.FIELD4]: input3,
           });
           result= token.data;
           // const tokenObj =  new class tokenRoot()
@@ -84,10 +85,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.status(200).json({ data: result });
           break;
       }
+
     } catch (error) {
       console.error("Erro ao criptografar:", error);
       res.status(500).json({ error: "Erro durante a criptografia" });
     }
+
   } else {
     res.setHeader('Allow', ['POST']);
     res.status(405).end(`Método ${req.method} Não Permitido`);
