@@ -16,6 +16,10 @@
   background-color: #2563eb; /* Azul mais claro para o hover */
 }
 
+body {
+  @apply text-16;
+}
+
 .placeholder-center::placeholder {
   text-align: center;
   color: white;

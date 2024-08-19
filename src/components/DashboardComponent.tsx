@@ -4,6 +4,7 @@ import React from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Metas  from '../components/Metas'
+import '../app/globals.css'
 
 const DashboardComponent: React.FC = () => {
   const { token } = useAuth();

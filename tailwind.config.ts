@@ -24,12 +24,17 @@ const config: Config = {
         verde: '#00FF7F',
       },
       boxShadow: {
-        'global': '5px 5px 5px 5px rgba(0, 0, 0, 0.1 )',
+        'global': '0px 0px 5px rgba(0, 0, 0, 0.3)',
       },
       width: {
         '45': '45%',
+        'max-250px-50vh': 'max(100px, 19vw)',
+        'responsive': 'max(400px, 19vw)',
+        'responsiveImg':'min(40px, 8vw)'
       },
       screens:{
+        'smallphone': '320px',
+
         'tablet': '600px',
         // => @media (min-width: 640px) { ... }
   
@@ -43,6 +48,11 @@ const config: Config = {
 
         'tablet2': '870px'
       
+      },
+      fontSize: {
+        // '16': '1rem',
+        '16': '0.93rem',
+        '12': '0.75rem'
       }
     },
   },

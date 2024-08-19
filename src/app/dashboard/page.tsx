@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useEffect, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import "../globals.css";
 import DashboardComponent from '../../components/DashboardComponent';
 import {withAuth} from '@/context/AuthContext';

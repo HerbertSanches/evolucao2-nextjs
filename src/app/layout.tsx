@@ -1,4 +1,5 @@
 import { AuthProvider } from '@/context/AuthContext';
+import '../app/globals.css';
 
 export const metadata = {
   title: 'Ev 2',
