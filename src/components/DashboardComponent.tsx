@@ -22,7 +22,7 @@ const DashboardComponent: React.FC = () => {
       {/* <DoughnutChartWithCenterText percentage={20} /> */}
       <div className='ml-3 mr-3 mt-3 bg-cinza h-[80vh] rounded-[8px]'>
       <Metas metaMes='35.701,54' metaAno='401.170,50'/>
-      <Faturamento percentage={50}/>
+      <Faturamento percentage={'50'}/>
 
       </div>
       

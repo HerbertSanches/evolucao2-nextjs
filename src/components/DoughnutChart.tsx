@@ -6,10 +6,15 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { Chart } from 'chart.js/dist';
+
+interface percentage{
+  percentage: number
+}
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChartWithCenterText = ({ percentage }) => {
+const DoughnutChartWithCenterText = ({ percentage }: percentage) => {
   const data = {
     labels: ['Progress', 'Remaining'],
     datasets: [
@@ -30,7 +35,7 @@ const DoughnutChartWithCenterText = ({ percentage }) => {
       legend: { display: false },
       tooltip: { enabled: false },
       // Plugin customizado para adicionar texto no centro
-      beforeDraw: (chart) => {
+      beforeDraw: (chart: Chart) => {
         const { ctx, width, height } = chart;
         ctx.restore();
         const fontSize = (height / 114).toFixed(2);

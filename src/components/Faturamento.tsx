@@ -18,8 +18,10 @@ import Image from 'next/image';
 import DoughnutChartWithCenterText from '../components/DoughnutChart'
 
 // Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
-
-const Faturamento = ({ percentage }) => {
+interface percentage {
+    percentage: string
+}
+const Faturamento = ({ percentage }: percentage) => {
 //   const chartRef = useRef(null);
 
 //   useEffect(() => {

@@ -52,7 +52,8 @@ const config: Config = {
       fontSize: {
         // '16': '1rem',
         '16': '0.93rem',
-        '12': '0.75rem'
+        '12': '0.75rem',
+        '14': '0.875rem',
       }
     },
   },
