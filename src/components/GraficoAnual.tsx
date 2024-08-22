@@ -104,7 +104,7 @@ ChartJS.register(
 );
 
 const GraficoAnual = () => {
-  const data: ChartData<'bar' | 'line', number[], string> = {
+  const data :any= {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
@@ -165,10 +165,10 @@ const GraficoAnual = () => {
       },
     },
   };
-  const dataFinal:any = {data};
+  // const dataFinal:any = {data};
   return (
     <div className="min-w-[300px] max-w-full min-h-[300px] max-h-[500px] mt-4">
-      <Bar data={dataFinal} options={options} />
+      <Bar data={data} options={options} />
     </div>
   );
 };
