@@ -5,8 +5,7 @@ import usuarioIcon from '../../public/assets/images/usuario.png';
 import cadeadoIcon from '../../public/assets/images/cadeado.png';
 import logo from '../../public/assets/images/logo.png';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
-import api from "@/services/api";
+import { useAuth } from '../context/AuthContext';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { ComboBox } from './ComboBox'
@@ -27,6 +26,7 @@ const LoginTela: React.FC = () => {
 
   const handleEncode = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); 
+    console.log("chamou handleEncode")
     try {
       const response = await fetch('/api/criptografia', {
         method: 'POST',
@@ -44,33 +44,15 @@ const LoginTela: React.FC = () => {
       }
   
       const { result: encodedPassword } = await response.json();
-  
+      
+      console.log("sigIN")
       await signIn({ username, password: encodedPassword, selectedCompanyId });
+      
     } catch (error) {
       console.error("Erro ao fazer o request do login: ", error);
       alert("Erro ao fazer login");
     }
   };
-  
-  // useEffect(() => {
-  //   console.log('Componente montado ou pathname alterado:', company);
-  //   setIsClient(true);
-  //   const chamarEmpresa = async () => {
-  //     try {
-  //       console.log('Chamando API para company:', company);
-
-  //       const response = await api.get(`/autenticacao/validacao-dashboard/${company}`);
-        
-  //       console.log('Dados recebidos:', response.data);
-
-  //       setEmpresas(response.data.empresa);
-  //     } catch (error) {
-  //       console.error('Erro ao chamar a empresa:', error);
-  //       setLoginError(true);
-  //     }
-  //   };
-  
-  //   chamarEmpresa();
 
   useEffect(() => {
     console.log('Componente montado ou pathname alterado:', company);
@@ -100,7 +82,7 @@ const LoginTela: React.FC = () => {
     return () => {
       console.log('Componente desmontado');
     };
-  }, []);
+  }, [company]);
    
   return (
     <div className='flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro'>

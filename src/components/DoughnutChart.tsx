@@ -8,18 +8,18 @@ import {
 } from 'chart.js';
 import { Chart } from 'chart.js/dist';
 
-interface percentage{
-  percentage: number
+interface porcentagem{
+  porcentagem: number
 }
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChartWithCenterText = ({ percentage }: percentage) => {
+const DoughnutChartWithCenterText = ({ porcentagem }: porcentagem) => {
   const data = {
     labels: ['Progress', 'Remaining'],
     datasets: [
       {
-        data: [percentage, 100 - percentage],
+        data: [porcentagem, 100 - porcentagem],
         backgroundColor: ['#0066FF', '#E7E0E0'],
         hoverBackgroundColor: ['#36A2EB', '#E5E7EB'],
         borderWidth: 0,
@@ -42,7 +42,7 @@ const DoughnutChartWithCenterText = ({ percentage }: percentage) => {
         ctx.font = `${fontSize}em sans-serif`;
         ctx.textBaseline = 'middle';
 
-        const text = `${percentage}%`;
+        const text = `${porcentagem}%`;
         const textX = Math.round((width - ctx.measureText(text).width) / 2);
         const textY = height / 2;
 
@@ -56,7 +56,7 @@ const DoughnutChartWithCenterText = ({ percentage }: percentage) => {
     <div className="relative w-[50px] h-[50px] flex items-center justify-center">
       <Doughnut data={data} options={options} />
       <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-blue-800 text-lg font-bold text-16">{percentage}%</span>
+        <span className="text-blue-800 text-lg font-bold text-16">{porcentagem}%</span>
       </div>
     </div>
   );

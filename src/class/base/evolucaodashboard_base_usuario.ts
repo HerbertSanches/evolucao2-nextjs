@@ -1,4 +1,4 @@
-class usuarioRoot {
+export class usuarioRoot {
 
     RegistroLimite: number;
     RegistroPosicao: number;
@@ -81,7 +81,7 @@ class User {
     }
 }
 
-const TUsuario = ({
+export const TUsuario = ({
 
     RECURSO: 'usuario',
     FIELD1: 'us_id', 
@@ -102,5 +102,3 @@ const TUsuario = ({
     FIELD103: 'us_cargo'
 
 }) 
-
-export{usuarioRoot, TUsuario};

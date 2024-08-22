@@ -1,4 +1,4 @@
-class tokenRoot {
+export class tokenRoot {
 
     RECURSO: string;
     AuChave : string;
@@ -17,7 +17,7 @@ class tokenRoot {
     }
 }
 
-const TToken = ({
+export const TToken = ({
 
     RECURSO: 'autenticacao',
     FIELD1: 'au_chave',
@@ -26,5 +26,3 @@ const TToken = ({
     FIELD4: 'au_idempresa'
 
 })
-
-export {tokenRoot, TToken};

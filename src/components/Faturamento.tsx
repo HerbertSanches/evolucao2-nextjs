@@ -18,61 +18,28 @@ import Image from 'next/image';
 import DoughnutChartWithCenterText from '../components/DoughnutChart'
 
 // Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
-interface percentage {
-    percentage: string
+interface porcentagem {
+    porcentagem: string,
+    valor: string,
+    tipoFaturamento: string
 }
-const Faturamento = ({ percentage }: percentage) => {
-//   const chartRef = useRef(null);
-
-//   useEffect(() => {
-//     const ctx = chartRef.current.getContext('2d');
-
-//     const data = {
-//       datasets: [
-//         {
-//           data: [percentage, 100 - percentage],
-//           backgroundColor: ['#0066FF', '#E7E0E0'], // Azul e cinza claro
-//           borderWidth: 0,
-//         },
-//       ],
-//     };
-
-      
-//     const options = {
-//       cutout: '80%',
-//       responsive: true,
-//       maintainAspectRatio: false,
-//       plugins: {
-//         tooltip: { enabled: false },
-//       },
-//     };
-
-//     const myChart = new Chart(ctx, {
-//       type: 'doughnut',
-//       data: data,
-//       options: options,
-//     });
-
-//     return () => {
-//       myChart.destroy();
-//     };
-//   }, [percentage]);
+const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
 
   return (
-    <div className="bg-branco rounded-lg p-4 flex items-center justify-between shadow-md ml-4 mr-4">
+    <div className="bg-branco rounded-lg p-4 flex items-center justify-between shadow-global ml-4 mr-4 mt-3">
       <div className="flex items-center">
         {/* Substitua a string '/path/to/your/image.png' pelo caminho da sua imagem */}
         <Image src={dinheiro} alt='' className="h-12 w-12 object-contain" />
         <div className="ml-4">
-          <p className="text-blue-800 font-bold">Faturamento: Dia</p>
-          <p className="text-blue-800 text-lg font-semibold">R$: 17.850,77</p>
+          <p className="text-blue-800 font-bold text-[15px]">Faturamento: {tipoFaturamento}</p>
+          <p className="text-blue-800 text-lg text-[18px]">R$: {valor}</p>
         </div>
       </div>
       <div className="flex items-center justify-center relative" style={{ width: '64px', height: '64px' }}>
         {/* <canvas ref={chartRef}></canvas> */}
         <div className="absolute inset-0 flex items-center justify-center">
           {/* <span className="text-blue-800 font-semibold">{percentage}%</span> */}
-          <DoughnutChartWithCenterText percentage={40}/>
+          <DoughnutChartWithCenterText porcentagem={Number(porcentagem)}/>
         </div>
         
       </div>

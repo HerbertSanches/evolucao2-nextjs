@@ -1,8 +1,8 @@
 "use client"
 import React, { createContext, ReactNode, useCallback, useContext, useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
-import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
-import {tokenRoot, TToken} from '@/class/base/evolucaodashboard_base_token';
+import {usuarioRoot} from '../class/base/evolucaodashboard_base_usuario'
+import {tokenRoot, TToken} from '../class/base/evolucaodashboard_base_token';
 
 interface AuthContextState {
     token: TokenState;
@@ -40,7 +40,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     });
 
     const signIn = useCallback(async ({ username, password, selectedCompanyId }: UserData) => {
-
+        console.log("CHAMOU")
         let user
         // let token
         try {
