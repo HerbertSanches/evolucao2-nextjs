@@ -84,6 +84,9 @@ import {
   Tooltip,
   Legend,
   PointElement,
+  ChartOptions,
+  ChartData,
+  
 } from 'chart.js';
 import { ChartDataset } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -101,7 +104,7 @@ ChartJS.register(
 );
 
 const GraficoAnual = () => {
-  const data = {
+  const data: ChartData<'bar' | 'line', number[], string> = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
@@ -131,7 +134,7 @@ const GraficoAnual = () => {
     ],
   };
 
-  const options = {
+  const options: ChartOptions<'bar'> = {
     plugins: {
       title: {
         display: true,
@@ -162,10 +165,10 @@ const GraficoAnual = () => {
       },
     },
   };
-
+  const dataFinal:any = {data};
   return (
     <div className="min-w-[300px] max-w-full min-h-[300px] max-h-[500px] mt-4">
-      <Bar data={data} options={options} />
+      <Bar data={dataFinal} options={options} />
     </div>
   );
 };
