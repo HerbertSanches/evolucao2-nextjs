@@ -30,10 +30,11 @@ const DoughnutChartWithCenterText = ({ porcentagem }: porcentagem) => {
   const options = {
     cutout: '80%', // Ajusta o tamanho do círculo interno
     responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     plugins: {
       legend: { display: false },
       tooltip: { enabled: false },
+      datalabels: { display: false },
       // Plugin customizado para adicionar texto no centro
       beforeDraw: (chart: Chart) => {
         const { ctx, width, height } = chart;
