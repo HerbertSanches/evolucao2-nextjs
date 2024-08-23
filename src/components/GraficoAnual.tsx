@@ -105,7 +105,7 @@ ChartJS.register(
 
 const GraficoAnual = () => {
   const data :any= {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
     datasets: [
       {
         // type: 'line' as const,
@@ -121,7 +121,7 @@ const GraficoAnual = () => {
         // pointHoverBackgroundColor: '#0066FF',
         // pointHoverBorderColor: '#0066FF',
         datalabels: {
-          display: true, // Oculta rótulos para a linha de meta
+          display: false, // Oculta rótulos para a linha de meta
         },
       } as ChartDataset<'line', number[]>,
       {
@@ -130,6 +130,9 @@ const GraficoAnual = () => {
         data: [145, 120, 38, 180, 101, 98, 90],
         backgroundColor: '#0066FF',
         stack: 'Stack 0',
+        datalabels: {
+            display: false, // Oculta rótulos para a linha de meta
+          },
       }
   // Aqui especificamos o tipo corretamente
     ],
@@ -138,7 +141,7 @@ const GraficoAnual = () => {
   const options: ChartOptions<'bar'> = {
     plugins: {
       title: {
-        display: true,
+        // display: true,
         text: 'Stacked Bar and Line Chart',
       },
       legend: {
