@@ -132,7 +132,7 @@ const GraficoAnual = () => {
         stack: 'Stack 0',
         datalabels: {
             display: false, // Oculta rótulos para a linha de meta
-          },
+        },
       }
   // Aqui especificamos o tipo corretamente
     ],

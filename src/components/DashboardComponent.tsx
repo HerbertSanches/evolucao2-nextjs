@@ -21,16 +21,16 @@ const DashboardComponent: React.FC = () => {
       {/* <p>aaa{message}</p> */}
       <p>{token.token}</p>
       {/* <DoughnutChartWithCenterText percentage={20} /> */}
-      <div className='ml-3 mr-3 mt-3 bg-cinza rounded-[8px]'>
+      <div className='ml-3 mr-3 mt-3 bg-cinza rounded-[8px] h-auto'>
 
         <Metas metaMes='35.701,54' metaAno='401.170,50'/>
         <Faturamento tipoFaturamento={'Dia'} valor={'17.850,75'} porcentagem={'50'}/>
         <Faturamento tipoFaturamento={'semana'} valor={'25.654,37'} porcentagem={'90'}/>
         <Faturamento tipoFaturamento={'Mês'} valor={'110.045,98'} porcentagem={'65'}/>
         <Faturamento tipoFaturamento={'Ano'} valor={'575.437,62'} porcentagem={'71'}/>
-      
+        <GraficoAnual />
       </div>
-      <GraficoAnual />
+      
     </div>)
 };
 
