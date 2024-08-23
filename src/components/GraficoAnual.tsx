@@ -218,7 +218,7 @@ const GraficoAnual = () => {
     ],
   };
 
-  const options: ChartOptions<'bar'> = {
+  const options: any = {
     plugins: {
       title: {
         // display: true,
