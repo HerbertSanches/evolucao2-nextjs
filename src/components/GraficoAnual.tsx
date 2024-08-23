@@ -103,19 +103,97 @@ ChartJS.register(
   ChartDataLabels
 );
 
+// const GraficoAnual = () => {
+//   const data :any= {
+//     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
+//     datasets: [
+//       {
+//         // type: 'line' as const,
+//         label: 'Meta',
+//         data: [120, 80, 50, 150, 120, 130, 110], // Linha constante representando a meta
+//         backgroundColor: '#52057B',
+//         // borderColor: '#E6A519',
+//         // borderWidth: 2,
+//         // fill: false,
+//         // tension: 0.1,
+//         // pointBackgroundColor: '#0066FF',
+//         // pointBorderColor: '#fff',
+//         // pointHoverBackgroundColor: '#0066FF',
+//         // pointHoverBorderColor: '#0066FF',
+//         datalabels: {
+//           display: false, // Oculta rótulos para a linha de meta
+//         },
+//       } as ChartDataset<'line', number[]>,
+//       {
+//         type: 'bar' as const,
+//         label: 'Real',
+//         data: [145, 120, 38, 180, 101, 98, 90],
+//         backgroundColor: '#0066FF',
+//         // borderColor: '#E6A519',
+//         // borderWidth: 2,
+//         stack: 'Stack 0',
+//         datalabels: {
+//             display: false, // Oculta rótulos para a linha de meta
+//         },
+//       }
+//   // Aqui especificamos o tipo corretamente
+//     ],
+//   };
+
+//   const options: ChartOptions<'bar'> = {
+//     plugins: {
+//       title: {
+//         // display: true,
+//         text: 'Stacked Bar and Line Chart',
+//       },
+//       legend: {
+//         position: 'top' as const,
+//       },
+//       tooltip: {
+//         mode: 'index',
+//         intersect: false,
+//       },
+//       datalabels: {
+//         display: true,
+//         color: 'white',
+//         anchor: 'end',
+//         align: 'start',
+//         formatter: (value: any) => value.toFixed(0), // Formatar valores sem decimais
+//       },
+//     },
+//     responsive: true,
+//     scales: {
+//       x: {
+//         stacked: true,
+//       },
+//       y: {
+//         stacked: true,
+//       },
+//     },
+//   };
+//   //  const dataFinal:any = {data};
+//   return (
+//     <div className="min-w-[300px] max-w-full min-h-[300px] max-h-[500px] mt-4">
+//       <Bar data={data} options={options} />
+//     </div>
+//   );
+// };
+
+// export default GraficoAnual;
+
 const GraficoAnual = () => {
   const data :any= {
     labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
     datasets: [
       {
-        // type: 'line' as const,
+        type: 'line',
         label: 'Meta',
         data: [120, 80, 50, 150, 120, 130, 110], // Linha constante representando a meta
         backgroundColor: '#52057B',
         // borderColor: '#E6A519',
-        borderWidth: 2,
+        // borderWidth: 2,
         // fill: false,
-        tension: 0.1,
+        // tension: 0.1,
         // pointBackgroundColor: '#0066FF',
         // pointBorderColor: '#fff',
         // pointHoverBackgroundColor: '#0066FF',
@@ -123,12 +201,14 @@ const GraficoAnual = () => {
         datalabels: {
           display: false, // Oculta rótulos para a linha de meta
         },
-      } as ChartDataset<'line', number[]>,
+      },
       {
-        type: 'bar' as const,
+        type: 'bar',
         label: 'Real',
         data: [145, 120, 38, 180, 101, 98, 90],
         backgroundColor: '#0066FF',
+        // borderColor: '#E6A519',
+        // borderWidth: 2,
         stack: 'Stack 0',
         datalabels: {
             display: false, // Oculta rótulos para a linha de meta
@@ -178,4 +258,3 @@ const GraficoAnual = () => {
 };
 
 export default GraficoAnual;
-
