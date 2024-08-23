@@ -108,19 +108,20 @@ const GraficoAnual = () => {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
       {
-        type: 'line' as const,
+        // type: 'line' as const,
         label: 'Meta',
         data: [120, 80, 50, 150, 120, 130, 110], // Linha constante representando a meta
-        borderColor: '#E6A519',
+        backgroundColor: '#52057B',
+        // borderColor: '#E6A519',
         borderWidth: 2,
-        fill: false,
+        // fill: false,
         tension: 0.1,
-        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(75, 192, 192, 1)',
+        // pointBackgroundColor: '#0066FF',
+        // pointBorderColor: '#fff',
+        // pointHoverBackgroundColor: '#0066FF',
+        // pointHoverBorderColor: '#0066FF',
         datalabels: {
-          display: false, // Oculta rótulos para a linha de meta
+          display: true, // Oculta rótulos para a linha de meta
         },
       } as ChartDataset<'line', number[]>,
       {
@@ -147,13 +148,13 @@ const GraficoAnual = () => {
         mode: 'index',
         intersect: false,
       },
-    //   datalabels: {
-    //     display: true,
-    //     color: 'white',
-    //     anchor: 'end',
-    //     align: 'start',
-    //     formatter: (value: any) => value.toFixed(0), // Formatar valores sem decimais
-    //   },
+      datalabels: {
+        display: true,
+        color: 'white',
+        anchor: 'end',
+        align: 'start',
+        formatter: (value: any) => value.toFixed(0), // Formatar valores sem decimais
+      },
     },
     responsive: true,
     scales: {
