@@ -7,7 +7,7 @@ import Metas  from '../components/Metas'
 import DoughnutChartWithCenterText from '../components/DoughnutChart'
 import Faturamento from './Faturamento';
 import '../app/globals.css'
-// import GraficoAnual from './GraficoAnual'
+import GraficoAnual from './GraficoAnual'
 
 const DashboardComponent: React.FC = () => {
   const { token } = useAuth();
@@ -30,7 +30,7 @@ const DashboardComponent: React.FC = () => {
         <Faturamento tipoFaturamento={'Ano'} valor={'575.437,62'} porcentagem={'71'}/>
       
       </div>
-      {/* <GraficoAnual /> */}
+      <GraficoAnual />
     </div>)
 };
 
