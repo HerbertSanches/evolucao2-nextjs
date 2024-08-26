@@ -1,23 +1,10 @@
-// import React from "react";
-
-// export const Faturamento: React.FC = () => {
-
-//     return(
-//         <div id='faturamentoContainer' className="w-[80%]">
-//             <label>Faturamento: Dia</label>
-//             <label>R$ 17.850,77</label>
-
-//         </div>
-//     );
-// }
-
 import React, { useEffect, useRef } from 'react';
 import { Chart, ArcElement, Tooltip, Legend, DoughnutController } from 'chart.js';
 import dinheiro from '../../public/assets/images/dinheiro.png';
 import Image from 'next/image';
 import DoughnutChartWithCenterText from '../components/DoughnutChart'
 
-// Chart.register(ArcElement, Tooltip, Legend, DoughnutController);
+
 interface porcentagem {
     porcentagem: string,
     valor: string,
@@ -26,6 +13,7 @@ interface porcentagem {
 const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
 
   return (
+
     <div className="bg-branco rounded-lg p-4 flex items-center justify-between shadow-global ml-4 mr-4 mt-3">
       <div className="flex items-center">
         {/* Substitua a string '/path/to/your/image.png' pelo caminho da sua imagem */}
@@ -45,6 +33,7 @@ const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
       </div>
     </div>
 
+    
     
   );
 };

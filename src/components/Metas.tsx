@@ -17,6 +17,7 @@ const Metas: React.FC<metaMesAno> = ({ metaMes, metaAno }) => {
 
 
   return (
+
     <div className='ml-3 mr-3 mt-3 bg-cinza  rounded-[8px]'>
     <div id='containerMeta' className='flex flex-row smallphone:gap-2 justify-center items-center smallphone:g-3 h-[90px] mt-4'>
 

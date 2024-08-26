@@ -8,6 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        wave: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+      },
+      animation: {
+        wave: 'wave 1s ease-in-out infinite',
+      },
       backgroundImage: {
         "azul-gradiente": "linear-gradient(45deg, #0066FF, #0053D1, #0041A4, #003473)",    
         "azul-gradiente2": "linear-gradient(45deg, #003473, #0041A4, #0053D1, #0066FF)",

@@ -1,6 +1,4 @@
-'use client'
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 // import { useRouter, useSearchParams } from 'next/navigation';
 import Metas  from '../components/Metas'
@@ -8,12 +6,28 @@ import DoughnutChartWithCenterText from '../components/DoughnutChart'
 import Faturamento from './Faturamento';
 import '../app/globals.css'
 import GraficoAnual from './GraficoAnual'
+import LoadingPadrao from '../app/loading';
 
 const DashboardComponent: React.FC = () => {
   const { token } = useAuth();
-  console.log(token)
-  // const searchParams = useSearchParams();
-  // const message = searchParams.get('message')
+    // // console.log(token)
+
+  const [isLoading, setIsLoading] = useState(true);
+
+
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000); // 5 segundos
+
+    return () => clearTimeout(timer); // Limpa o timeout se o componente desmontar
+  }, []);
+
+  if (isLoading) {
+    return <LoadingPadrao />; // Exibe o loading diretamente até que o timer termine
+  }
+
 
   return (
     <div className='bg-red'>
@@ -31,6 +45,7 @@ const DashboardComponent: React.FC = () => {
         <div id='background GraficoAnual'>
           <GraficoAnual />
         </div>
+
       </div>
       
     </div>)
