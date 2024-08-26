@@ -105,13 +105,13 @@ ChartJS.register(
 
 const GraficoAnual = () => {
   const data :any= {
-    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul'],
+    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul','Ago'],
     datasets: [
       {
         // type: 'line' as const,
         label: 'Meta',
-        data: [120, 80, 50, 150, 120, 130, 110], // Linha constante representando a meta
-        backgroundColor: '#52057B',
+        data: [120, 80, 50, 150, 120, 130, 110, 152], // Linha constante representando a meta
+        backgroundColor: '#003473',
         // borderColor: '#E6A519',
         // borderWidth: 2,
         // fill: false,
@@ -127,7 +127,7 @@ const GraficoAnual = () => {
       {
         type: 'bar' as const,
         label: 'Real',
-        data: [145, 120, 38, 180, 101, 98, 90],
+        data: [145, 120, 38, 180, 101, 98, 90, 139],
         backgroundColor: '#0066FF',
         // borderColor: '#E6A519',
         // borderWidth: 2,
@@ -173,7 +173,7 @@ const GraficoAnual = () => {
   };
   //  const dataFinal:any = {data};
   return (
-    <div className="min-w-[300px] max-w-full min-h-[300px] max-h-[500px] mt-4">
+    <div className="min-w-[250px] max-w-full  max-h-[500px] bg-branco rounded-[8px] mr-4 ml-4 mt-3">
       <Bar data={data} options={options} />
     </div>
   );
