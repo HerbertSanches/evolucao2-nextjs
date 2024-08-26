@@ -19,7 +19,7 @@ const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
         {/* Substitua a string '/path/to/your/image.png' pelo caminho da sua imagem */}
         <Image src={dinheiro} alt='' className="h-12 w-12 object-contain" />
         <div className="ml-4">
-          <p className="text-blue-800 font-bold text-[15px]">Faturamento: {tipoFaturamento}</p>
+          <p className="text-blue-800 font-bold text-[15px] truncate">Faturamento: {tipoFaturamento}</p>
           <p className="text-blue-800 text-lg text-[18px]">R$: {valor}</p>
         </div>
       </div>

@@ -1,1 +1,1 @@
-declare module 'chartjs-plugin-datalabels';
+// declare module 'chartjs-plugin-datalabels';

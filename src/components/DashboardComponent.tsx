@@ -10,12 +10,10 @@ import LoadingPadrao from '../app/loading';
 
 const DashboardComponent: React.FC = () => {
   const { token } = useAuth();
-    // // console.log(token)
+  // console.log(token)
 
+  //força o loading de 5 segundos
   const [isLoading, setIsLoading] = useState(true);
-
-
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -24,16 +22,12 @@ const DashboardComponent: React.FC = () => {
     return () => clearTimeout(timer); // Limpa o timeout se o componente desmontar
   }, []);
 
-  if (isLoading) {
-    return <LoadingPadrao />; // Exibe o loading diretamente até que o timer termine
-  }
-
-
+  // if (isLoading) {
+  //   return <LoadingPadrao />; // Exibe o loading diretamente até que o timer termine
+  // }
+  //fim do forçado
   return (
-    <div className='bg-red'>
-     
-     
-      <p>{token.token}</p>
+    <div className=''>
      
       <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
 
