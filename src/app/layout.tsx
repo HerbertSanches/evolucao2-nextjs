@@ -1,6 +1,7 @@
 import React from 'react';
 import { AuthProvider } from '@/context/AuthContext';
 import '../app/globals.css';
+import { Footer } from './Footer';
 
 export const metadata = {
   title: 'Ev 2',
@@ -16,9 +17,13 @@ export default function RootLayout({
     <html lang="pt-br">
       <body>
         <AuthProvider>
+          <div className='mb-[67px]'>
           {children}
+          </div>
+          <Footer />
        </AuthProvider>
       </body>
+
     </html>
   )
 }

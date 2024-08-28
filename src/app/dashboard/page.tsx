@@ -7,20 +7,13 @@ import LoadingPadrao from '../loading'
 
 const Dashboard: React.FC = () => {
     
-    // const [Loading, setLoading] = useState(false)
-    // useEffect(() => {
-    //     setLoading(true);
-    //     setTimeout(() =>{
-    //         setLoading(false);
-    //     }, 8000);
-    // },[]);
     return (
-        <div>
+        // <div>
 
         <Suspense fallback={<LoadingPadrao  />}>
             <DashboardComponent />
-        </Suspense>)
-        </div>
+        </Suspense>
+        // </div>
     );
 };
 

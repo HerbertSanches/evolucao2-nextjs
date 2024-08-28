@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useAuth } from '@/context/AuthContext';
-// import { useRouter, useSearchParams } from 'next/navigation';
 import Metas  from '../components/Metas'
-import DoughnutChartWithCenterText from '../components/DoughnutChart'
 import Faturamento from './Faturamento';
 import '../app/globals.css'
 import GraficoAnual from './GraficoAnual'
-import LoadingPadrao from '../app/loading';
+
 
 const DashboardComponent: React.FC = () => {
   const { token } = useAuth();
   // console.log(token)
 
-  //força o loading de 5 segundos
+  {/*força o loading de 5 segundos
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -22,10 +20,10 @@ const DashboardComponent: React.FC = () => {
     return () => clearTimeout(timer); // Limpa o timeout se o componente desmontar
   }, []);
 
-  // if (isLoading) {
-  //   return <LoadingPadrao />; // Exibe o loading diretamente até que o timer termine
-  // }
-  //fim do forçado
+  if (isLoading) {
+    return <LoadingPadrao />; // Exibe o loading diretamente até que o timer termine
+  }
+  fim do forçado*/}
   return (
     <div className=''>
      
@@ -41,7 +39,7 @@ const DashboardComponent: React.FC = () => {
         </div>
 
       </div>
-      
+      {/* <Footer /> */}
     </div>)
 };
 

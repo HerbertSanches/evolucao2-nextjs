@@ -16,6 +16,7 @@ const config: Config = {
       },
       animation: {
         wave: 'wave 1s ease-in-out infinite',
+        wave2: 'wave 1s ease-in-out'
       },
       backgroundImage: {
         "azul-gradiente": "linear-gradient(45deg, #0066FF, #0053D1, #0041A4, #003473)",    
