@@ -47,7 +47,7 @@ const LoginTela: React.FC = () => {
       
       console.log("sigIN")
       await signIn({ username, password: encodedPassword, selectedCompanyId });
-      
+      router.push('/dashboard');
     } catch (error) {
       console.error("Erro ao fazer o request do login: ", error);
       alert("Erro ao fazer login");
