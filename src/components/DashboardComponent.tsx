@@ -27,9 +27,11 @@ const DashboardComponent: React.FC = () => {
   // }
   //fim do forçado
   return (
-    <div className=''>
+    <div className='mt-0'>
+
+      {/* <p className='font-bold text-xl pt-2 text-azulEscuro flex items-center justify-center'>Dashboard Faturamento</p> */}
      
-      <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
+      <div className='ml-3 mr-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
 
         <Metas metaMes='35.701,54' metaAno='401.170,50'/>
         <Faturamento tipoFaturamento={'Dia'} valor={'17.850,75'} porcentagem={'50'}/>

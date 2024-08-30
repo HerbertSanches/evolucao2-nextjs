@@ -3,6 +3,7 @@ import React, { Suspense, useState, useEffect } from 'react';
 import "../globals.css";
 import DashboardComponent from '../../components/DashboardComponent';
 import LoadingPadrao from '../loading'
+import Header from '@/components/Header';
 
 
 const Dashboard: React.FC = () => {
@@ -17,9 +18,11 @@ const Dashboard: React.FC = () => {
     return (
         <div>
 
+        
         <Suspense fallback={<LoadingPadrao  />}>
+            <Header/>
             <DashboardComponent />
-        </Suspense>)
+        </Suspense>
         </div>
     );
 };
