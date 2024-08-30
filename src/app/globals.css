@@ -23,6 +23,55 @@ body {
   font-family: 'Franklin Gothic Regular', 'Arial Narrow', Arial, sans-serif;
 }
 
+@keyframes slide-in {
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.5s forwards;
+}
+
+.hidden-init {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+/* metas */
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.5s ease-out;
+}
+
+/* grafico ano */
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
+
 .placeholder-center::placeholder {
   text-align: center;
   color: white;
