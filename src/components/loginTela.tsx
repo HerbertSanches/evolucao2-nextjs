@@ -9,6 +9,8 @@ import { useAuth } from '../context/AuthContext';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { ComboBox } from './ComboBox'
+import axios from 'axios';
+import api from '@/services/api';
 
 const LoginTela: React.FC = () => {
   const pathname = usePathname();
@@ -62,11 +64,12 @@ const LoginTela: React.FC = () => {
         console.log('Chamando API para company:', company);
   
         const response = await fetch(`/api/validacao-dashboard?company=${company}`);
+        // const response = await api.get(`autenticacao/validacao-dashboard?company=${company}`);
         const data = await response.json();
   
-        if (!response.ok) {
-          throw new Error(data.error || 'Erro ao chamar a API');
-        }
+        // if (!response.ok) {
+        //   throw new Error(data.error || 'Erro ao chamar a API');
+        // }
   
         console.log('Dados recebidos:', data);
   
