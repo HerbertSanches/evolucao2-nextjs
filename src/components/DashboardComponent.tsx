@@ -80,7 +80,7 @@ const DashboardComponent: React.FC = () => {
         <Faturamento tipoFaturamento={'Ano'} valor={'575.437,62'} porcentagem={'71'} delay={90}/>
 
         <div className='flex min-w-[250px] max-w-full items-center rounded-t-lg h-10 bg-branco mr-4 ml-4 mt-4 mb-0 border-b-2'>
-          <select value={selectedOption} onChange={handleSelectChange} className='ml-1 h-7 cursor-pointer '>
+          <select value={selectedOption} onChange={handleSelectChange} className='bg-branco ml-1 h-7 cursor-pointer '>
             <option value={anoAtual}>
               Faturamento de {anoAtual}
             </option>
