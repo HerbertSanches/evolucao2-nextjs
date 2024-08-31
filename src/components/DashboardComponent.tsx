@@ -79,19 +79,20 @@ const DashboardComponent: React.FC = () => {
         <Faturamento tipoFaturamento={'Mês'} valor={'110.045,98'} porcentagem={'65'} delay={60}/>
         <Faturamento tipoFaturamento={'Ano'} valor={'575.437,62'} porcentagem={'71'} delay={90}/>
 
-        <select value={selectedOption} onChange={handleSelectChange} className='ml-5 mt-3 h-10 bg-cinza cursor-pointer'>
-          <option value={anoAtual}>
-            Faturamento de {anoAtual}
-          </option>
-          <option value={anoAtual -1} className=''>Faturamento de {anoAtual -1}</option>
-          <option value={anoAtual -2}>Faturamento de {anoAtual -2}</option>
-          <option value={anoAtual -3}>Faturamento de {anoAtual -3}</option>
-        </select>
-
+        <div className='flex min-w-[250px] max-w-full items-center rounded-t-lg h-10 bg-branco mr-4 ml-4 mt-4 mb-0 border-b-2'>
+          <select value={selectedOption} onChange={handleSelectChange} className='ml-1 h-7 cursor-pointer '>
+            <option value={anoAtual}>
+              Faturamento de {anoAtual}
+            </option>
+            <option value={anoAtual -1} className=''>Faturamento de {anoAtual -1}</option>
+            <option value={anoAtual -2}>Faturamento de {anoAtual -2}</option>
+            <option value={anoAtual -3}>Faturamento de {anoAtual -3}</option>
+          </select>
+        </div>
         <div id='background GraficoAnual'>
           <GraficoAnual />
         </div>
-      
+
       </div>
       {/* <Footer /> */}
     </div>

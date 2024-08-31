@@ -287,7 +287,9 @@ const GraficoAnual = () => {
   console.log(selectedMonth)
 
   return (
-    <div className="min-w-[250px] max-w-full max-h-[500px] bg-branco rounded-[8px] mr-4 ml-4 mt-3 animate-slide-up">
+    <div 
+    //animate-slide-up
+    className="min-w-[250px] max-w-full max-h-[500px] bg-branco rounded-b-lg mr-4 ml-4 mt-0 ">
       <Bar ref={chartRef} data={data} options={options} />
       {/* <div >
         Selected Month: <strong>{selectedMonth}</strong>
