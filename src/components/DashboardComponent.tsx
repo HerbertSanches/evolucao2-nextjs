@@ -56,9 +56,9 @@ const DashboardComponent: React.FC = () => {
     }
   }, [metaMes, metaAno]);
 
-  if (!data) {
-    return <LoadingPadrao />;
-  }
+  // if (!data) {
+  //   return <LoadingPadrao />;
+  // }
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value); // Atualiza o estado com o valor selecionado
