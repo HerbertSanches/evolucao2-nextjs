@@ -56,6 +56,7 @@ const DashboardComponent: React.FC = () => {
     }
   }, [metaMes, metaAno]);
 
+  //comita esse if para subir para a vercel
   // if (!data) {
   //   return <LoadingPadrao />;
   // }
@@ -74,9 +75,9 @@ const DashboardComponent: React.FC = () => {
         <Metas metaMes={metaMes} metaAno={metaAno} />
         {/* <Metas metaMes={35.701} metaAno={401.170} /> */}
         <Faturamento tipoFaturamento={'Dia'} valor={'17.850,75'} porcentagem={'50'} delay={0}/>
-        {data && <Faturamento tipoFaturamento={'semana'} valor={'25.654,37'} porcentagem={'90'} delay={30}/>}
-        {data && <Faturamento tipoFaturamento={'Mês'} valor={'110.045,98'} porcentagem={'65'} delay={60}/>}
-        {data && <Faturamento tipoFaturamento={'Ano'} valor={'575.437,62'} porcentagem={'71'} delay={90}/>}
+        <Faturamento tipoFaturamento={'semana'} valor={'25.654,37'} porcentagem={'90'} delay={30}/>
+        <Faturamento tipoFaturamento={'Mês'} valor={'110.045,98'} porcentagem={'65'} delay={60}/>
+        <Faturamento tipoFaturamento={'Ano'} valor={'575.437,62'} porcentagem={'71'} delay={90}/>
 
         <select value={selectedOption} onChange={handleSelectChange} className='ml-5 mt-3 h-10 bg-cinza cursor-pointer'>
           <option value={anoAtual}>
@@ -88,9 +89,9 @@ const DashboardComponent: React.FC = () => {
         </select>
 
         <div id='background GraficoAnual'>
-          {data && <GraficoAnual />}
+          <GraficoAnual />
         </div>
-
+      
       </div>
       {/* <Footer /> */}
     </div>
