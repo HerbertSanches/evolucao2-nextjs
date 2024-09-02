@@ -126,7 +126,9 @@ const faturamentoDiaFormatado = faturamentoDia.toLocaleString('pt-BR', { minimum
   console.log(typeof(selectedOption)) //é string
   const anoAtual = new Date().getFullYear();
   return (
-    <div className=''>
+    <div className='mt-0'>
+
+      {/* <p className='font-bold text-xl pt-2 text-azulEscuro flex items-center justify-center'>Dashboard Faturamento</p> */}
      
       <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
         
