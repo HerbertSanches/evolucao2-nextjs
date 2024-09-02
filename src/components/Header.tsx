@@ -4,10 +4,10 @@ import React from "react";
 
 const Header = () => {
 
-    function LimpaCache() {
-        localStorage.clear();
-        redirect(`/login/${}`)
-    }
+    // function LimpaCache() {
+    //     localStorage.clear();
+    //     redirect(`/login/${}`)
+    // }
 
     return(
             <header className="bg-azulEscuro h-14 flex flex-1 items-center justify-between">
@@ -18,7 +18,7 @@ const Header = () => {
                         <option value="">Teste</option>
                         <option value="">Banana</option>
                     </select>
-                    <img onClick={LimpaCache} className="h-9" src="/assets/images/logout.png" alt="" />
+                    <img  className="h-9" src="/assets/images/logout.png" alt="" />
                 </nav>
             </header>
      
