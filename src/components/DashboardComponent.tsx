@@ -115,9 +115,10 @@ const faturamentoDiaFormatado = faturamentoDia.toLocaleString('pt-BR', { minimum
 
   //comita esse if para subir para a vercel
   // if (!dataMeta && !dataFaturamento && !dataGraficoAnual) {
-    if (!dataMeta && !dataFaturamento) {
-    return <LoadingPadrao />;
-  }
+  
+  // if (!dataMeta && !dataFaturamento) {
+  //   return <LoadingPadrao />;
+  // }
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value); // Atualiza o estado com o valor selecionado
