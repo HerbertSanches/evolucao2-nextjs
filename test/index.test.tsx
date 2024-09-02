@@ -29,7 +29,7 @@ describe('Metas Component', () => {
     render(
       // <AuthProvider>
     
-        <Metas metaMes="35.701,54" metaAno="401.170,50" />
+        <Metas metaMes={35.701} metaAno={401.170} />
       //  </AuthProvider>
     );
 

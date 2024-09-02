@@ -8,13 +8,15 @@ import DoughnutChartWithCenterText from '../components/DoughnutChart'
 interface porcentagem {
     porcentagem: string,
     valor: string,
-    tipoFaturamento: string
+    tipoFaturamento: string,
+    delay: number
 }
-const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
+const Faturamento = ({ tipoFaturamento, porcentagem, valor, delay }: porcentagem) => {
 
   return (
 
-    <div className="bg-branco rounded-lg p-4 flex items-center justify-between shadow-global ml-4 mr-4 mt-3">
+    <div className="bg-branco rounded-lg p-4 flex items-center transform opacity-0 translate-x-[-100%] transition-transform duration-1000 ease-out
+                    justify-between shadow-global ml-4 mr-4 mt-3" style={{ animation: `slide-in 1s forwards`, animationDelay: `${delay}ms` }}>
       <div className="flex items-center">
         {/* Substitua a string '/path/to/your/image.png' pelo caminho da sua imagem */}
         <Image src={dinheiro} alt='' className="h-12 w-12 object-contain" />

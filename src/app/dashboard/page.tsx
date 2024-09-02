@@ -32,5 +32,5 @@ const Dashboard: React.FC = () => {
     );
 };
 
-export default withAuth(Dashboard);
-// export default Dashboard;
+// export default withAuth(Dashboard);
+export default Dashboard;
