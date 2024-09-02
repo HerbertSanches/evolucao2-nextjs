@@ -11,7 +11,9 @@ const DashboardComponent: React.FC = () => {
   const [metaAno, setMetaAno] = useState(0);
   const mesAtual = new Date().getMonth();
 
-  const [data, setData] = useState<any>(null);
+  const [dataMeta, setDataMeta] = useState<any>(null);
+  const [dataFaturamento, setDataFaturamento] = useState<any>(null);
+  const [dataGraficoAnual, setDataGraficoAnual] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedOption, setSelectedOption] = useState<string>(''); 
 
@@ -45,21 +47,77 @@ const DashboardComponent: React.FC = () => {
           }
         });
 
-        setData(responseMetaMesAno)
+        setDataMeta(responseMetaMesAno)
         setMetaMes(responseMetaMesAno.data.meta[0][chaveMetaMes]);
         setMetaAno(responseMetaMesAno.data.meta[0].mt_vlranual); 
       }
-      setIsLoading(false);
+      // setIsLoading(false);
       fetchData();
     } catch (error) {
       console.error("Erro ao chamar metas")
     }
   }, [metaMes, metaAno]);
 
+//----------------------------teste Faturamento------------------------------------------------
+const [faturamentoAno, setFaturamentoAno] = useState(0);
+const [faturamentoMes, setFaturamentoMes] = useState(0);
+const [faturamentoSemana, setFaturamentoSemana] = useState(0);
+const [faturamentoDia, setFaturamentoDia] = useState(0);
+
+useEffect(() => { 
+  try {
+    const fetchDataFaturamento = async () => {
+      const idEmpresa = localStorage.getItem('idEmpresa')
+      const tokenHeader = localStorage.getItem('token')
+
+      const responseFaturamento =  await api.get(`/venda/faturamento/${idEmpresa}/2023/0`,{
+        headers: {
+          'Authorization': `Bearer ${tokenHeader}`
+        }
+      });
+
+      setDataFaturamento(responseFaturamento);
+      console.log(responseFaturamento);
+      setFaturamentoAno(responseFaturamento.data.buscar[0].total_ano);
+      setFaturamentoMes(responseFaturamento.data.buscar[0].total_mes);
+      setFaturamentoSemana(responseFaturamento.data.buscar[0].total_semana);
+      setFaturamentoDia(responseFaturamento.data.buscar[0].total_dia);
+      console.log(faturamentoAno);
+      
+    
+    }
+   
+    fetchDataFaturamento();
+  } catch (error) {
+    console.error("Erro ao chamar faturamento")
+  }
+}, []);
+
+console.log(faturamentoAno)
+
+//--faturamentoAno--
+const anoPorcentagem = ((faturamentoAno / metaAno) * 100).toFixed(0);
+const faturamentoAnoFormatado = faturamentoAno.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+//---faturamentoMes--
+const mesPorcentagem = ((faturamentoMes / metaMes) * 100).toFixed(0);
+const faturamentoMesFormatado = faturamentoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+//--faturamentoSemana--
+const semanaPorcentagem = ((faturamentoSemana / metaMes) * 100).toFixed(0);
+const faturamentoSemanaFormatado = faturamentoSemana.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+//--faturamentoDia--
+const diaPorcentagem = ((faturamentoDia / metaMes) * 100).toFixed(0);
+const faturamentoDiaFormatado = faturamentoDia.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+//---------------------------------------------------------------------------
+
   //comita esse if para subir para a vercel
-  // if (!data) {
-  //   return <LoadingPadrao />;
-  // }
+  // if (!dataMeta && !dataFaturamento && !dataGraficoAnual) {
+    if (!dataMeta && !dataFaturamento) {
+    return <LoadingPadrao />;
+  }
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value); // Atualiza o estado com o valor selecionado
@@ -73,11 +131,11 @@ const DashboardComponent: React.FC = () => {
       <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
         
         <Metas metaMes={metaMes} metaAno={metaAno} />
-        {/* <Metas metaMes={35.701} metaAno={401.170} /> */}
-        <Faturamento tipoFaturamento={'Dia'} valor={'17.850,75'} porcentagem={'50'} delay={0}/>
-        <Faturamento tipoFaturamento={'semana'} valor={'25.654,37'} porcentagem={'90'} delay={30}/>
-        <Faturamento tipoFaturamento={'Mês'} valor={'110.045,98'} porcentagem={'65'} delay={60}/>
-        <Faturamento tipoFaturamento={'Ano'} valor={'575.437,62'} porcentagem={'71'} delay={90}/>
+
+        <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDiaFormatado} porcentagem={diaPorcentagem} delay={0}/>
+        <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemanaFormatado} porcentagem={semanaPorcentagem} delay={30}/>
+        <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMesFormatado} porcentagem={mesPorcentagem} delay={60}/>
+        <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAnoFormatado} porcentagem={anoPorcentagem} delay={90}/>
 
         <div className='flex min-w-[250px] max-w-full items-center rounded-t-lg h-10 bg-branco mr-4 ml-4 mt-4 mb-0 border-b-2'>
           <select value={selectedOption} onChange={handleSelectChange} className='bg-branco ml-1 h-7 cursor-pointer '>

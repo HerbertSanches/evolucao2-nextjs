@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Chart, ArcElement, Tooltip, Legend, DoughnutController } from 'chart.js';
 import dinheiro from '../../public/assets/images/dinheiro.png';
 import Image from 'next/image';
-import DoughnutChartWithCenterText from '../components/DoughnutChart'
+import DoughnutChartWithCenterText from '../components/DoughnutChart';
 
 
 interface porcentagem {
@@ -29,6 +29,7 @@ const Faturamento = ({ tipoFaturamento, porcentagem, valor, delay }: porcentagem
         {/* <canvas ref={chartRef}></canvas> */}
         <div className="absolute inset-0 flex items-center justify-center">
           {/* <span className="text-blue-800 font-semibold">{percentage}%</span> */}
+          
           <DoughnutChartWithCenterText porcentagem={Number(porcentagem)}/>
         </div>
         
