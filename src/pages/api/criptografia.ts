@@ -10,7 +10,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import api from '@/services/api';
 import { tokenRoot, TToken } from '@/class/base/evolucaodashboard_base_token';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
-
+import { useAuth } from '@/context/AuthContext';
 
 const masterKey = '#-6!HY]sK!AHDqg1';
 const getKey = (masterKey:string) => {
@@ -56,6 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
       let result;
       switch(type) {
+        
         case "encode":
           const encoded = await encode(input, masterKey);
           res.status(200).json({ result: encoded });
@@ -95,4 +96,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.setHeader('Allow', ['POST']);
     res.status(405).end(`Método ${req.method} Não Permitido`);
   }
+}
+
+export function chamarMetas () {
+  const { token } = useAuth();
+  console.log(token.token)
 }

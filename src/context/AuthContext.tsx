@@ -6,7 +6,9 @@ import {tokenRoot, TToken} from '../class/base/evolucaodashboard_base_token';
 
 interface AuthContextState {
     token: TokenState;
+    idEmpresa: Number;
     signIn(userData: UserData): Promise<void>;
+    
 }
 
 interface AuthProviderProps {
@@ -35,6 +37,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const router = useRouter();
 
     const [userId, setUserId] = useState(0);
+    const [idEmpresa, setIdEmpresa] = useState(0);
     const [token, setToken] = useState<TokenState>(() => {
         return {token: ''}
     });
@@ -42,7 +45,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const signIn = useCallback(async ({ username, password, selectedCompanyId }: UserData) => {
         console.log("CHAMOU")
         let user
-        // let token
+
         try {
             const responseLogin = await fetch('/api/criptografia', {
                 method: 'POST',
@@ -76,14 +79,18 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
                 const id = responseData.data.usuario[0].us_id;
                 setUserId(id)
-    
+                setIdEmpresa(selectedCompanyId);
+
                 const responseToken = await criarToken( {username, selectedCompanyId, userId:id} );
                 setToken({ token:responseToken})
+                console.log(token)
+                
                 
                 localStorage.setItem("token", responseToken);
                 localStorage.setItem("idUsuario", user.Usuario[0].UsId.toString());
                 localStorage.setItem("nome", user.Usuario[0].UsUsuario);
                 localStorage.setItem("idEmpresa", selectedCompanyId.toString());
+                
             } else {
                 console.error("Erro: 'usuario' está indefinido ou não é um array.");
             }
@@ -100,7 +107,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }, [token]);
 
     return (
-        <AuthContext.Provider value={{ token, signIn }}>
+        <AuthContext.Provider value={{ token, idEmpresa,signIn }}>
             {children}
         </AuthContext.Provider>
     );
@@ -108,6 +115,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) => {
     // let token
+    
     try {
         const responseToken = await fetch('/api/criptografia', {
           method: 'POST',
@@ -134,7 +142,6 @@ const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) 
         // console.log(token.AuIDEmpresa)
 
         return responseTokenData.data
-
     } catch (error) {
         console.error("Erro ao criar token: ", error);
         alert("Erro ao fazer login");
@@ -145,7 +152,7 @@ const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) 
 function useAuth(): AuthContextState {
     const context = useContext(AuthContext);
     if (!context) {
-        throw new Error("useAuth must be used within an AuthProvider");
+        throw new Error("useAuth deve ser usado com o authProvider");
     }
     return context;
 }
