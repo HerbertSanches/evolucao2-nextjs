@@ -162,49 +162,39 @@ const DashboardComponent: React.FC = () => {
 //---------------------------------------------------------------------------
 
   //comita esse if para subir para a vercel
-  if (!dataMeta && !dataFaturamento && !dataGraficoAnual) {
-    return <LoadingPadrao />;
-  }
+  // if (!dataMeta && !dataFaturamento && !dataGraficoAnual) {
+  //   return <LoadingPadrao />;
+  // }
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setReceivedValue(mesAtual);
-    setSelectedOption(event.target.value); // Atualiza o estado com o valor selecionado
+    setSelectedOption(event.target.value);
   };
 
 
   const handleValueFromChild = (value:any) => {
    
-      console.log('passou')
-      const mesNumero: { [key: string]: number }  = {
-        'jan': 1,
-        'fev': 2,
-        'mar': 3,
-        'abr': 4,
-        'mai': 5,
-        'jun': 6,
-        'jul': 7,
-        'ago': 8,
-        'set': 9,
-        'out': 10,
-        'nov': 11,
-        'dez': 12
-      };
-      const mesSelecionadoGrafico: number = mesNumero[value]; 
-      forceRender();
-      
-      console.log(mesSelecionadoGrafico)
-      if (mesSelecionadoGrafico !== undefined) {
-        setReceivedValue(mesSelecionadoGrafico);
-        console.log("chamou")
-        console.log(receivedValue)
-        console.log(mesAtual)
-      }
-      
-      // Aqui você pode usar o valor recebido no código do pai
-      console.log("Valor recebido do filho:", value);
-      console.log("Valor recebido do filho:", mesSelecionadoGrafico);
-      console.log("valor do receivedValue:", receivedValue);
-
+    const mesNumero: { [key: string]: number }  = {
+      'jan': 1,
+      'fev': 2,
+      'mar': 3,
+      'abr': 4,
+      'mai': 5,
+      'jun': 6,
+      'jul': 7,
+      'ago': 8,
+      'set': 9,
+      'out': 10,
+      'nov': 11,
+      'dez': 12
+    };
+    const mesSelecionadoGrafico: number = mesNumero[value]; 
+    forceRender();
+    
+    if (mesSelecionadoGrafico !== undefined) {
+      setReceivedValue(mesSelecionadoGrafico);
+    }
+  
   };
 
 
