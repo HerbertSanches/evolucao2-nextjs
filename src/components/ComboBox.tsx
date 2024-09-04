@@ -28,8 +28,12 @@ const customStyles: StylesConfig<OptionType, false> = {
     option: (provided, state) => ({
         ...provided,
         backgroundColor: state.isFocused ? '#8ab7fa' : state.isSelected ? '#ffffff' : undefined,
-        color: state.isFocused || state.isSelected ? 'white' : 'black',
+        color: 'blue',
         padding: 20,
+    }), 
+    singleValue: (provided) => ({
+        ...provided,
+        color: 'blue', // Se você também quiser mudar a cor do item selecionado
     }),
 };
 
@@ -50,7 +54,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({ options, onChange }) => {
 
         value: option.ep_id,
         label: (
-            <div className='custom-div'>
+            <div className='text-azulEscuro'>
                 {/* <strong>{option.ep_nomerao}</strong> */}
                 <div>{option.ep_nomefantasia}</div>
             </div>
@@ -58,7 +62,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({ options, onChange }) => {
     }));
 
     return (
-        <div className="max-w-xs mx-auto text-red-700">
+        <div className="w-[200px] text-red-700">
             <Select<OptionType, false>
                 onChange={handleChange}
                 options={formattedOptions}

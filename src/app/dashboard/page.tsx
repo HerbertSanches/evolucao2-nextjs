@@ -11,7 +11,7 @@ const Dashboard: React.FC = () => {
     return (
        
         <Suspense fallback={<LoadingPadrao  />}>
-            <Header/>
+            <Header />
             <DashboardComponent />
             <Footer />
         </Suspense>
