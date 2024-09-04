@@ -66,60 +66,60 @@ const GraficoAnual = ({ sendValueToParent, vendas, metas }:props) => {
   const months = [];
 
   const meses = [
-    { mes: 1, nome: 'Jan', meta: 0, real: 0 },
-    { mes: 2, nome: 'Fev', meta: 0, real: 0 },
-    { mes: 3, nome: 'Mar', meta: 0, real: 0 },
-    { mes: 4, nome: 'Abr', meta: 0, real: 0 },
-    { mes: 5, nome: 'Mai', meta: 0, real: 0 },
-    { mes: 6, nome: 'Jun', meta: 0, real: 0 },
-    { mes: 7, nome: 'Jul', meta: 0, real: 0 },
-    { mes: 8, nome: 'Ago', meta: 0, real: 0 },
-    { mes: 9, nome: 'Set', meta: 0, real: 0 },
-    { mes: 10, nome: 'Out', meta: 0, real: 0 },
-    { mes: 11, nome: 'Nov', meta: 0, real: 0 },
-    { mes: 12, nome: 'Dez', meta: 0, real: 0 },
+    { mes: 0, nome: 'Jan', meta: 0, real: 0 },
+    { mes: 1, nome: 'Fev', meta: 0, real: 0 },
+    { mes: 2, nome: 'Mar', meta: 0, real: 0 },
+    { mes: 3, nome: 'Abr', meta: 0, real: 0 },
+    { mes: 4, nome: 'Mai', meta: 0, real: 0 },
+    { mes: 5, nome: 'Jun', meta: 0, real: 0 },
+    { mes: 6, nome: 'Jul', meta: 0, real: 0 },
+    { mes: 7, nome: 'Ago', meta: 0, real: 0 },
+    { mes: 8, nome: 'Set', meta: 0, real: 0 },
+    { mes: 9, nome: 'Out', meta: 0, real: 0 },
+    { mes: 10, nome: 'Nov', meta: 0, real: 0 },
+    { mes: 11, nome: 'Dez', meta: 0, real: 0 },
   ];
 
 
-  if (metas) {
+  if (metas && metas[0] && metas[0].mt_vlrjan) {
     for (let i = 0; i < meses.length; i++) {
       const mes = meses[i].mes;
 
       switch (mes) {
-          case 1:
+          case 0:
               meses[i].meta = metas[0].mt_vlrjan || 0;
               break;
-          case 2:
+          case 1:
               meses[i].meta = metas[0].mt_vlrfev || 0;
               break;
-          case 3:
+          case 2:
               meses[i].meta = metas[0].mt_vlrmar || 0;
               break;
-          case 4:
+          case 3:
             meses[i].meta = metas[0].mt_vlrabr || 0;
             break;
-          case 5:
+          case 4:
             meses[i].meta = metas[0].mt_vlrmai|| 0;
             break;
-          case 6:
+          case 5:
               meses[i].meta = metas[0].mt_vlrjun || 0;
               break;
-          case 7:
+          case 6:
             meses[i].meta = metas[0].mt_vlrjul || 0;
               break;
-          case 8:
+          case 7:
             meses[i].meta = metas[0].mt_vlrago || 0;
               break;
-          case 9:
+          case 8:
             meses[i].meta = metas[0].mt_vlrset || 0;
               break;
-          case 10:
+          case 9:
             meses[i].meta = metas[0].mt_vlrout || 0;
               break;
-          case 11:
+          case 10:
             meses[i].meta = metas[0].mt_vlrnov || 0;
               break;
-          case 12:
+          case 11:
             meses[i].meta = metas[0].mt_vlrdez || 0;
               break;
       }

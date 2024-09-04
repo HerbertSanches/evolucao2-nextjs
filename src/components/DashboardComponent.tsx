@@ -22,8 +22,10 @@ const DashboardComponent: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const anoAtual = new Date().getFullYear();
+
+  
   const mesAtual = new Date().getMonth()+1;
-  console.log(mesAtual)
+
   const anoAtualString = anoAtual.toString();
 
   const [receivedValue, setReceivedValue] = useState(mesAtual);
@@ -45,8 +47,7 @@ const DashboardComponent: React.FC = () => {
     11: 'mt_vlrdez'
   };
   
-  const chaveMetaMes:string = mesParaChave[mesAtual];
-  console.log(chaveMetaMes)
+  const chaveMetaMes:string = mesParaChave[mesAtual-1];
 
   //----------------------------Meta------------------------------------------------
   useEffect(() => { 
@@ -55,15 +56,45 @@ const DashboardComponent: React.FC = () => {
         const idEmpresa = localStorage.getItem('idEmpresa')
         const tokenHeader = localStorage.getItem('token')
 
-        const responseMetaMesAno =  await api.get(`/meta/0/${idEmpresa}/0`,{
+        // const responseMetaMesAno =  await api.get(`/meta/0/${idEmpresa}/0`,{
+        //   headers: {
+        //     'Authorization': `Bearer ${tokenHeader}`
+        //   }
+        // });
+        const ftInteger = 3; 
+        const coIGUAL = 1; 
+        const json = {
+          meta: [
+              {
+              campo: 'mt_anovigente',
+              valor: Number(selectedOption),
+              condicao: coIGUAL,
+              tipo: ftInteger
+              },
+              {
+              campo: 'mt_idempresa',
+              valor: Number(idEmpresa),
+              condicao: coIGUAL,
+              tipo: ftInteger
+              }
+          ]
+      };
+
+        const responseMetaMesAno =  await api.post('meta/localizar', json,{
           headers: {
             'Authorization': `Bearer ${tokenHeader}`
           }
+          // condicoesMetas: JSON.stringify(condicoesMetas)
         });
+        console.log(responseMetaMesAno)
 
         setDataMeta(responseMetaMesAno.data.meta)
-        setMetaMes(responseMetaMesAno.data.meta[0][chaveMetaMes]);
-        setMetaAno(responseMetaMesAno.data.meta[0].mt_vlranual); 
+        if (responseMetaMesAno.data.meta && responseMetaMesAno.data.meta[0] && responseMetaMesAno.data.meta[0].mt_vlrjan){
+          setMetaMes(responseMetaMesAno.data.meta[0][chaveMetaMes]);
+          console.log(metaMes)
+          setMetaAno(responseMetaMesAno.data.meta[0].mt_vlranual); 
+        }
+        
       }
       // setIsLoading(false);
       fetchDataMetaMesAno();
@@ -71,7 +102,7 @@ const DashboardComponent: React.FC = () => {
       console.error("Erro ao chamar metas")
     }
   }, [receivedValue, selectedOption]);
-
+  console.log(metaMes)
 //----------------------------Faturamento------------------------------------------------
   const [faturamentoAno, setFaturamentoAno] = useState(0);
   const [faturamentoMes, setFaturamentoMes] = useState(0);
@@ -84,9 +115,7 @@ const DashboardComponent: React.FC = () => {
         const idEmpresa = localStorage.getItem('idEmpresa')
         const tokenHeader = localStorage.getItem('token')
 
-        console.log(receivedValue)
         const mes:number = Number(receivedValue)
-        console.log(selectedOption)
 
         const responseFaturamento =  await api.get(`/venda/faturamento/${idEmpresa}/${selectedOption}/${mes}`,{
           headers: {
@@ -95,14 +124,10 @@ const DashboardComponent: React.FC = () => {
         });
 
         setDataFaturamento(responseFaturamento);
-        console.log(responseFaturamento);
         setFaturamentoAno(responseFaturamento.data.buscar[0].total_ano);
         setFaturamentoMes(responseFaturamento.data.buscar[0].total_mes);
         setFaturamentoSemana(responseFaturamento.data.buscar[0].total_semana);
         setFaturamentoDia(responseFaturamento.data.buscar[0].total_dia);
-        console.log(faturamentoAno);
-        
-      
       }
     
       fetchDataFaturamento();
@@ -110,8 +135,6 @@ const DashboardComponent: React.FC = () => {
       console.error("Erro ao chamar faturamento")
     }
   }, [receivedValue, selectedOption]);
-
-  console.log(faturamentoAno)
 
 //-------------api gráfico anual--------------
 
@@ -128,11 +151,8 @@ const DashboardComponent: React.FC = () => {
             'Authorization': `Bearer ${tokenHeader}`
           }
         });
-        console.log(responseGraficoAnual)
+  
         setDataGraficoAnual(responseGraficoAnual.data.notificacao[3].vendasmes)
-        console.log(responseGraficoAnual.data.notificacao[3])
-        console.log(responseGraficoAnual.data.notificacao[3].vendasmes)
-        
       }
 
       fetchDataGraficoAnual();
@@ -158,7 +178,6 @@ const DashboardComponent: React.FC = () => {
 //--faturamentoDia--
   const diaPorcentagem = ((faturamentoDia / metaMes) * 100).toFixed(0);
   const faturamentoDiaFormatado = faturamentoDia.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
 //---------------------------------------------------------------------------
 
   //comita esse if para subir para a vercel
@@ -171,9 +190,7 @@ const DashboardComponent: React.FC = () => {
     setSelectedOption(event.target.value);
   };
 
-
   const handleValueFromChild = (value:any) => {
-   
     const mesNumero: { [key: string]: number }  = {
       'jan': 1,
       'fev': 2,
@@ -194,23 +211,28 @@ const DashboardComponent: React.FC = () => {
     if (mesSelecionadoGrafico !== undefined) {
       setReceivedValue(mesSelecionadoGrafico);
     }
-  
   };
 
-
-  console.log(selectedOption) //é string
- 
-  console.log(dataGraficoAnual)
-  console.log("valor do receivedValue:", receivedValue);
+  console.log(selectedOption)
+  console.log(receivedValue)
+  console.log(mesAtual)
+  console.log(anoAtual)
   return (
     <div className=''>
      
       <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
         
-        <Metas metaMes={metaMes} metaAno={metaAno} />
+        <Metas metaMes={metaMes} metaAno={metaAno} ano={selectedOption} />
 
-        <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDiaFormatado} porcentagem={diaPorcentagem} delay={0}/>
-        <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemanaFormatado} porcentagem={semanaPorcentagem} delay={30}/>
+
+
+        { mesAtual === receivedValue && anoAtual === Number(selectedOption)  ? (
+          <>
+            <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDiaFormatado} porcentagem={diaPorcentagem} delay={0}/>
+            <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemanaFormatado} porcentagem={semanaPorcentagem} delay={30}/>
+          </>
+        ) : null}
+
         <Faturamento tipoFaturamento={'Mês'} valor={String(faturamentoMesFormatado)} porcentagem={mesPorcentagem} delay={60}/>
         <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAnoFormatado} porcentagem={anoPorcentagem} delay={90}/>
 

@@ -8,9 +8,10 @@ import Image from 'next/image';
 export interface metaMesAno{
   metaMes: number,
   metaAno: number,
+  ano: string,
 }
 
-const Metas: React.FC<metaMesAno> = ({ metaMes, metaAno }) => {
+const Metas: React.FC<metaMesAno> = ({ metaMes, metaAno, ano }) => {
   const { token } = useAuth();
   console.log(token)
   const searchParams = useSearchParams();
@@ -57,7 +58,7 @@ const Metas: React.FC<metaMesAno> = ({ metaMes, metaAno }) => {
         <div className="flex items-center space-x-1 justify-center">
           <Image src={graficoMeta} alt="Grafico meta" width={40} height={40} className=' smallphone:h-8 smallphone:w-8' />
           <div className='flex flex-col'>
-            <h2 className="text-branco font-bold smallphone:text-sm ">Meta {anoAtual} </h2>
+            <h2 className="text-branco font-bold smallphone:text-sm ">Meta {ano} </h2>
             <p className="text-branco font-bold smallphone:text-sm">R$ {metaAno}</p>
           </div>
           {/* <DoughnutChartWithCenterText percentage={20} /> */}
