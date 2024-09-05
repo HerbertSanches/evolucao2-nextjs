@@ -89,7 +89,7 @@ const LoginTela: React.FC = () => {
   }, [company]);
    
   return (
-    <div className='flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro'>
+    <div className='flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro w-full'>
       <div id="login_container" className="flex flex-col h-[80vh] w-full md:max-w-[100vh] items-center justify-center bg-azulEscuro text-white p-10 rounded-[20px] sm:shadow-global">
         <div id="evo_icon" className="desktop:mb-[2.8vh] mt-3">
           <Image src={logo} alt="Logo" className='smartphone:w-[40vw] smartphone:mb-14 tablet:w-[25vw] tablet:mb-7 tablet2:w-[20vw] laptop:w-[15vw] laptop:mb-5 desktop:w-[13vw] desktop:mb-0 2xl:mb-1.2 2xl:w-[17vh]' />
