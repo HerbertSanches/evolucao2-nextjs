@@ -211,7 +211,12 @@ const DashboardComponent: React.FC = () => {
     if (mesSelecionadoGrafico !== undefined) {
       setReceivedValue(mesSelecionadoGrafico);
     }
-  };
+  }; 
+
+  function resetarMesAno() {
+    setSelectedOption(anoAtual.toString());
+    setReceivedValue(mesAtual)
+  }
 
   console.log(selectedOption)
   console.log(receivedValue)
@@ -224,8 +229,6 @@ const DashboardComponent: React.FC = () => {
         
         <Metas metaMes={metaMes} metaAno={metaAno} ano={selectedOption} />
 
-
-
         { mesAtual === receivedValue && anoAtual === Number(selectedOption)  ? (
           <>
             <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDiaFormatado} porcentagem={diaPorcentagem} delay={0}/>
@@ -236,7 +239,7 @@ const DashboardComponent: React.FC = () => {
         <Faturamento tipoFaturamento={'Mês'} valor={String(faturamentoMesFormatado)} porcentagem={mesPorcentagem} delay={60}/>
         <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAnoFormatado} porcentagem={anoPorcentagem} delay={90}/>
 
-        <div className='flex min-w-[250px] max-w-full items-center rounded-t-lg h-10 bg-branco mr-4 ml-4 mt-4 mb-0 border-b-2'>
+        <div className='flex min-w-[250px] max-w-full items-center justify-between rounded-t-lg h-10 bg-branco mr-4 ml-4 mt-4 mb-0 border-b-2'>
           <select value={selectedOption} onChange={handleSelectChange} className='bg-branco ml-1 h-7 cursor-pointer '>
             <option value={anoAtual}>
               Faturamento de {anoAtual}
@@ -245,10 +248,19 @@ const DashboardComponent: React.FC = () => {
             <option value={anoAtual -2}>Faturamento de {anoAtual -2}</option>
             <option value={anoAtual -3}>Faturamento de {anoAtual -3}</option>
           </select>
+
+          <button onClick={resetarMesAno} className='text-azulEscuro text-[8px] mr-1 bg-cinza rounded-md p-1 w-max-50px shadow-md'>Filtrado: mês 9 ano 2023 X</button>
+          {/* { mesAtual !== receivedValue || anoAtual !== Number(selectedOption)  ? (
+          <>
+            <button onClick={resetarMesAno} className='text-azulEscuro text-[8px] mr-1 bg-cinza rounded-md p-1 w-max-50px shadow-md'>Filtrado: mês {receivedValue} ano {selectedOption} X</button>
+          </>
+        ) : null} */}
+
+          
         </div>
 
         <div id='background GraficoAnual'>
-         {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendValueToParent={handleValueFromChild} />} 
+          {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendValueToParent={handleValueFromChild} />} 
         </div>
 
       </div>
