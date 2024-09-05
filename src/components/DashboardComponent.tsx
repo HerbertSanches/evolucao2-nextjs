@@ -86,7 +86,7 @@ const DashboardComponent: React.FC = () => {
           }
           // condicoesMetas: JSON.stringify(condicoesMetas)
         });
-        console.log(responseMetaMesAno)
+        console.log('Meta: ', responseMetaMesAno)
 
         setDataMeta(responseMetaMesAno.data.meta)
         if (responseMetaMesAno.data.meta && responseMetaMesAno.data.meta[0] && responseMetaMesAno.data.meta[0].mt_vlrjan){
@@ -122,7 +122,7 @@ const DashboardComponent: React.FC = () => {
             'Authorization': `Bearer ${tokenHeader}`
           }
         });
-
+        console.log('Faturamento: ', responseFaturamento)
         setDataFaturamento(responseFaturamento);
         setFaturamentoAno(responseFaturamento.data.buscar[0].total_ano);
         setFaturamentoMes(responseFaturamento.data.buscar[0].total_mes);
@@ -151,9 +151,10 @@ const DashboardComponent: React.FC = () => {
             'Authorization': `Bearer ${tokenHeader}`
           }
         });
-  
+        console.log('Grafico anual: ', responseGraficoAnual)
         setDataGraficoAnual(responseGraficoAnual.data.notificacao[3].vendasmes)
       }
+
 
       fetchDataGraficoAnual();
     } catch (error) {
