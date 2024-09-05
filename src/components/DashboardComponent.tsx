@@ -56,11 +56,6 @@ const DashboardComponent: React.FC = () => {
         const idEmpresa = localStorage.getItem('idEmpresa')
         const tokenHeader = localStorage.getItem('token')
 
-        // const responseMetaMesAno =  await api.get(`/meta/0/${idEmpresa}/0`,{
-        //   headers: {
-        //     'Authorization': `Bearer ${tokenHeader}`
-        //   }
-        // });
         const ftInteger = 3; 
         const coIGUAL = 1; 
         const json = {
@@ -84,7 +79,6 @@ const DashboardComponent: React.FC = () => {
           headers: {
             'Authorization': `Bearer ${tokenHeader}`
           }
-          // condicoesMetas: JSON.stringify(condicoesMetas)
         });
         console.log('Meta: ', responseMetaMesAno)
 

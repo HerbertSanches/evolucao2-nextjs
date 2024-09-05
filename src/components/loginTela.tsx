@@ -63,16 +63,14 @@ const LoginTela: React.FC = () => {
     const chamarEmpresa = async () => {
       try {
         console.log('Chamando API para company:', company);
-  
-        // const response = await fetch(`/api/validacao-dashboard?company=${company}`);
+
         const response = await api.get(`autenticacao/validacao-dashboard/${company}`);
-        // const response = await api.get(`autenticacao/validacao-dashboard?company=${company}`);
+
         const data = response;
+
         console.log(data)
         console.log(response)
-        // if (!response.ok) {
-        //   throw new Error(data.error || 'Erro ao chamar a API');
-        // }
+
   
         console.log('Dados recebidos:', data);
   
