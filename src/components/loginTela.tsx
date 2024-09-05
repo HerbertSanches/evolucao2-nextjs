@@ -108,7 +108,7 @@ const LoginTela: React.FC = () => {
             <input 
               type="text" 
               name="user_name" 
-              className="user_name bg-transparent items-center mb-1 border-none justify-center placeholder-center text-white focus:outline-none "
+              className="user_name bg-transparent items-center mb-1 border-none text-lg justify-center placeholder-center text-white focus:outline-none "
               placeholder="Usuário"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -120,7 +120,7 @@ const LoginTela: React.FC = () => {
             <input 
               type="password" 
               name="user_password" 
-              className="user_password bg-transparent items-center mb-1 border-none justify-center placeholder-center text-white focus:outline-none "
+              className="user_password bg-transparent items-center mb-1 border-none text-lg justify-center placeholder-center text-white focus:outline-none "
               placeholder="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

@@ -218,7 +218,7 @@ const DashboardComponent: React.FC = () => {
   console.log(mesAtual)
   console.log(anoAtual)
   return (
-    <div className=''>
+    <div className='w-full'>
      
       <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
         
