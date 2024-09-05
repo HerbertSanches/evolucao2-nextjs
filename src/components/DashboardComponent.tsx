@@ -182,9 +182,9 @@ const DashboardComponent: React.FC = () => {
 //---------------------------------------------------------------------------
 
   //comita esse if para subir para a vercel
-  // if (!dataMeta && !dataFaturamento && !dataGraficoAnual) {
-  //   return <LoadingPadrao />;
-  // }
+  if (!dataMeta && !dataFaturamento && !dataGraficoAnual) {
+    return <LoadingPadrao />;
+  }
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setReceivedValue(mesAtual);
