@@ -10,8 +10,8 @@ const Header = () => {
     // }
 
     return(
-            <header className="bg-azulEscuro h-14 flex flex-1 items-center justify-between">
-                <nav className="p-4 flex flex-row items-center justify-between w-full">
+            <header className="bg-azulEscuro h-14 flex flex-1 items-center justify-between w-full">
+                <nav className="p-4 flex flex-row items-center justify-between w-full ">
                     <img className="h-11 " src="/assets/images/logo.png" alt="" />
                     <p className="text-branco font-bold">Riobaldo</p>
                     <select className="bg-azulEscuro text-branco border-none outline-none" name="select" id="">

@@ -17,10 +17,12 @@
 .custom-select:hover {
   background-color: #2563eb; /* Azul mais claro para o hover */
 }
-
-body {
+ 
+html,body {
   @apply text-16;
   font-family: 'Franklin Gothic Regular', 'Arial Narrow', Arial, sans-serif;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 @keyframes slide-in {
