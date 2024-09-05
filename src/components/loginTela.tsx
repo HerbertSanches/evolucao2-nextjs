@@ -15,6 +15,7 @@ import api from '@/services/api';
 const LoginTela: React.FC = () => {
   const pathname = usePathname();
   const company = useMemo(() => pathname?.split('/').pop(), [pathname]);
+  console.log('empresa: ', company)
 
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -63,17 +64,19 @@ const LoginTela: React.FC = () => {
       try {
         console.log('Chamando API para company:', company);
   
-        const response = await fetch(`/api/validacao-dashboard?company=${company}`);
+        // const response = await fetch(`/api/validacao-dashboard?company=${company}`);
+        const response = await api.get(`autenticacao/validacao-dashboard/${company}`);
         // const response = await api.get(`autenticacao/validacao-dashboard?company=${company}`);
-        const data = await response.json();
-  
+        const data = response;
+        console.log(data)
+        console.log(response)
         // if (!response.ok) {
         //   throw new Error(data.error || 'Erro ao chamar a API');
         // }
   
         console.log('Dados recebidos:', data);
   
-        setEmpresas(data.empresa);
+        setEmpresas(data.data.empresa);
       } catch (error) {
         console.error('Erro ao chamar a empresa:', error);
         setLoginError(true);
