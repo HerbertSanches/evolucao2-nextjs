@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
         <Suspense fallback={<LoadingPadrao  />}>
             <Header />
             <DashboardComponent />
-            <Footer />
+            {/* <Footer /> */}
         </Suspense>
       
     );
