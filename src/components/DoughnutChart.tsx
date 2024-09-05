@@ -59,8 +59,8 @@ const DoughnutChartWithCenterText = ({ porcentagem }: porcentagem) => {
   return (
     <div className="relative w-[50px] h-[50px] flex items-center justify-center">
       <Doughnut data={data} options={options} />
-      <div className="absolute inset-0 flex items-center justify-center">
-        <span className="text-blue-800 text-lg font-bold text-[12px]">{porcentagem}%</span>
+      <div className="absolute inset-0 flex items-center justify-center ">
+        <span className="text-blue-800  font-bold text-sm">{porcentagem}%</span>
       </div>
     </div>
   );
