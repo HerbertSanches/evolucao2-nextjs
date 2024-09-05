@@ -79,7 +79,7 @@ const DashboardComponent: React.FC = () => {
               }
           ]
       };
-
+      console.log("API URL:", process.env.NEXT_PUBLIC_APP_API);
         const responseMetaMesAno =  await api.post('meta/localizar', json,{
           headers: {
             'Authorization': `Bearer ${tokenHeader}`
