@@ -231,13 +231,13 @@ const DashboardComponent: React.FC = () => {
 
         { mesAtual === receivedValue && anoAtual === Number(selectedOption)  ? (
           <>
-            <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDiaFormatado} porcentagem={diaPorcentagem} delay={0}/>
-            <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemanaFormatado} porcentagem={semanaPorcentagem} delay={30}/>
+            <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDiaFormatado} porcentagem={Number(diaPorcentagem)} delay={0}/>
+            <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemanaFormatado} porcentagem={Number(semanaPorcentagem)} delay={30}/>
           </>
         ) : null}
 
-        <Faturamento tipoFaturamento={'Mês'} valor={String(faturamentoMesFormatado)} porcentagem={mesPorcentagem} delay={60}/>
-        <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAnoFormatado} porcentagem={anoPorcentagem} delay={90}/>
+        <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMesFormatado} porcentagem={Number(mesPorcentagem)} delay={60}/>
+        <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAnoFormatado} porcentagem={Number(anoPorcentagem)} delay={90}/>
 
         <div className='flex min-w-[250px] max-w-full items-center justify-between rounded-t-lg h-10 bg-branco mr-4 ml-4 mt-4 mb-0 border-b-2'>
           <select value={selectedOption} onChange={handleSelectChange} className='bg-branco ml-1 h-7 cursor-pointer '>
@@ -249,12 +249,12 @@ const DashboardComponent: React.FC = () => {
             <option value={anoAtual -3}>Faturamento de {anoAtual -3}</option>
           </select>
 
-          <button onClick={resetarMesAno} className='text-azulEscuro text-[8px] mr-1 bg-cinza rounded-md p-1 w-max-50px shadow-md'>Filtrado: mês 9 ano 2023 X</button>
-          {/* { mesAtual !== receivedValue || anoAtual !== Number(selectedOption)  ? (
+          {/* <button onClick={resetarMesAno} className='text-azulEscuro text-[8px] mr-1 bg-cinza rounded-md p-1 w-max-50px shadow-md'>Filtrado: mês 9 ano 2023 X</button> */}
+          { mesAtual !== receivedValue || anoAtual !== Number(selectedOption)  ? (
           <>
             <button onClick={resetarMesAno} className='text-azulEscuro text-[8px] mr-1 bg-cinza rounded-md p-1 w-max-50px shadow-md'>Filtrado: mês {receivedValue} ano {selectedOption} X</button>
           </>
-        ) : null} */}
+        ) : null}
 
           
         </div>
