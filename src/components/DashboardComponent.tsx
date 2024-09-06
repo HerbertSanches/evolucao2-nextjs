@@ -5,6 +5,7 @@ import '../app/globals.css'
 import GraficoAnual from './GraficoAnual'
 import api from '@/services/api';
 import LoadingPadrao from '@/app/loading';
+import DashboardVendedor from './DashboardVendedor';
 
 const forceUpdateReducer = (x: number) => x + 1;
 
@@ -247,7 +248,7 @@ const DashboardComponent: React.FC = () => {
         ) : <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMesFormatado} porcentagem={Number(mesPorcentagemSelecionado)} />}
         
         <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAnoFormatado} porcentagem={Number(anoPorcentagem)} />
-
+       
         <div className='flex min-w-[250px] max-w-full items-center justify-between rounded-t-lg h-10 bg-branco mr-4 ml-4 mt-4 mb-0 border-b-2'>
           <select value={anoSelecionado} onChange={handleSelectChange} className='bg-branco ml-1 h-7 cursor-pointer '>
             <option value={anoAtual}>
@@ -270,7 +271,7 @@ const DashboardComponent: React.FC = () => {
         </div>
 
       </div>
-      {/* <Footer /> */}
+     
     </div>
     )
     
