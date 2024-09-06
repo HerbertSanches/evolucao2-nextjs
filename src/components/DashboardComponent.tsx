@@ -20,7 +20,7 @@ const DashboardComponent: React.FC = () => {
   const [dataFaturamento, setDataFaturamento] = useState<any>(null);
   const [dataGraficoAnual, setDataGraficoAnual] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [metaMesSelecionado, setMetaMesSelecionado] = useState(0)
+  const [metaMesSelecionado, setMetaMesSelecionado] = useState(0);
 
   const anoAtual = new Date().getFullYear();
 
@@ -29,8 +29,10 @@ const DashboardComponent: React.FC = () => {
 
   const anoAtualString = anoAtual.toString();
 
-  const [receivedValue, setReceivedValue] = useState(mesAtual);
-  const [selectedOption, setSelectedOption] = useState<string>(anoAtualString); 
+  const [mesSelecionado, setMesSelecionado] = useState(mesAtual);
+
+  // const [receivedValue, setReceivedValue] = useState(mesAtual);
+  const [anoSelecionado, setAnoSelecionado] = useState<string>(anoAtualString); 
   
 
   const mesParaChave: { [key: number]: string }  = {
@@ -63,7 +65,7 @@ const DashboardComponent: React.FC = () => {
           meta: [
               {
               campo: 'mt_anovigente',
-              valor: Number(selectedOption),
+              valor: Number(anoSelecionado),
               condicao: coIGUAL,
               tipo: ftInteger
               },
@@ -96,7 +98,7 @@ const DashboardComponent: React.FC = () => {
     } catch (error) {
       console.error("Erro ao chamar metas")
     }
-  }, [receivedValue, selectedOption]);
+  }, [mesSelecionado, anoSelecionado]);
   console.log(metaMes)
 //----------------------------Faturamento------------------------------------------------
   const [faturamentoAno, setFaturamentoAno] = useState(0);
@@ -110,9 +112,9 @@ const DashboardComponent: React.FC = () => {
         const idEmpresa = localStorage.getItem('idEmpresa')
         const tokenHeader = localStorage.getItem('token')
 
-        const mes:number = Number(receivedValue)
+        const mes:number = Number(mesSelecionado)
 
-        const responseFaturamento =  await api.get(`/venda/faturamento/${idEmpresa}/${selectedOption}/${mes}`,{
+        const responseFaturamento =  await api.get(`/venda/faturamento/${idEmpresa}/${anoSelecionado}/${mes}`,{
           headers: {
             'Authorization': `Bearer ${tokenHeader}`
           }
@@ -129,7 +131,7 @@ const DashboardComponent: React.FC = () => {
     } catch (error) {
       console.error("Erro ao chamar faturamento")
     }
-  }, [receivedValue, selectedOption]);
+  }, [mesSelecionado, anoSelecionado]);
 
 //-------------api gráfico anual--------------
 
@@ -141,7 +143,7 @@ const DashboardComponent: React.FC = () => {
         const idUsuario = localStorage.getItem('idUsuario')
 
         
-        const responseGraficoAnual = await api.get(`/notificacao/${idEmpresa}/${idUsuario}/${selectedOption}`,{
+        const responseGraficoAnual = await api.get(`/notificacao/${idEmpresa}/${idUsuario}/${anoSelecionado}`,{
           headers: {
             'Authorization': `Bearer ${tokenHeader}`
           }
@@ -155,7 +157,7 @@ const DashboardComponent: React.FC = () => {
     } catch (error) {
       console.error("Erro ao chamar gráfico anual")
     }
-  }, [selectedOption]);
+  }, [anoSelecionado]);
 
 
 
@@ -182,11 +184,11 @@ const DashboardComponent: React.FC = () => {
   }
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setReceivedValue(mesAtual);
-    setSelectedOption(event.target.value);
+    setMesSelecionado(mesAtual);
+    setAnoSelecionado(event.target.value);
   };
 
-  const handleValueFromChild = (value:any) => {
+  const handMesSelecionado = (value:any) => {
     const mesNumero: { [key: string]: number }  = {
       'jan': 1,
       'fev': 2,
@@ -205,7 +207,7 @@ const DashboardComponent: React.FC = () => {
     forceRender();
     
     if (mesSelecionadoGrafico !== undefined) {
-      setReceivedValue(mesSelecionadoGrafico);
+      setMesSelecionado(mesSelecionadoGrafico);
     }
   }; 
 
@@ -213,55 +215,58 @@ const DashboardComponent: React.FC = () => {
     console.log('meta do mes selecionado: ',value)
     setMetaMesSelecionado(value)
   }
+  const mesPorcentagemSelecionado = ((faturamentoMes / metaMesSelecionado) * 100).toFixed(0);
 
   function resetarMesAno() {
-    setSelectedOption(anoAtual.toString());
-    setReceivedValue(mesAtual)
+    setAnoSelecionado(anoAtual.toString());
+    setMesSelecionado(mesAtual)
   }
 
-  console.log(selectedOption)
-  console.log(receivedValue)
+  console.log(anoSelecionado)
+  console.log(mesSelecionado)
   console.log(mesAtual)
   console.log(anoAtual)
+  console.log(metaMesSelecionado)
   return (
     <div className='w-full'>
      
       <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
+        { mesAtual  !== mesSelecionado && mesAtual !== 0 ? ( 
+          <Metas metaMes={metaMesSelecionado} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />
+        ) : <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />}
         
-        <Metas metaMes={metaMes} metaAno={metaAno} ano={selectedOption} />
-
-        { mesAtual === receivedValue && anoAtual === Number(selectedOption)  ? (
+        { mesAtual === mesSelecionado && anoAtual === Number(anoSelecionado)  ? (
           <>
-            <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDiaFormatado} porcentagem={Number(diaPorcentagem)} delay={0}/>
-            <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemanaFormatado} porcentagem={Number(semanaPorcentagem)} delay={30}/>
+            <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDiaFormatado} porcentagem={Number(diaPorcentagem)} />
+            <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemanaFormatado} porcentagem={Number(semanaPorcentagem)} />
           </>
         ) : null}
 
-        <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMesFormatado} porcentagem={Number(mesPorcentagem)} delay={60}/>
-        <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAnoFormatado} porcentagem={Number(anoPorcentagem)} delay={90}/>
+        { mesAtual  !== mesSelecionado || mesAtual !== 0 ? (
+          <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMesFormatado} porcentagem={Number(mesPorcentagem)} />
+        ) : <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMesFormatado} porcentagem={Number(mesPorcentagemSelecionado)} />}
+        
+        <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAnoFormatado} porcentagem={Number(anoPorcentagem)} />
 
         <div className='flex min-w-[250px] max-w-full items-center justify-between rounded-t-lg h-10 bg-branco mr-4 ml-4 mt-4 mb-0 border-b-2'>
-          <select value={selectedOption} onChange={handleSelectChange} className='bg-branco ml-1 h-7 cursor-pointer '>
+          <select value={anoSelecionado} onChange={handleSelectChange} className='bg-branco ml-1 h-7 cursor-pointer '>
             <option value={anoAtual}>
               Faturamento de {anoAtual}
             </option>
-            <option value={anoAtual -1} className=''>Faturamento de {anoAtual -1}</option>
-            <option value={anoAtual -2}>Faturamento de {anoAtual -2}</option>
-            <option value={anoAtual -3}>Faturamento de {anoAtual -3}</option>
+            <option value={anoAtual - 1}>Faturamento de {anoAtual - 1}</option>
+            <option value={anoAtual - 2}>Faturamento de {anoAtual - 2}</option>
+            <option value={anoAtual - 3}>Faturamento de {anoAtual - 3}</option>
           </select>
 
-          {/* <button onClick={resetarMesAno} className='text-azulEscuro text-[8px] mr-1 bg-cinza rounded-md p-1 w-max-50px shadow-md'>Filtrado: mês 9 ano 2023 X</button> */}
-          { mesAtual !== receivedValue || anoAtual !== Number(selectedOption)  ? (
+          { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
           <>
-            <button onClick={resetarMesAno} className='text-azulEscuro text-[8px] mr-1 bg-cinza rounded-md p-1 w-max-50px shadow-md'>Filtrado: mês {receivedValue} ano {selectedOption} X</button>
+            <button onClick={resetarMesAno} className='text-azulEscuro text-[8px] mr-1 bg-cinza rounded-md p-1 w-max-50px shadow-md'>Filtrado: mês {mesSelecionado} ano {anoSelecionado} X</button>
           </>
-        ) : null}
-
-          
+          ) : null} 
         </div>
 
         <div id='background GraficoAnual'>
-          {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendValueToParent={handleValueFromChild}  sendMetaSelecionada={handleMetaSelecionada} />} 
+          {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendMesSelecionado={handMesSelecionado}  sendMetaSelecionada={handleMetaSelecionada} />} 
         </div>
 
       </div>
