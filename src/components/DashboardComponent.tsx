@@ -20,6 +20,7 @@ const DashboardComponent: React.FC = () => {
   const [dataFaturamento, setDataFaturamento] = useState<any>(null);
   const [dataGraficoAnual, setDataGraficoAnual] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [metaMesSelecionado, setMetaMesSelecionado] = useState(0)
 
   const anoAtual = new Date().getFullYear();
 
@@ -73,8 +74,8 @@ const DashboardComponent: React.FC = () => {
               tipo: ftInteger
               }
           ]
-      };
-      console.log("API URL:", process.env.NEXT_PUBLIC_APP_API);
+        };
+      
         const responseMetaMesAno =  await api.post('meta/localizar', json,{
           headers: {
             'Authorization': `Bearer ${tokenHeader}`
@@ -208,6 +209,11 @@ const DashboardComponent: React.FC = () => {
     }
   }; 
 
+  const handleMetaSelecionada = (value:any) => {
+    console.log('meta do mes selecionado: ',value)
+    setMetaMesSelecionado(value)
+  }
+
   function resetarMesAno() {
     setSelectedOption(anoAtual.toString());
     setReceivedValue(mesAtual)
@@ -255,7 +261,7 @@ const DashboardComponent: React.FC = () => {
         </div>
 
         <div id='background GraficoAnual'>
-          {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendValueToParent={handleValueFromChild} />} 
+          {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendValueToParent={handleValueFromChild}  sendMetaSelecionada={handleMetaSelecionada} />} 
         </div>
 
       </div>

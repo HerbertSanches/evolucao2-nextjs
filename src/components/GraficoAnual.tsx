@@ -53,11 +53,12 @@ interface Vendas {
 
 type props = {
   sendValueToParent: (value: string) => void;
+  sendMetaSelecionada: (value: number) => void;
   vendas: Vendas[];
   metas:Metas[];
 }
 
-const GraficoAnual = ({ sendValueToParent, vendas, metas }:props) => {
+const GraficoAnual = ({ sendValueToParent, sendMetaSelecionada,vendas, metas }:props) => {
   console.log(vendas)
  
   console.log(metas)
@@ -146,6 +147,7 @@ const GraficoAnual = ({ sendValueToParent, vendas, metas }:props) => {
 
   const chartRef = useRef<Chart<'bar'> | null>(null);
   const [selectedMonth, setSelectedMonth] = useState('');
+  const [metaSelecionada, SetMetaSelecionada] = useState(0);
 
   const data: any = {
     labels: months,
@@ -209,6 +211,7 @@ const GraficoAnual = ({ sendValueToParent, vendas, metas }:props) => {
         if (points.length && chart.data.labels) {
           const firstPoint = points[0];
           const label = chart.data.labels[firstPoint.index] as string;
+          SetMetaSelecionada(meses[firstPoint.index].meta) ;
           setSelectedMonth(label); // Atualiza o estado com o mês clicado
         }
       }
@@ -217,6 +220,7 @@ const GraficoAnual = ({ sendValueToParent, vendas, metas }:props) => {
   console.log(selectedMonth)
 
   useEffect(() => {
+    sendMetaSelecionada(metaSelecionada);
     sendValueToParent(selectedMonth);
   }, [selectedMonth])
   
