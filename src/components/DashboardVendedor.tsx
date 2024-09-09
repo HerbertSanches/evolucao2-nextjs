@@ -2,13 +2,18 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './Header';
+import api from '@/services/api';
 
 const Meses: React.FC = () => {
   const anoAtual = new Date().getFullYear();
+  const mesAtual = new Date().getMonth()+1;
+
   const anoAtualString = anoAtual.toString();
-  const [mesSelecionado, setMesSelecionado] = useState<number | null>(null);
+  const [mesSelecionado, setMesSelecionado] = useState<number>(mesAtual);
   const containerRef = useRef<HTMLDivElement>(null); // Ref para o contêiner de meses
-  const [anoSelecionado, setAnoSelecionado] = useState<string>(); 
+  const [anoSelecionado, setAnoSelecionado] = useState<string>(anoAtualString); 
+  const [metafuncionario, setMetaFuncionario] = useState('');
+
   // Array de meses e seus respectivos valores
   const meses = [
     { nome: 'Janeiro', valor: 1 },
@@ -37,8 +42,28 @@ const Meses: React.FC = () => {
         (element as HTMLElement).scrollIntoView({ behavior: 'smooth', inline: 'start' });
       }
     }
+  }, [mesSelecionado, anoSelecionado]);
+
+  useEffect (() => {
+    const fetchVendasFuncionario = async () => {
+        const idEmpresa = localStorage.getItem('idEmpresa');
+        const tokenHeader = localStorage.getItem('token');
+
+        const responseVendasFuncionario =  await api.get(`metafuncionario/metafaturamento/${idEmpresa}/${anoSelecionado}/${mesSelecionado}`,{
+            headers: {
+            'Authorization': `Bearer ${tokenHeader}`
+            }
+        });
+        console.log('Vendas Funcionário: ', responseVendasFuncionario)
+
+        setMetaFuncionario(responseVendasFuncionario.data.buscar)
+    }
+
+    fetchVendasFuncionario();
+   
   }, []);
 
+  console.log(metafuncionario)
   // Função para lidar com o clique em um mês
   const handleClick = (mes: number) => {
     setMesSelecionado(mes);
