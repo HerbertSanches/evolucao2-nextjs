@@ -12,7 +12,7 @@ const Meses: React.FC = () => {
   const [mesSelecionado, setMesSelecionado] = useState<number>(mesAtual);
   const containerRef = useRef<HTMLDivElement>(null); // Ref para o contêiner de meses
   const [anoSelecionado, setAnoSelecionado] = useState<string>(anoAtualString); 
-  const [metafuncionario, setMetaFuncionario] = useState('');
+  const [metafuncionario, setMetaFuncionario] = useState([]);
 
   // Array de meses e seus respectivos valores
   const meses = [
@@ -103,6 +103,12 @@ const Meses: React.FC = () => {
                     <option value={anoAtual - 2}>Vendas de {anoAtual - 2}</option>
                     <option value={anoAtual - 3}>Vendas de {anoAtual - 3}</option>
                 </select>
+            </div>
+
+            <div>
+                {/* {metafuncionario.map((funcionario) =>(
+
+                ))} */}
             </div>
         {/* </div> */}
         <h1 className='text-red-500'>Dashboard Por Vendedor</h1>
