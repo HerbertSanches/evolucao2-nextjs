@@ -70,9 +70,9 @@ const LoginTela: React.FC = () => {
 
         console.log(data)
         console.log(response)
-
-  
         console.log('Dados recebidos:', data);
+  
+        localStorage.setItem("empresas", JSON.stringify(data));
   
         setEmpresas(data.data.empresa);
       } catch (error) {
