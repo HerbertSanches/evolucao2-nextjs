@@ -54,11 +54,11 @@ const Meses: React.FC = () => {
     <>
         <Header />
         {/* <div className="overflow-x-auto whitespace-nowrap bg-azulEscuro h-auto items-center justify-center" ref={containerRef}> */}
-            <div className="flex space-x-3 overflow-x-auto py-2 bg-azulEscuro no-scrollbar" ref={containerRef}>
+            <div className="flex space-x-3 overflow-x-auto py-2 bg-azulEscuro " ref={containerRef}>
                 {meses.map((mes) => (
                 <button
                     key={mes.valor}
-                    className={`px-4 w-24 h-7  bg-branco rounded-full p-1 items-center font-semibold text-14 justify-center ${
+                    className={`px-4 min-w-24 h-7  bg-branco rounded-full p-1 items-center font-semibold text-14 justify-center ${
                     mesSelecionado === mes.valor
                         ? 'bg-green-400 text-white '
                         : 'text-azulEscuro'
