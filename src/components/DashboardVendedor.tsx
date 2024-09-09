@@ -1,29 +1,7 @@
-// import React from "react";
-
-// const DashboardVendedor: React.FC = () => {
-
-//     return (
-//         <div className="flex overflow-x-auto space-x-4 py-2">
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Janeiro</button>
-//             <button className="px-4 py-2 bg-green-400 text-white rounded-full">Fevereiro</button>
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Março</button>
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Abril</button>
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Maio</button>
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Junho</button>
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Julho</button>
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Agosto</button>
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Setembro</button>
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Outubro</button>
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Novembro</button>
-//             <button className="px-4 py-2 bg-white text-azulEscuro rounded-full">Dezembro</button>
-//         </div>
-//     )
-// }
-
-// export default DashboardVendedor;
 "use client"
 
 import React, { useState, useEffect, useRef } from 'react';
+import Header from './Header';
 
 const Meses: React.FC = () => {
   const anoAtual = new Date().getFullYear();
@@ -73,33 +51,37 @@ const Meses: React.FC = () => {
   };
 
   return (
-    <div className="overflow-x-auto whitespace-nowrap" ref={containerRef}>
-      <div className="flex justify-around mt-4">
-        {meses.map((mes) => (
-          <button
-            key={mes.valor}
-            className={`px-4 py-2 ${
-              mesSelecionado === mes.valor
-                ? 'bg-green-400 text-white rounded-full'
-                : 'text-blue-500'
-            }`}
-            onClick={() => handleClick(mes.valor)}
-            data-mes={mes.valor} // Adiciona o valor do mês como um data attribute
-          >
-            {mes.nome}
-          </button>
-        ))}
+    <>
+        <Header />
+        {/* <div className="overflow-x-auto whitespace-nowrap bg-azulEscuro h-auto items-center justify-center" ref={containerRef}> */}
+            <div className="flex space-x-3 overflow-x-auto py-2 bg-azulEscuro no-scrollbar" ref={containerRef}>
+                {meses.map((mes) => (
+                <button
+                    key={mes.valor}
+                    className={`px-4 w-24 h-7  bg-branco rounded-full p-1 items-center font-semibold text-14 justify-center ${
+                    mesSelecionado === mes.valor
+                        ? 'bg-green-400 text-white '
+                        : 'text-azulEscuro'
+                    }`}
+                    onClick={() => handleClick(mes.valor)}
+                    data-mes={mes.valor} // Adiciona o valor do mês como um data attribute
+                >
+                    {mes.nome}
+                </button>
+                ))}
 
-        <select value={anoSelecionado} onChange={handleSelectChange} className='bg-branco ml-1 h-7 cursor-pointer '>
-            <option value={anoAtual}>
-              Vendas de {anoAtual}
-            </option>
-            <option value={(anoAtual -1)}>Vendas de {anoAtual -1}</option>
-            <option value={anoAtual - 2}>Vendas de {anoAtual - 2}</option>
-            <option value={anoAtual - 3}>Vendas de {anoAtual - 3}</option>
-          </select>
-      </div>
-    </div>
+                <select value={anoSelecionado} onChange={handleSelectChange} className='justify-center rounded-full p-1 items-center font-semibold bg-branco mr-1 text-azulEscuro cursor-pointer '>
+                    <option value={anoAtual}>
+                    Vendas de {anoAtual}
+                    </option>
+                    <option value={(anoAtual -1)}>Vendas de {anoAtual -1}</option>
+                    <option value={anoAtual - 2}>Vendas de {anoAtual - 2}</option>
+                    <option value={anoAtual - 3}>Vendas de {anoAtual - 3}</option>
+                </select>
+            </div>
+        {/* </div> */}
+        <h1 className='text-red-500'>Dashboard Por Vendedor</h1>
+    </>
   );
 };
 
