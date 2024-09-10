@@ -15,7 +15,10 @@ interface porcentagem{
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DoughnutChartWithCenterText = ({ porcentagem }: porcentagem) => {
-  const adjustedPorcentagem = porcentagem > 100 ? 100 : porcentagem;
+  console.log(porcentagem)
+  const validPorcentagem = isNaN(porcentagem) ? 0 : Number(porcentagem);
+  
+  const adjustedPorcentagem = validPorcentagem > 100 ? 100 : validPorcentagem;
   const remaining = 100 - adjustedPorcentagem;
 
   const data = {
@@ -57,10 +60,10 @@ const DoughnutChartWithCenterText = ({ porcentagem }: porcentagem) => {
   };
 
   return (
-    <div className="relative w-[50px] h-[50px] flex items-center justify-center">
-      <Doughnut data={data} options={options} />
+    <div className="relative h-25 w-25 flex items-center justify-center">
+      <Doughnut  className='h-20 w-20' data={data} options={options} />
       <div className="absolute inset-0 flex items-center justify-center ">
-        <span className="text-blue-800  font-bold text-sm">{porcentagem}%</span>
+        <span className="text-blue-800  font-bold text-lg">{validPorcentagem}%</span>
       </div>
     </div>
   );

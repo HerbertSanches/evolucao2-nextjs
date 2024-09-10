@@ -9,7 +9,6 @@ import { useAuth } from '../context/AuthContext';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { ComboBox } from './ComboBox'
-import axios from 'axios';
 import api from '@/services/api';
 
 const LoginTela: React.FC = () => {
