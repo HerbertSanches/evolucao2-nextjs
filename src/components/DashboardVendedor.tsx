@@ -82,7 +82,7 @@ const Meses: React.FC = () => {
 
     // Ajusta o scroll para o mês atual
     if (containerRef.current) {
-      const element = containerRef.current.querySelector(`[data-mes='${mesAtual}']`);
+      const element = containerRef.current.querySelector(`[data-mes='${mesSelecionado}']`);
       if (element) {
         (element as HTMLElement).scrollIntoView({ behavior: 'smooth', inline: 'start' });
       }
@@ -91,23 +91,23 @@ const Meses: React.FC = () => {
 
   useEffect (() => {
     const fetchVendasFuncionario = async () => {
-        const idEmpresa = localStorage.getItem('idEmpresa');
-        const tokenHeader = localStorage.getItem('token');
+      const idEmpresa = localStorage.getItem('idEmpresa');
+      const tokenHeader = localStorage.getItem('token');
 
-        const responseVendasFuncionario =  await api.get(`metafuncionario/metafaturamento/${idEmpresa}/${anoSelecionado}/${mesSelecionado}`,{
-            headers: {
-            'Authorization': `Bearer ${tokenHeader}`
-            }
-        });
-        console.log('Vendas Funcionário: ', responseVendasFuncionario)
+      const responseVendasFuncionario =  await api.get(`metafuncionario/metafaturamento/${idEmpresa}/${anoSelecionado}/${mesSelecionado}`,{
+          headers: {
+          'Authorization': `Bearer ${tokenHeader}`
+          }
+      });
+      console.log('Vendas Funcionário: ', responseVendasFuncionario)
 
-        setMetaFuncionario(responseVendasFuncionario.data.buscar)
-        setMetaIndividual(responseVendasFuncionario.data.buscar.chaveMetaMes)
+      setMetaFuncionario(responseVendasFuncionario.data.buscar)
+      setMetaIndividual(responseVendasFuncionario.data.buscar.chaveMetaMes)
     }
 
     fetchVendasFuncionario();
    
-  }, [mesSelecionado]);
+  }, [mesSelecionado, anoSelecionado]);
   // mesSelecionado, anoSelecionado
   
   console.log(metafuncionario)
@@ -156,7 +156,7 @@ const Meses: React.FC = () => {
             
       
         <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>Dashboard Por Vendedor</h1>
-      <div className='ml-3 mr-3 mt-3 mb-4 pt-1 pb-3 bg-cinza rounded-[8px] h-auto'>           
+      <div className='ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px] bg-cinza rounded-[8px] h-auto'>           
         {metafuncionario.map((funcionario, index) => (
 
           <div key={index} className="bg-branco rounded-lg p-4 flex items-center 
@@ -185,14 +185,3 @@ const Meses: React.FC = () => {
 };
 
 export default Meses;
-
-
-{/* <div key={index}>
-            
-<p>ID: {funcionario.mf_id}</p>
-<p>ID Funcionário: {funcionario.mf_idfuncionario}</p>
-<p>ID Meta: {funcionario.mf_idmeta}</p>
-<p>Valor Janeiro: {funcionario.mf_vlrjan}</p>
-<p>Valor Fevereiro: {funcionario.mf_vlrfev}</p>
-<p>Nome funcionário: {funcionario.ps_nomerazao}</p>
-</div> */}
