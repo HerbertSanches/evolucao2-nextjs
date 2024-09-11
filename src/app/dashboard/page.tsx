@@ -5,6 +5,7 @@ import DashboardComponent from '../../components/DashboardComponent';
 import LoadingPadrao from '../loading'
 import Header from '@/components/Header';
 import { Footer } from '../Footer';
+import { withAuth } from '@/context/AuthContext';
 
 const Dashboard: React.FC = () => {
     
@@ -19,5 +20,5 @@ const Dashboard: React.FC = () => {
     );
 };
 
-// export default withAuth(Dashboard);
-export default Dashboard;
+export default withAuth(Dashboard);
+// export default Dashboard;

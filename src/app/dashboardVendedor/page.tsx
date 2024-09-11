@@ -1,7 +1,10 @@
+'use client'
 import React from 'react';
 
 import DashboardVendedor from '@/components/DashboardVendedor';
 import { Footer } from '../Footer';
+import { withAuth } from '@/context/AuthContext';
+
 const DashboardVenda: React.FC = () =>  {
   
   return (
@@ -12,4 +15,4 @@ const DashboardVenda: React.FC = () =>  {
   );
 };
 
-export default DashboardVenda;
+export default withAuth(DashboardVenda);

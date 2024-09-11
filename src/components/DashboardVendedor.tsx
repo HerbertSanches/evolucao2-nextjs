@@ -8,6 +8,7 @@ import DoughnutChartWithCenterText from './DoughnutChart';
 import Usuario from "/public/assets/images/usuario-azul.png"
 import Metas from './Metas';
 
+
 interface Funcionario {
     mf_histdtcadastro: string;
     mf_histuscadastro: number;
