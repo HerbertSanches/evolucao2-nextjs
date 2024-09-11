@@ -92,7 +92,7 @@ const Meses: React.FC = () => {
     11: 'mt_vlrdez'
   };
   
-  const chaveMetaMes:string = mesParaChave[mesSelecionado];
+  const chaveMetaMes:string = mesParaChave[mesSelecionado-1];
 
   useEffect(() => {
     // Ajusta o scroll para o mês atual
