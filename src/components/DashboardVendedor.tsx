@@ -117,13 +117,18 @@ const Meses: React.FC = () => {
     console.log(`Mês selecionado: ${mes}`);
   };
 
+  function resetarMesAno() {
+    setAnoSelecionado(anoAtual.toString());
+    setMesSelecionado(mesAtual)
+  }
+
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setAnoSelecionado(event.target.value); // Convertendo o valor para número
     console.log(`Ano selecionado: ${event.target.value}`);
   };
   console.log(mesSelecionado)
   console.log(mesAtual)
- let teste;
+
   
   return (
     <>
@@ -155,8 +160,20 @@ const Meses: React.FC = () => {
       </div>
             
       
-        <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>Dashboard Por Vendedor</h1>
-      <div className='ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px] bg-cinza rounded-[8px] h-auto'>           
+      <h1 className='flex text-azulEscuro  bg-red-200items-center justify-center font-bold text-xl mt-3 mb-3'>Dashboard Por Vendedor</h1>
+
+      <div className='flex flex-col ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px] bg-cinza rounded-[8px] h-auto'>  
+      { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
+        <>
+          <button  id='btnFiltro' onClick={resetarMesAno} 
+            className='text-azulEscuro text-[8px] mt-2 mr-7 bg-branco rounded-md p-1 w-max-50px shadow-md justify-center items-center fixed right-0 '>
+            Filtrado: mês {mesSelecionado} ano {anoSelecionado} X
+          </button>
+        </>
+      ) : null}  
+
+        <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7": ""}`}></div> 
+
         {metafuncionario.map((funcionario, index) => (
 
           <div key={index} className="bg-branco rounded-lg p-4 flex items-center 
