@@ -6,6 +6,7 @@ import api from '@/services/api';
 import Image from 'next/image';
 import DoughnutChartWithCenterText from './DoughnutChart';
 import Usuario from "/public/assets/images/usuario-azul.png"
+import Metas from './Metas';
 
 interface Funcionario {
     mf_histdtcadastro: string;
@@ -57,7 +58,7 @@ const Meses: React.FC = () => {
     { nome: 'Dezembro', valor: 12 },
   ];
 
-  const mesParaChave: { [key: number]: string }  = {
+  const mesParaChaveFuncionario: { [key: number]: string }  = {
     1: 'mf_vlrjan',
     2: 'mf_vlrfev',
     3: 'mf_vlrmar',
@@ -72,14 +73,28 @@ const Meses: React.FC = () => {
     12: 'mf_vlrdez'
   };
 
-  const chaveMetaMes:string = mesParaChave[mesSelecionado];
-  console.log(chaveMetaMes)
-  
-  // useEffect para definir o mês atual ao carregar o componente e ajustar o scroll
-  useEffect(() => {
-    const mesAtual = new Date().getMonth() + 1; // getMonth() retorna o mês de 0 a 11, por isso +1
-    // setMesSelecionado(mesAtual);
+  const chaveMetaMesFuncionario:string = mesParaChaveFuncionario[mesSelecionado];
 
+  console.log(chaveMetaMesFuncionario)
+
+  const mesParaChave: { [key: number]: string }  = {
+    0: 'mt_vlrjan',
+    1: 'mt_vlrfev',
+    2: 'mt_vlrmar',
+    3: 'mt_vlrabr',
+    4: 'mt_vlrmai',
+    5: 'mt_vlrjun',
+    6: 'mt_vlrjul',
+    7: 'mt_vlrago',
+    8: 'mt_vlrset',
+    9: 'mt_vlrout',
+    10: 'mt_vlrnov',
+    11: 'mt_vlrdez'
+  };
+  
+  const chaveMetaMes:string = mesParaChave[mesSelecionado];
+
+  useEffect(() => {
     // Ajusta o scroll para o mês atual
     if (containerRef.current) {
       const element = containerRef.current.querySelector(`[data-mes='${mesSelecionado}']`);
@@ -129,6 +144,62 @@ const Meses: React.FC = () => {
   console.log(mesSelecionado)
   console.log(mesAtual)
 
+  //-----------------metas----------------------------
+  const [metaMes, setMetaMes] = useState(0);
+  const [metaAno, setMetaAno] = useState(0);
+  
+
+  const [dataMeta, setDataMeta] = useState<any>(null);
+
+  useEffect(() => { 
+    try {
+      const fetchDataMetaMesAno = async () => {
+        const idEmpresa = localStorage.getItem('idEmpresa')
+        const tokenHeader = localStorage.getItem('token')
+
+        const ftInteger = 3; 
+        const coIGUAL = 1; 
+        const json = {
+          meta: [
+              {
+              campo: 'mt_anovigente',
+              valor: Number(anoSelecionado),
+              condicao: coIGUAL,
+              tipo: ftInteger
+              },
+              {
+              campo: 'mt_idempresa',
+              valor: Number(idEmpresa),
+              condicao: coIGUAL,
+              tipo: ftInteger
+              }
+          ]
+        };
+      
+        const responseMetaMesAno =  await api.post('meta/localizar', json,{
+          headers: {
+            'Authorization': `Bearer ${tokenHeader}`
+          }
+        });
+        console.log('Meta: ', responseMetaMesAno)
+
+        setDataMeta(responseMetaMesAno.data.meta)
+        if (responseMetaMesAno.data.meta && responseMetaMesAno.data.meta[0] && responseMetaMesAno.data.meta[0].mt_vlrjan){
+          setMetaMes(responseMetaMesAno.data.meta[0][chaveMetaMes]);
+          console.log(responseMetaMesAno)
+          setMetaAno(responseMetaMesAno.data.meta[0].mt_vlranual); 
+        }
+        
+      }
+      
+      console.log(metaMes)
+      fetchDataMetaMesAno();
+    } catch (error) {
+      console.error("Erro ao chamar metas")
+    }
+  }, [mesSelecionado, anoSelecionado]);
+
+  console.log(metaMes)
   
   return (
     <>
@@ -163,16 +234,19 @@ const Meses: React.FC = () => {
       <h1 className='flex text-azulEscuro  bg-red-200items-center justify-center font-bold text-xl mt-3 mb-3'>Dashboard Por Vendedor</h1>
 
       <div className='flex flex-col ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px] bg-cinza rounded-[8px] h-auto'>  
-      { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
-        <>
-          <button  id='btnFiltro' onClick={resetarMesAno} 
-            className='text-azulEscuro text-[8px] mt-2 mr-7 bg-branco rounded-md p-1 w-max-50px shadow-md justify-center items-center fixed right-0 '>
-            Filtrado: mês {mesSelecionado} ano {anoSelecionado} X
-          </button>
-        </>
-      ) : null}  
+        <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />  
+        
 
-        <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7": ""}`}></div> 
+        <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7": ""}`}>
+        { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
+          <>
+            <button  id='btnFiltro' onClick={resetarMesAno} 
+              className='text-azulEscuro text-[8px] mt-2 mr-7 bg-branco rounded-md p-1 w-max-50px shadow-md justify-center items-center fixed right-0 '>
+              Filtrado: mês {mesSelecionado} ano {anoSelecionado} X
+            </button>
+          </>
+        ) : null}  
+        </div> 
 
         {metafuncionario.map((funcionario, index) => (
 
@@ -184,13 +258,13 @@ const Meses: React.FC = () => {
               <div className="ml-4 truncate">
                 <p className="text-blue-800 font-bold text-[15px] truncate">{funcionario.ps_nomerazao}</p>
                 <p className="text-blue-800 text-lg text-[18px]">R$: {funcionario.total_mes}</p>
-                <p className="text-blue-800 text-xs">Meta R$: {funcionario[chaveMetaMes]}</p>
+                <p className="text-blue-800 text-xs">Meta R$: {funcionario[chaveMetaMesFuncionario]}</p>
               </div>
             </div>
 
             <div className="flex items-center justify-center relative " style={{ width: '64px', height: '64px' }}>
               <div className="absolute inset-0 flex items-center justify-center">
-               <DoughnutChartWithCenterText porcentagem={Number(((funcionario.total_mes / funcionario[chaveMetaMes])* 100).toFixed(0))}/>
+              <DoughnutChartWithCenterText porcentagem={Number(((funcionario.total_mes / funcionario[chaveMetaMesFuncionario])* 100).toFixed(0))}/>
               </div>
             </div>
 

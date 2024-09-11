@@ -89,7 +89,7 @@ const DashboardComponent: React.FC = () => {
         setDataMeta(responseMetaMesAno.data.meta)
         if (responseMetaMesAno.data.meta && responseMetaMesAno.data.meta[0] && responseMetaMesAno.data.meta[0].mt_vlrjan){
           setMetaMes(responseMetaMesAno.data.meta[0][chaveMetaMes]);
-          console.log(metaMes)
+          console.log(responseMetaMesAno)
           setMetaAno(responseMetaMesAno.data.meta[0].mt_vlranual); 
         }
         
