@@ -254,18 +254,18 @@ const Meses: React.FC = () => {
           <div key={index} className="bg-branco rounded-lg p-4 flex items-center 
                                         justify-between shadow-global ml-4 mr-4 mt-3" >
 
-            <div className="flex items-center">
-              <Image src={Usuario} alt='' className="h-12 w-12 object-contain text-pink-700" />
+            <div className="flex items-center mr-1">
+              <Image src={Usuario} alt='' className="h-12 w-12 object-contain" />
               <div className="ml-4 truncate">
-                <p className="text-blue-800 font-bold text-[15px] truncate">{funcionario.ps_nomerazao}</p>
+                <p className="text-blue-800 font-bold text-[15px] truncate ">{funcionario.ps_nomerazao}</p>
                 <p className="text-blue-800 text-lg text-[18px]">R$: {funcionario.total_mes}</p>
                 <p className="text-blue-800 text-xs">Meta R$: {funcionario[chaveMetaMesFuncionario]}</p>
               </div>
             </div>
 
-            <div className="flex items-center justify-center relative " style={{ width: '64px', height: '64px' }}>
-              <div className="absolute inset-0 flex items-center justify-center">
-              <DoughnutChartWithCenterText porcentagem={Number(((funcionario.total_mes / funcionario[chaveMetaMesFuncionario])* 100).toFixed(0))}/>
+            <div className="flex items-center justify-center relative" style={{ width: '80px', height: '80px' }}>
+              <div className="absolute inset-0 flex items-center justify-center ">
+                <DoughnutChartWithCenterText porcentagem={Number(((funcionario.total_mes / funcionario[chaveMetaMesFuncionario])* 100).toFixed(0))}/>
               </div>
             </div>
 
