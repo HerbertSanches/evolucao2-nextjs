@@ -13,7 +13,7 @@ export interface metaMesAno{
 }
 
 const Metas: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano }) => {
-  const mesAtual = new Date().getMonth();
+  console.log(metaAno)
   console.log(metaMes)
   // if ( mes == 0) {
   //   mes = (mesAtual);

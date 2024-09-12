@@ -32,7 +32,7 @@ interface Funcionario {
     [key: string]: any;
 }
   
-const Meses: React.FC = () => {
+const DashboardVendedor: React.FC = () => {
   const anoAtual = new Date().getFullYear();
   const mesAtual = new Date().getMonth()+1;
 
@@ -204,7 +204,6 @@ const Meses: React.FC = () => {
   
   return (
     <>
-      <Header />
       <div className="flex space-x-3 overflow-x-auto py-2 bg-azulEscuro " ref={containerRef}>
           {meses.map((mes) => (
           <button
@@ -238,11 +237,11 @@ const Meses: React.FC = () => {
         <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />  
         
 
-        <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7": ""}`}>
+        <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7 flex justify-end": ""}`}>
         { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
           <>
             <button  id='btnFiltro' onClick={resetarMesAno} 
-              className='text-azulEscuro text-[8px] mt-2 mr-7 bg-branco rounded-md p-1 w-max-50px shadow-md justify-center items-center fixed right-0 '>
+              className='text-azulEscuro text-[8px] mt-2 mr-4 bg-branco rounded-md p-1 shadow-md '>
               Filtrado: mês {mesSelecionado} ano {anoSelecionado} X
             </button>
           </>
@@ -276,4 +275,4 @@ const Meses: React.FC = () => {
   );
 };
 
-export default Meses;
+export default DashboardVendedor;

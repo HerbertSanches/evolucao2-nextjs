@@ -2,7 +2,7 @@ import React from 'react';
 import { usePathname } from 'next/navigation';
 import { AuthProvider } from '@/context/AuthContext';
 import '../app/globals.css';
-import { Footer } from './Footer';
+import { Footer } from '../components/Footer';
 import Head from 'next/head';
 
 export const metadata = {
