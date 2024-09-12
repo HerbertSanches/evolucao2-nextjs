@@ -1,10 +1,48 @@
 'use client'
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "@/services/api";
 
 const AvisosComponent = () => {
-  console.log('teste')
-
+  const [dataAvisos, setDataAvisos] = useState('');
+  const [notasPendentes, setNotasPendentes] = useState('');
+  const [qntMinima, setQntMinima] = useState('');
+  const [produtoValidadeVencido, setProdutoValidadeVencido] = useState('');
+  const [produtoValidadeVencendo, setProdutoValidadeVencendo] = useState('');
+  const [constasAReceber, setContasAReceber] = useState('');
   
+  const anoAtual = new Date().getFullYear();
+  useEffect(() => {
+    try {
+      const fetchDataAvisos= async () => {
+        const idEmpresa = localStorage.getItem('idEmpresa');
+        const tokenHeader = localStorage.getItem('token');
+        const idUsuario = localStorage.getItem('idUsuario')
+  
+        
+        const responseAvisos = await api.get(`/notificacao/${idEmpresa}/${idUsuario}/${anoAtual}`,{
+          headers: {
+            'Authorization': `Bearer ${tokenHeader}`
+          }
+        });
+        console.log('Avisos: ', responseAvisos);
+
+        setDataAvisos(responseAvisos.data);
+        setNotasPendentes(responseAvisos.data.notificacao[0].notapedente.nf_quantidade);
+        //verificar o minimo depois
+        setQntMinima(responseAvisos.data.notificacao[1].qntminima.nf_abaixo);
+        setProdutoValidadeVencido(responseAvisos.data.notificacao[2].produtovalidade.nf_vencido);
+        setProdutoValidadeVencendo(responseAvisos.data.notificacao[2].produtovalidade.nf_vencendo)
+      }
+  
+      fetchDataAvisos();
+    } catch (error) {
+      console.error("Erro ao chamar gráfico anual")
+    }
+  }, []);
+  
+
+  console.log(dataAvisos)
+  console.log(notasPendentes)
   return (
     <>
       <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>
@@ -20,7 +58,7 @@ const AvisosComponent = () => {
           <div className="flex flex-col justify-center absolute ml-32 top-2 space-y-2">
             <p className="text-azulEscuro font-bold text-lg">Notas Pendentes</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
-            <p className="text-azulEscuro text-base">1 notas pendentes.</p> {/* Ajuste de número de notas */}
+            <p className="text-azulEscuro text-base">{notasPendentes} notas pendentes.</p> {/* Ajuste de número de notas */}
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
@@ -39,7 +77,7 @@ const AvisosComponent = () => {
           <div className="flex flex-col justify-center absolute ml-32 top-2 space-y-2">
             <p className="text-azulEscuro font-bold text-lg">Qnt Mínima</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
-            <p className="text-azulEscuro text-base">3 abaixo do padrão.</p> {/* Ajuste de número de notas */}
+            <p className="text-azulEscuro text-base">{qntMinima} abaixo do padrão.</p> {/* Ajuste de número de notas */}
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
@@ -54,10 +92,11 @@ const AvisosComponent = () => {
          <h1 className="fonte-ev left-0 text-9xl h-auto ">d</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center absolute ml-32 top-2 space-y-2">
-            <p className="text-azulEscuro font-bold text-lg">Contas a Pagar</p>
+          <div className="flex flex-col justify-center absolute ml-32 top-2 ">
+            <p className="text-azulEscuro font-bold text-lg">Produtos a Vencer</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
-            <p className="text-azulEscuro text-base">2 notas a pagar.</p> {/* Ajuste de número de notas */}
+            <p className="text-azulEscuro text-base">{produtoValidadeVencendo} vencendo.</p> 
+            <p className="text-azulEscuro text-base">{produtoValidadeVencido} abaixo do padrão.</p> {/* Ajuste de número de notas */}
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
