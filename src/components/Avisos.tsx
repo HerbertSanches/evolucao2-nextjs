@@ -1,10 +1,11 @@
 'use client'
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import api from "@/services/api";
 
 const AvisosComponent = () => {
   const [dataAvisos, setDataAvisos] = useState('');
   const [notasPendentes, setNotasPendentes] = useState('');
+  const [qntMinimoDoRecomendado, setQntMinimoDoRecomendado] = useState('');
   const [qntMinima, setQntMinima] = useState('');
   const [produtoValidadeVencido, setProdutoValidadeVencido] = useState('');
   const [produtoValidadeVencendo, setProdutoValidadeVencendo] = useState('');
@@ -29,6 +30,7 @@ const AvisosComponent = () => {
         setDataAvisos(responseAvisos.data);
         setNotasPendentes(responseAvisos.data.notificacao[0].notapedente.nf_quantidade);
         //verificar o minimo depois
+        setQntMinimoDoRecomendado(responseAvisos.data.notificacao[1].qntminima.nf_minimo);
         setQntMinima(responseAvisos.data.notificacao[1].qntminima.nf_abaixo);
         setProdutoValidadeVencido(responseAvisos.data.notificacao[2].produtovalidade.nf_vencido);
         setProdutoValidadeVencendo(responseAvisos.data.notificacao[2].produtovalidade.nf_vencendo)
@@ -36,7 +38,7 @@ const AvisosComponent = () => {
   
       fetchDataAvisos();
     } catch (error) {
-      console.error("Erro ao chamar gráfico anual")
+      console.error("Erro ao chamar avisos")
     }
   }, []);
   
@@ -74,9 +76,10 @@ const AvisosComponent = () => {
          <h1 className="fonte-ev left-0 text-9xl h-auto ">n</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center absolute ml-32 top-2 space-y-2">
+          <div className="flex flex-col justify-center absolute ml-32 top-2">
             <p className="text-azulEscuro font-bold text-lg">Qnt Mínima</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
+            <p className="text-azulEscuro text-base">{qntMinimoDoRecomendado} mínimo do recomendado.</p>
             <p className="text-azulEscuro text-base">{qntMinima} abaixo do padrão.</p> {/* Ajuste de número de notas */}
           </div>
 
