@@ -54,10 +54,10 @@ const AvisosComponent = () => {
       <div className='flex flex-col ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px] bg-cinza rounded-[8px] h-auto'> 
         
         <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
-         <h1 className="fonte-ev left-0 text-9xl h-auto mt-4">Â</h1>
+         <h1 className="fonte-ev text-8xl h-auto mt-3">Â</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center absolute ml-32 top-2 space-y-2">
+          <div className="flex flex-col justify-center  ml-2">
             <p className="text-azulEscuro font-bold text-lg">Notas Pendentes</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
             <p className="text-azulEscuro text-base">{notasPendentes} notas pendentes.</p> {/* Ajuste de número de notas */}
@@ -73,10 +73,10 @@ const AvisosComponent = () => {
 
 
         <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
-         <h1 className="fonte-ev left-0 text-9xl h-auto ">n</h1>
+         <h1 className="fonte-ev left-0 text-8xl h-auto ">n</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center absolute ml-32 top-2">
+          <div className="flex flex-col justify-center ml-2">
             <p className="text-azulEscuro font-bold text-lg">Qnt Mínima</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
             <p className="text-azulEscuro text-base">{qntMinimoDoRecomendado} mínimo do recomendado.</p>
@@ -92,10 +92,10 @@ const AvisosComponent = () => {
         </div>
 
         <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
-         <h1 className="fonte-ev left-0 text-9xl h-auto ">d</h1>
+         <h1 className="fonte-ev left-0 text-8xl h-auto ">d</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center absolute ml-32 top-2 ">
+          <div className="flex flex-col justify-center ml-2  ">
             <p className="text-azulEscuro font-bold text-lg">Produtos a Vencer</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
             <p className="text-azulEscuro text-base">{produtoValidadeVencendo} vencendo.</p> 
@@ -111,10 +111,10 @@ const AvisosComponent = () => {
         </div>
 
         <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
-         <h1 className="fonte-ev left-0 text-9xl h-auto ">$</h1>
+         <h1 className="fonte-ev left-0 text-8xl h-auto ">$</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center absolute ml-32 top-2 ">
+          <div className="flex flex-col justify-center ml-2 ">
             <p className="text-azulEscuro font-bold text-lg">Contas a Receber</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
             <p className="text-azulEscuro text-base">2 títulos vencidos.</p> {/* Ajuste de número de notas */}
