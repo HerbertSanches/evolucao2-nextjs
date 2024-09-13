@@ -1,6 +1,7 @@
 'use client'
 import React, { use, useEffect, useState } from "react";
 import api from "@/services/api";
+import { userAgent } from "next/server";
 
 const AvisosComponent = () => {
   const [dataAvisos, setDataAvisos] = useState('');
@@ -9,16 +10,60 @@ const AvisosComponent = () => {
   const [qntMinima, setQntMinima] = useState('');
   const [produtoValidadeVencido, setProdutoValidadeVencido] = useState('');
   const [produtoValidadeVencendo, setProdutoValidadeVencendo] = useState('');
-  const [constasAReceber, setContasAReceber] = useState('');
-  
+ 
+  const [encodeContasAReceber, setEncodeContasAReceber] = useState('');
+
   const anoAtual = new Date().getFullYear();
-  useEffect(() => {
-    try {
-      const fetchDataAvisos= async () => {
-        const idEmpresa = localStorage.getItem('idEmpresa');
-        const tokenHeader = localStorage.getItem('token');
-        const idUsuario = localStorage.getItem('idUsuario')
   
+  const [contasAReceberHoje, setContasAReceberHoje] = useState('');
+  const [contasAReceberSemana, setContasAReceberSemana] = useState('');
+  const [contasAReceberVencido, setContasAReceberVencido] = useState('');
+
+  useEffect(() => {
+    
+    const idEmpresa = localStorage.getItem('idEmpresa');
+    const tokenHeader = localStorage.getItem('token');
+    const idUsuario = localStorage.getItem('idUsuario')
+  
+  
+  
+    const fetchDataGenerinaPagarReceber = async () => {
+      const responseCriptografia = await fetch('/api/criptografia', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          type: 'encode', 
+          input: `{"sql": "select * from vw_financeirocontacontagem where fc_idempresa = ${idEmpresa} and fc_tiporegistro = 1"}` 
+        })
+      });
+
+      let encodeReceber;
+
+      if (responseCriptografia.ok) {
+        const data = await responseCriptografia.json();
+        encodeReceber=data.result;
+        console.log(data.result); 
+      }
+
+      console.log(encodeContasAReceber);
+      const responseMetaMesAno =  await api.post('buscar/generica', encodeReceber,{});
+      setContasAReceberVencido(responseMetaMesAno.data.buscar[0].fc_vencido);
+      setContasAReceberHoje(responseMetaMesAno.data.buscar[0].fc_hoje);
+      setContasAReceberSemana(responseMetaMesAno.data.buscar[0].fc_semana);
+      
+      console.log(responseMetaMesAno);
+    }
+    fetchDataGenerinaPagarReceber();
+
+
+    //------------------------
+
+
+    try {
+      const fetchDataAvisos = async () => {
+
         
         const responseAvisos = await api.get(`/notificacao/${idEmpresa}/${idUsuario}/${anoAtual}`,{
           headers: {
@@ -57,7 +102,7 @@ const AvisosComponent = () => {
          <h1 className="fonte-ev text-8xl h-auto mt-3">Â</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center  ml-2">
+          <div className="flex flex-col justify-center ml-2 ">
             <p className="text-azulEscuro font-bold text-lg">Notas Pendentes</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
             <p className="text-azulEscuro text-base">{notasPendentes} notas pendentes.</p> {/* Ajuste de número de notas */}
@@ -110,15 +155,16 @@ const AvisosComponent = () => {
           </div>
         </div>
 
-        <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
+        <div className="flex h-32 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
          <h1 className="fonte-ev left-0 text-8xl h-auto ">$</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
           <div className="flex flex-col justify-center ml-2 ">
             <p className="text-azulEscuro font-bold text-lg">Contas a Receber</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
-            <p className="text-azulEscuro text-base">2 títulos vencidos.</p> {/* Ajuste de número de notas */}
-            <p className="text-azulEscuro text-base">0 títulos essa semana.</p>
+            <p className="text-azulEscuro text-base">{contasAReceberVencido} títulos vencidos.</p> 
+            <p className="text-azulEscuro text-base">{contasAReceberHoje} títulos para hoje.</p>
+            <p className="text-azulEscuro text-base">{contasAReceberSemana} títulos essa semana.</p>
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
