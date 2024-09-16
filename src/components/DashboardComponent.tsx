@@ -145,27 +145,15 @@ const DashboardComponent: React.FC = () => {
     }
   }, [anoSelecionado]);
 
-//--metaAno
-const metaAnoFormatado = metaAno.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-console.log(Number(metaAnoFormatado))
-//--faturamentoAno-- 
+
+
+//--Porcentagens-- 
   const anoPorcentagem = ((faturamentoAno / metaAno) * 100).toFixed(0);
-  const faturamentoAnoFormatado = faturamentoAno.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-//---faturamentoMes--
   const mesPorcentagem = ((faturamentoMes / metaMes) * 100).toFixed(0);
-  const faturamentoMesFormatado = faturamentoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-//--faturamentoSemana--
   const semanaPorcentagem = ((faturamentoSemana / metaMes) * 100).toFixed(0);
-  const faturamentoSemanaFormatado = faturamentoSemana.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-
-//--faturamentoDia--
   const diaPorcentagem = ((faturamentoDia / metaMes) * 100).toFixed(0);
-  const faturamentoDiaFormatado = faturamentoDia.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 //---------------------------------------------------------------------------
 
-  //comita esse if para subir para a vercel
   if (!dataMeta && !dataFaturamento && !dataGraficoAnual) {
     return <LoadingPadrao />;
   }
@@ -218,21 +206,21 @@ console.log(Number(metaAnoFormatado))
      
       <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
         { mesAtual  !== mesSelecionado && mesAtual !== 0 ? ( 
-          <Metas metaMes={metaMesSelecionado} mes={mesSelecionado-1} metaAno={Number(metaAnoFormatado)} ano={anoSelecionado} />
+          <Metas metaMes={metaMesSelecionado} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />
         ) : <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />}
         
         { mesAtual === mesSelecionado && anoAtual === Number(anoSelecionado)  ? (
           <>
-            <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDiaFormatado} porcentagem={Number(diaPorcentagem)} />
-            <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemanaFormatado} porcentagem={Number(semanaPorcentagem)} />
+            <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDia} porcentagem={Number(diaPorcentagem)} />
+            <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemana} porcentagem={Number(semanaPorcentagem)} />
           </>
         ) : null}
 
         { mesAtual  !== mesSelecionado || mesAtual !== 0 ? (
-          <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMesFormatado} porcentagem={Number(mesPorcentagem)} />
-        ) : <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMesFormatado} porcentagem={Number(mesPorcentagemSelecionado)} />}
+          <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMes} porcentagem={Number(mesPorcentagem)} />
+        ) : <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMes} porcentagem={Number(mesPorcentagemSelecionado)} />}
         
-        <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAnoFormatado} porcentagem={Number(anoPorcentagem)} />
+        <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAno} porcentagem={Number(anoPorcentagem)} />
        
         <div className='flex min-w-[250px] max-w-full items-center justify-between rounded-t-lg h-10 bg-branco mr-4 ml-4 mt-4 mb-0 border-b-2'>
           <select value={anoSelecionado} onChange={handleSelectChange} className='bg-branco ml-1 h-7 cursor-pointer '>

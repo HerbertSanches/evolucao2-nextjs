@@ -23,12 +23,9 @@ const AvisosComponent = () => {
   const anoAtual = new Date().getFullYear();
 
   useEffect(() => {
-    
     const idEmpresa = localStorage.getItem('idEmpresa');
     const tokenHeader = localStorage.getItem('token');
     const idUsuario = localStorage.getItem('idUsuario')
-  
-  
   
     const fetchDataGenerinaPagarReceber = async () => {
       const responseCriptografiaContasReceber = await fetch('/api/criptografia', {

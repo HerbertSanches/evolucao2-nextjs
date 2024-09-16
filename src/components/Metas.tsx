@@ -15,9 +15,14 @@ export interface metaMesAno{
 const Metas: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano }) => {
   console.log(metaAno)
   console.log(metaMes)
-  // if ( mes == 0) {
-  //   mes = (mesAtual);
-  // }
+
+  const [metaMesFormatado, setMetaMesFormatado] = useState('');
+  const [metaAnoFormatado, setMetaAnoFormatado] = useState('');
+
+  useEffect(() => {
+    setMetaMesFormatado(metaMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    setMetaAnoFormatado(metaAno.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  },[metaMes, metaAno])
 
   const mesParaChave: { [key: number]: string }  = {
     0: 'Janeiro',
@@ -46,7 +51,7 @@ const Metas: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano }) => {
             <Image src={graficoMeta} alt="Grafico meta" width={40} height={40} className='smallphone:h-8 smallphone:w-8 ' />
             <div className='flex flex-col'>
               <h2 className="text-branco font-bold smallphone:text-sm">Meta {chaveMetaMes}</h2>
-              <p className="text-branco font-bold smallphone:text-sm">R$ {metaMes}</p>
+              <p className="text-branco font-bold smallphone:text-sm">R$ {metaMesFormatado}</p>
             </div>
           </div>
           
@@ -58,7 +63,7 @@ const Metas: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano }) => {
             <Image src={graficoMeta} alt="Grafico meta" width={40} height={40} className=' smallphone:h-8 smallphone:w-8' />
             <div className='flex flex-col'>
               <h2 className="text-branco font-bold smallphone:text-sm ">Meta {ano} </h2>
-              <p className="text-branco font-bold smallphone:text-sm">R$ {metaAno}</p>
+              <p className="text-branco font-bold smallphone:text-sm">R$ {metaAnoFormatado}</p>
             </div>
             
           </div>

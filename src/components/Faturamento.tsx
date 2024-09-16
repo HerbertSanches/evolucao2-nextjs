@@ -7,10 +7,15 @@ import DoughnutChartWithCenterText from '../components/DoughnutChart';
 
 interface porcentagem {
   porcentagem: number,
-  valor: string,
+  valor: number,
   tipoFaturamento: string
 }
 const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
+  const [valorFormatado, setValorFormatado] = useState('');
+
+  useEffect(() => {
+   setValorFormatado( valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+  },[valor]);
 
   return (
     <div className="bg-branco rounded-lg p-2 flex items-center 
@@ -20,7 +25,7 @@ const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
         <Image src={dinheiro} alt='' className="h-12 w-12 object-contain" />
         <div className="ml-4">
           <p className="text-blue-800 font-bold text-[15px] truncate">Faturamento: {tipoFaturamento}</p>
-          <p className="text-blue-800 text-lg text-[18px]">R$: {valor}</p>
+          <p className="text-blue-800 text-lg text-[18px]">R$: {valorFormatado}</p>
         </div>
       </div>
 
