@@ -27,6 +27,7 @@ const LoginTela: React.FC = () => {
 
   const { signIn, token } = useAuth();
 
+
   const handleEncode = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); 
     console.log("chamou handleEncode")
@@ -48,9 +49,11 @@ const LoginTela: React.FC = () => {
   
       const { result: encodedPassword } = await response.json();
       
-      console.log("sigIN")
+
       await signIn({ username, password: encodedPassword, selectedCompanyId });
+      localStorage.setItem('NOMEFUNCIONARIO', username);
       router.push('/dashboard');
+
     } catch (error) {
       console.error("Erro ao fazer o request do login: ", error);
       alert("Erro ao fazer login");
@@ -71,7 +74,7 @@ const LoginTela: React.FC = () => {
         console.log(data)
         console.log(response)
         console.log('Dados recebidos:', data);
-  
+        localStorage.setItem("urlEmpresa", JSON.stringify(company));
         localStorage.setItem("empresas", JSON.stringify(data));
   
         setEmpresas(data.data.empresa);
@@ -111,7 +114,7 @@ const LoginTela: React.FC = () => {
               className="user_name bg-transparent items-center mb-1 border-none text-lg justify-center placeholder-center text-white focus:outline-none "
               placeholder="Usuário"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) =>setUsername(e.target.value)}
               required
             />
           </div>
@@ -123,7 +126,7 @@ const LoginTela: React.FC = () => {
               className="user_password bg-transparent items-center mb-1 border-none text-lg justify-center placeholder-center text-white focus:outline-none "
               placeholder="Senha"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e)  =>{ setPassword(e.target.value); console.log('')}}
               required
             />
           </div>
