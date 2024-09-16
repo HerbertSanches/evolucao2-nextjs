@@ -7,6 +7,8 @@ import Image from 'next/image';
 import DoughnutChartWithCenterText from './DoughnutChart';
 import Usuario from "/public/assets/images/usuario-azul.png"
 import Metas from './Metas';
+import dashBoardVendedorLoading from '../components/dashboardVendedorLoading';
+import DashBoardVendedorLoading from '../components/dashboardVendedorLoading';
 
 
 interface Funcionario {
@@ -41,6 +43,9 @@ const DashboardVendedor: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null); // Ref para o contêiner de meses
   const [anoSelecionado, setAnoSelecionado] = useState<string>(anoAtualString); 
   const [metafuncionario, setMetaFuncionario] = useState<Funcionario[]>([]);
+  const [dataMetaFuncionario, setDataMetaFuncionario] = useState<any>(null);
+ 
+
   const [metaIndividual, setMetaIndividual] = useState('')
 
   // Array de meses e seus respectivos valores
@@ -96,13 +101,20 @@ const DashboardVendedor: React.FC = () => {
   const chaveMetaMes:string = mesParaChave[mesSelecionado-1];
 
   useEffect(() => {
-    // Ajusta o scroll para o mês atual
+
+    
+   if (dataMeta && dataMetaFuncionario) {
+
     if (containerRef.current) {
       const element = containerRef.current.querySelector(`[data-mes='${mesSelecionado}']`);
       if (element) {
         (element as HTMLElement).scrollIntoView({ behavior: 'smooth', inline: 'start' });
       }
     }
+  }
+
+    // Ajusta o scroll para o mês atual
+    
   }, [mesSelecionado, anoSelecionado]);
 
   useEffect (() => {
@@ -201,7 +213,11 @@ const DashboardVendedor: React.FC = () => {
   }, [mesSelecionado, anoSelecionado]);
 
   console.log(metaMes)
-  
+
+   if (!dataMeta && !dataMetaFuncionario) {
+     return <DashBoardVendedorLoading />;
+   }
+
   return (
     <>
       <div className="flex space-x-3 overflow-x-auto py-2 bg-azulEscuro " ref={containerRef}>

@@ -88,7 +88,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 
                 localStorage.setItem("token", responseToken);
                 localStorage.setItem("idUsuario", user.Usuario[0].UsId.toString());
-                localStorage.setItem("nome", user.Usuario[0].UsUsuario);
+                //localStorage.setItem("nomeFuncionario", user.Usuario[0].UsUsuario);
                 localStorage.setItem("idEmpresa", selectedCompanyId.toString());
                 
             } else {

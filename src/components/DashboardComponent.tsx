@@ -92,15 +92,20 @@ const DashboardComponent: React.FC = () => {
   const [faturamentoMes, setFaturamentoMes] = useState(0);
   const [faturamentoSemana, setFaturamentoSemana] = useState(0);
   const [faturamentoDia, setFaturamentoDia] = useState(0);
+  const [idEmpresa, setIdEmpresa] = useState(0);
 
   useEffect(() => { 
+    const idEmpresaConst = localStorage.getItem('idEmpresa')
+    setIdEmpresa(Number(idEmpresaConst) ?? 0); 
     try {
       const fetchDataFaturamento = async () => {
-        const idEmpresa = localStorage.getItem('idEmpresa')
+        
         const tokenHeader = localStorage.getItem('token')
+        
 
         const mes:number = Number(mesSelecionado)
 
+        console.log("ID EMPRESA: " , idEmpresa);
         const responseFaturamento =  await api.get(`/venda/faturamento/${idEmpresa}/${anoSelecionado}/${mes}`,{
           headers: {
             'Authorization': `Bearer ${tokenHeader}`
@@ -118,7 +123,7 @@ const DashboardComponent: React.FC = () => {
     } catch (error) {
       console.error("Erro ao chamar faturamento")
     }
-  }, [mesSelecionado, anoSelecionado]);
+  }, [mesSelecionado, anoSelecionado, idEmpresa]);
 
 //-------------api gráfico anual--------------
 

@@ -1,10 +1,10 @@
 'use client'
-import React from 'react';
-
+import React, { Suspense, useState, useEffect } from 'react';
 import DashboardVendedor from '@/components/DashboardVendedor';
 import { Footer } from '../../components/Footer';
 import { withAuth } from '@/context/AuthContext';
 import Header from '@/components/Header';
+import DashBoardVendedorLoading from '@/components/dashboardVendedorLoading';
 
 const DashboardVenda: React.FC = () =>  {
   
@@ -13,7 +13,7 @@ const DashboardVenda: React.FC = () =>  {
       <Header />
       <DashboardVendedor />
       <Footer />
-    </>
+      </>
   );
 };
 
