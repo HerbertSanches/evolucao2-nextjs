@@ -4,9 +4,11 @@ import React from 'react';
 const LoadingPadrao = () => {
     return(
 
-        <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
+       
+        <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'> 
 
-            <div className='ml-3 mr-3 mt-3 bg-cinza  rounded-[8px]'>
+
+            <div className='ml-3 mr-3 mt-3 bg-cinza  rounded-[8px]'> 
                 <div id='containerMeta' className=' flex flex-row smallphone:gap-2 justify-center items-center smallphone:g-3 h-[90px] mt-4'>
 
                     <div id='metaMes' className='relative overflow-hidden bg-gray-200 flex rounded-[8px] h-[70px] w-responsive ml-1 items-center justify-center shadow-global mt-1'>

@@ -14,6 +14,18 @@
   --border-botton: 3px solid var(--branco);
 }
 
+@font-face {
+  font-family: 'MinhaFonte';
+  src: url('/assets/fontes/Ev_font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.fonte-ev {
+  font-family: 'MinhaFonte', sans-serif;
+}
+
+
 .custom-select:hover {
   background-color: #2563eb; /* Azul mais claro para o hover */
 }

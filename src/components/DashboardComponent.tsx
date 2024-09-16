@@ -5,37 +5,23 @@ import '../app/globals.css'
 import GraficoAnual from './GraficoAnual'
 import api from '@/services/api';
 import LoadingPadrao from '@/app/loading';
-import DashboardVendedor from './DashboardVendedor';
 
-const forceUpdateReducer = (x: number) => x + 1;
 
 const DashboardComponent: React.FC = () => {
- 
-  const [renderTrigger, forceRender] = useReducer(forceUpdateReducer, 0);
-
   const [metaMes, setMetaMes] = useState(0);
   const [metaAno, setMetaAno] = useState(0);
   
-
   const [dataMeta, setDataMeta] = useState<any>(null);
   const [dataFaturamento, setDataFaturamento] = useState<any>(null);
   const [dataGraficoAnual, setDataGraficoAnual] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [metaMesSelecionado, setMetaMesSelecionado] = useState(0);
 
   const anoAtual = new Date().getFullYear();
-
-  
   const mesAtual = new Date().getMonth()+1;
-
   const anoAtualString = anoAtual.toString();
-
   const [mesSelecionado, setMesSelecionado] = useState(mesAtual);
-
-  // const [receivedValue, setReceivedValue] = useState(mesAtual);
   const [anoSelecionado, setAnoSelecionado] = useState<string>(anoAtualString); 
   
-
   const mesParaChave: { [key: number]: string }  = {
     0: 'mt_vlrjan',
     1: 'mt_vlrfev',
@@ -89,12 +75,12 @@ const DashboardComponent: React.FC = () => {
         setDataMeta(responseMetaMesAno.data.meta)
         if (responseMetaMesAno.data.meta && responseMetaMesAno.data.meta[0] && responseMetaMesAno.data.meta[0].mt_vlrjan){
           setMetaMes(responseMetaMesAno.data.meta[0][chaveMetaMes]);
-          console.log(metaMes)
+          console.log(responseMetaMesAno)
           setMetaAno(responseMetaMesAno.data.meta[0].mt_vlranual); 
         }
         
       }
-      // setIsLoading(false);
+
       fetchDataMetaMesAno();
     } catch (error) {
       console.error("Erro ao chamar metas")
@@ -158,16 +144,16 @@ const DashboardComponent: React.FC = () => {
         setDataGraficoAnual(responseGraficoAnual.data.notificacao[3].vendasmes)
       }
 
-
       fetchDataGraficoAnual();
     } catch (error) {
       console.error("Erro ao chamar gráfico anual")
     }
   }, [anoSelecionado]);
 
-
-
-//--faturamentoAno--
+//--metaAno
+const metaAnoFormatado = metaAno.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+console.log(Number(metaAnoFormatado))
+//--faturamentoAno-- 
   const anoPorcentagem = ((faturamentoAno / metaAno) * 100).toFixed(0);
   const faturamentoAnoFormatado = faturamentoAno.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
@@ -210,7 +196,6 @@ const DashboardComponent: React.FC = () => {
       'dez': 12
     };
     const mesSelecionadoGrafico: number = mesNumero[value]; 
-    forceRender();
     
     if (mesSelecionadoGrafico !== undefined) {
       setMesSelecionado(mesSelecionadoGrafico);
@@ -238,7 +223,7 @@ const DashboardComponent: React.FC = () => {
      
       <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
         { mesAtual  !== mesSelecionado && mesAtual !== 0 ? ( 
-          <Metas metaMes={metaMesSelecionado} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />
+          <Metas metaMes={metaMesSelecionado} mes={mesSelecionado-1} metaAno={Number(metaAnoFormatado)} ano={anoSelecionado} />
         ) : <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />}
         
         { mesAtual === mesSelecionado && anoAtual === Number(anoSelecionado)  ? (
@@ -272,7 +257,7 @@ const DashboardComponent: React.FC = () => {
         </div>
 
         <div id='background GraficoAnual'>
-          {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendMesSelecionado={handMesSelecionado}  sendMetaSelecionada={handleMetaSelecionada} />} 
+          {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendMesSelecionado={handMesSelecionado} sendMetaSelecionada={handleMetaSelecionada} />} 
         </div>
 
       </div>

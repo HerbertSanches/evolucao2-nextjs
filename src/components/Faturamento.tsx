@@ -13,7 +13,7 @@ interface porcentagem {
 const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
 
   return (
-    <div className="bg-branco rounded-lg p-4 flex items-center 
+    <div className="bg-branco rounded-lg p-2 flex items-center 
                     justify-between shadow-global ml-4 mr-4 mt-3" >
 
       <div className="flex items-center">

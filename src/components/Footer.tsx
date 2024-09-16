@@ -1,24 +1,27 @@
 import React from "react";
 import Image from "next/image";
-import Usuario from "../../public/assets/images/usuario.png"
-import Dinheiro from "../../public/assets/images/dinheiro.png"
+import Usuario from "/public/assets/images/usuario.png"
+import Dinheiro from "../../public/assets/images/dinheiro-branco.png"
 import Notificacao from "../../public/assets/images/notificacao.png"
+import Link from 'next/link';
 
 export const Footer = () => {
     
     return (
-        <div className="w-full">
+        // <div className=" inset-x-0 bottom-0 w-full bg-azulEscuro items-center justify-between absolute mb-0 h-14">
+        <nav className="flex flex-row fixed inset-x-0 bottom-0  items-center h-[45px] justify-between  bg-azulEscuro text-white z-50">
+            
             <div>
-                <Image src={Dinheiro} alt="Faturamento" className='h-[30px] w-[30px] mb-1.5' />
+                <Link href="/dashboard"> <Image src={Dinheiro} alt="Faturamento" className='h-[41px] w-[45px] ml-[10vw]' /> </Link>
             </div>
 
             <div>
-                <Image src={Usuario} alt="Vendedor" className='h-[30px] w-[30px] mb-1.5' />
+                <Link href="/dashboardVendedor"><Image src={Usuario} alt="Faturamento" className='h-[30px] w-[30px]' /></Link>
             </div>
 
             <div>
-                <Image src={Notificacao} alt="Notificações" className='h-[30px] w-[30px] mb-1.5' />
+                <Link href="/avisos"><Image src={Notificacao} alt="Faturamento" className='h-[30px] w-[30px] mr-[10vw]' /></Link>
             </div>
-        </div>
+        </nav>
     )
 }

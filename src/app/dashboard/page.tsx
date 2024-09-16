@@ -4,7 +4,8 @@ import "../globals.css";
 import DashboardComponent from '../../components/DashboardComponent';
 import LoadingPadrao from '../loading'
 import Header from '@/components/Header';
-import { Footer } from '../Footer';
+import { Footer } from '../../components/Footer';
+import { withAuth } from '@/context/AuthContext';
 
 const Dashboard: React.FC = () => {
     
@@ -13,11 +14,11 @@ const Dashboard: React.FC = () => {
         <Suspense fallback={<LoadingPadrao  />}>
             <Header />
             <DashboardComponent />
-            {/* <Footer /> */}
+            <Footer />
         </Suspense>
       
     );
 };
 
-// export default withAuth(Dashboard);
-export default Dashboard;
+export default withAuth(Dashboard);
+// export default Dashboard;

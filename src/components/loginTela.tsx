@@ -9,7 +9,6 @@ import { useAuth } from '../context/AuthContext';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { ComboBox } from './ComboBox'
-import axios from 'axios';
 import api from '@/services/api';
 
 const LoginTela: React.FC = () => {
@@ -131,7 +130,7 @@ const LoginTela: React.FC = () => {
             />
           </div>
           {loginError && <div className="login_erro text-red-500">Usuário e/ou senha inválidos</div>}
-          <button type="submit" className="btn-entrar flex items-center justify-center max-w-45  h-[38px] bg-white text-blue-900 font-bold py-2 px-4 rounded-[10px] 2xl:mt-10 xl:mt-4 hover:bg-gray-200 transition-transform">
+          <button type="submit" className="btn-entrar flex items-center justify-center w-full h-[38px] bg-white text-lg text-blue-900 font-bold py-2 px-4 rounded-[10px] 2xl:mt-10 xl:mt-4 hover:bg-gray-200 transition-transform">
             Entrar
           </button>
         </form>
