@@ -97,11 +97,12 @@ const DashboardComponent: React.FC = () => {
   useEffect(() => { 
     const idEmpresaConst = localStorage.getItem('idEmpresa')
     setIdEmpresa(Number(idEmpresaConst) ?? 0); 
+    console.log(idEmpresa)
     try {
       const fetchDataFaturamento = async () => {
-        
+        const idEmpresa = localStorage.getItem('idEmpresa')
         const tokenHeader = localStorage.getItem('token')
-        
+        console.log(idEmpresa)
 
         const mes:number = Number(mesSelecionado)
 

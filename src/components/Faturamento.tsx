@@ -14,7 +14,10 @@ const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
   const [valorFormatado, setValorFormatado] = useState('');
 
   useEffect(() => {
-   setValorFormatado( valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    if (valor > 0){
+      setValorFormatado(valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    }
+   
   },[valor]);
 
   return (

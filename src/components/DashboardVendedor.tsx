@@ -273,8 +273,10 @@ const DashboardVendedor: React.FC = () => {
               <Image src={Usuario} alt='' className="h-12 w-12 object-contain" />
               <div className="ml-4 truncate">
                 <p className="text-blue-800 font-bold text-[15px] truncate ">{funcionario.ps_nomerazao}</p>
-                <p className="text-blue-800 text-lg text-[18px]">R$: {funcionario.total_mes}</p>
-                <p className="text-blue-800 text-xs">Meta R$: {funcionario[chaveMetaMesFuncionario]}</p>
+                <p className="text-blue-800 text-lg text-[18px]">R$: {funcionario.total_mes !== undefined && funcionario.total_mes !== null
+                ? funcionario.total_mes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                : '0,00'}</p>
+                <p className="text-blue-800 text-xs">Meta R$: {funcionario[chaveMetaMesFuncionario].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
               </div>
             </div>
 
