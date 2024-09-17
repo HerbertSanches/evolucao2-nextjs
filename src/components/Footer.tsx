@@ -35,7 +35,7 @@ export const Footer = () => {
 
           <div onClick={() => handleNavigation('/dashboardVendedor')}>
               <div className={`h-auto w-auto p-2 items-center justify-center ${selected === 'dashboardVendedor' ? 'bg-green-400 rounded-full' : ''}`}>
-                  <Image src={Usuario} alt="Vendedor" className='h-[30px] w-[27px]' />
+                  <Image src={Usuario} alt="Vendedor" className='h-[30px] w-[30px]' />
               </div>
           </div>
 
