@@ -25,23 +25,23 @@ export const Footer = () => {
   };
 
   return (
-    <nav className="flex flex-row fixed inset-x-0 space-x-[15vh] bottom-0 items-center justify-center h-[50px] bg-azulEscuro text-white z-50">
+    <nav className="flex flex-row fixed inset-x-0 space-x-[15vh] bottom-0 items-center justify-center h-[40px] bg-azulEscuro text-white z-50">
       
       <div onClick={() => handleNavigation('/dashboard')}>
-        <div className={`flex items-center justify-center h-[50px] w-[50px] rounded-full ${selected === 'dashboard' ? 'bg-green-400' : 'bg-transparent'}`}>
-          <Image src={Dinheiro} alt="Faturamento" className="h-[30px] w-[35px]" />
+        <div className={`flex items-center justify-center h-[35px] w-[35px] rounded-full ${selected === 'dashboard' ? 'bg-green-400' : 'bg-transparent'}`}>
+          <Image src={Dinheiro} alt="Faturamento" className="h-[20px] w-[25px]" />
         </div>
       </div>
 
       <div onClick={() => handleNavigation('/dashboardVendedor')}>
-        <div className={`flex items-center justify-center h-[50px] w-[50px] rounded-full ${selected === 'dashboardVendedor' ? 'bg-green-400' : 'bg-transparent'}`}>
-          <Image src={Usuario} alt="Vendedor" className="h-[30px] w-[30px]" />
+        <div className={`flex items-center justify-center h-[35px] w-[35px] rounded-full ${selected === 'dashboardVendedor' ? 'bg-green-400' : 'bg-transparent'}`}>
+          <Image src={Usuario} alt="Vendedor" className="h-[20px] w-[16px]" />
         </div>
       </div>
 
       <div onClick={() => handleNavigation('/avisos')}>
-        <div className={`flex items-center justify-center h-[50px] w-[50px] rounded-full ${selected === 'avisos' ? 'bg-green-400' : 'bg-transparent'}`}>
-          <Image src={Notificacao} alt="Avisos" className="h-[30px] w-[30px]" />
+        <div className={`flex items-center justify-center h-[35px] w-[35px] rounded-full ${selected === 'avisos' ? 'bg-green-400' : 'bg-transparent'}`}>
+          <Image src={Notificacao} alt="Avisos" className="h-[20px] w-[20px]" />
         </div>
       </div>
       
