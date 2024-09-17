@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Chart, ArcElement, Tooltip, Legend, DoughnutController } from 'chart.js';
 import dinheiro from '../../public/assets/images/dinheiro.png';
 import Image from 'next/image';
 import DoughnutChartWithCenterText from '../components/DoughnutChart';
@@ -17,7 +16,6 @@ const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
     if (valor > 0){
       setValorFormatado(valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
     }
-   
   },[valor]); 
 
   return (
