@@ -25,26 +25,26 @@ export const Footer = () => {
   };
 
   return (
-      <nav className="flex flex-row fixed inset-x-0  space-x-[15vh] bottom-0 items-center   justify-center h-50px]  bg-azulEscuro text-white z-50">
-          
-          <div onClick={() => handleNavigation('/dashboard')} className="">
-              <div className={`h-auto w-auto p-2 items-center justify-center ml-10vh rounded-full ${selected === 'dashboard' ? 'bg-green-400  ' : '' }`}>
-                  <Image src={Dinheiro} alt="Faturamento" className={`h-[30px] w-[35px] `}  />
-              </div>
-          </div>
+    <nav className="flex flex-row fixed inset-x-0 space-x-[15vh] bottom-0 items-center justify-center h-[50px] bg-azulEscuro text-white z-50">
+      
+      <div onClick={() => handleNavigation('/dashboard')}>
+        <div className={`flex items-center justify-center h-[50px] w-[50px] rounded-full ${selected === 'dashboard' ? 'bg-green-400' : 'bg-transparent'}`}>
+          <Image src={Dinheiro} alt="Faturamento" className="h-[30px] w-[35px]" />
+        </div>
+      </div>
 
-          <div onClick={() => handleNavigation('/dashboardVendedor')}>
-              <div className={`h-auto w-auto p-2 items-center justify-center ${selected === 'dashboardVendedor' ? 'bg-green-400 rounded-full' : ''}`}>
-                  <Image src={Usuario} alt="Vendedor" className='h-[30px] w-[30px]' />
-              </div>
-          </div>
+      <div onClick={() => handleNavigation('/dashboardVendedor')}>
+        <div className={`flex items-center justify-center h-[50px] w-[50px] rounded-full ${selected === 'dashboardVendedor' ? 'bg-green-400' : 'bg-transparent'}`}>
+          <Image src={Usuario} alt="Vendedor" className="h-[30px] w-[30px]" />
+        </div>
+      </div>
 
-          <div onClick={() => handleNavigation('/avisos')}>
-              <div className={`h-auto w-auto p-2 items-center justify-center w-a ${selected === 'avisos' ? 'bg-green-400 rounded-full' : ''}`}>
-                  <Image src={Notificacao} alt="Avisos" className='h-[30px] w-[30px] ' />
-              </div>
-          </div>
-          
-      </nav>
+      <div onClick={() => handleNavigation('/avisos')}>
+        <div className={`flex items-center justify-center h-[50px] w-[50px] rounded-full ${selected === 'avisos' ? 'bg-green-400' : 'bg-transparent'}`}>
+          <Image src={Notificacao} alt="Avisos" className="h-[30px] w-[30px]" />
+        </div>
+      </div>
+      
+    </nav>
   );
 };
