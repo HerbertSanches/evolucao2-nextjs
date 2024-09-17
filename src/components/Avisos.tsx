@@ -28,31 +28,34 @@ const AvisosComponent = () => {
     const idUsuario = localStorage.getItem('idUsuario')
   
     const fetchDataGenerinaPagarReceber = async () => {
-      const responseCriptografiaContasReceber = await fetch('/api/criptografia', {
+      // const responseCriptografiaContasReceber = await fetch('/api/criptografia', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify({
+      //     type: 'encode', 
+      //     input: `{"sql": "select * from vw_financeirocontacontagem where fc_idempresa = ${idEmpresa} and fc_tiporegistro = 1"}` 
+      //   })
+      // });
+
+        const responseCriptografiaContasReceber = await fetch('/api/criptografia', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          type: 'encode', 
-          input: `{"sql": "select * from vw_financeirocontacontagem where fc_idempresa = ${idEmpresa} and fc_tiporegistro = 1"}` 
+          type: 'sqlReceber', 
         })
       });
 
-      let encodeReceber;
-
       if (responseCriptografiaContasReceber.ok) {
-        const data = await responseCriptografiaContasReceber.json();
-        encodeReceber = data.result;
-        console.log(data.result); 
-      }
+        const responseContasReceber = await responseCriptografiaContasReceber.json();
 
-      console.log(encodeContasAReceber);
-      const responseContasReceber =  await api.post('buscar/generica', encodeReceber,{});
-      setContasAReceberHoje(responseContasReceber.data.buscar[0].fc_hoje);
-      setContasAReceberSemana(responseContasReceber.data.buscar[0].fc_semana);
-      setContasAReceberVencido(responseContasReceber.data.buscar[0].fc_vencido);
-  
+        setContasAReceberHoje(responseContasReceber.data.buscar[0].fc_hoje);
+        setContasAReceberSemana(responseContasReceber.data.buscar[0].fc_semana);
+        setContasAReceberVencido(responseContasReceber.data.buscar[0].fc_vencido);
+      }
 
       const responseCriptografiaContasPagar = await fetch('/api/criptografia', {
         method: 'POST',
@@ -60,27 +63,18 @@ const AvisosComponent = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          type: 'encode', 
-          input: `{"sql": "select * from vw_financeirocontacontagem where fc_idempresa = ${idEmpresa} and fc_tiporegistro = 2"}` 
+          type: 'sqlPagar', 
         })
       });
-      console.log(responseCriptografiaContasPagar)
-
-      let encodePagar;
 
       if (responseCriptografiaContasPagar.ok) {
-        const data = await responseCriptografiaContasPagar.json();
-        encodePagar = data.result;
-        console.log(data.result); 
+        const responseContasPagar = await responseCriptografiaContasPagar.json();
+        setContasAPagarHoje(responseContasPagar.data.buscar[0].fc_hoje);
+        setContasAPagarSemana(responseContasPagar.data.buscar[0].fc_semana);
+        setContasAPagarVencido(responseContasPagar.data.buscar[0].fc_vencido);
+
       }
 
-      const responseContasPagar =  await api.post('buscar/generica', encodePagar,{});
-      setContasAPagarHoje(responseContasPagar.data.buscar[0].fc_hoje);
-      setContasAPagarSemana(responseContasPagar.data.buscar[0].fc_semana);
-      setContasAPagarVencido(responseContasPagar.data.buscar[0].fc_vencido);
-
-      console.log(responseContasPagar.data)
-      console.log(responseContasPagar)
     }
     fetchDataGenerinaPagarReceber();
 

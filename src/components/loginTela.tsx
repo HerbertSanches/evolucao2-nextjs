@@ -48,14 +48,12 @@ const LoginTela: React.FC = () => {
   
       const { result: encodedPassword } = await response.json();
       
-
       await signIn({ username, password: encodedPassword, selectedCompanyId });
       localStorage.setItem('NOMEFUNCIONARIO', username);
       router.push('/dashboard');
 
     } catch (error) {
       console.error("Erro ao fazer o request do login: ", error);
-      alert("Erro ao fazer login");
     }
   };
 
@@ -64,18 +62,11 @@ const LoginTela: React.FC = () => {
     setIsClient(true);
     const chamarEmpresa = async () => {
       try {
-        console.log('Chamando API para company:', company);
-
         const response = await api.get(`autenticacao/validacao-dashboard/${company}`);
 
         const data = response;
-
-        console.log(data)
-        console.log(response)
-        console.log('Dados recebidos:', data);
         localStorage.setItem("urlEmpresa", JSON.stringify(company));
         localStorage.setItem("empresas", JSON.stringify(data));
-  
         setEmpresas(data.data.empresa);
       } catch (error) {
         console.error('Erro ao chamar a empresa:', error);
@@ -129,7 +120,7 @@ const LoginTela: React.FC = () => {
               required
             />
           </div>
-          {loginError && <div className="login_erro text-red-500">Usuário e/ou senha inválidos</div>}
+          {loginError && <div className="login_erro text-red-500">Erro ao conectar com o servidor</div>}
           <button type="submit" className="btn-entrar flex items-center justify-center w-full h-[38px] bg-white text-lg text-blue-900 font-bold py-2 px-4 rounded-[10px] 2xl:mt-10 xl:mt-4 hover:bg-gray-200 transition-transform">
             Entrar
           </button>

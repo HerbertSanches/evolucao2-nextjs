@@ -85,6 +85,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           result = loginResponse.data;
           res.status(200).json({ data: result });
           break;
+        
+        case "sqlReceber":
+          const responseContasReceber =  await api.post('buscar/generica', process.env.SQL_CONTAS_RECEBER,{});
+          result = responseContasReceber.data;
+          res.status(200).json({ data: result });
+          break;
+        
+        case "sqlPagar":
+          const responseContasPagar =  await api.post('buscar/generica', process.env.SQL_CONTAS_PAGAR,{});
+          result = responseContasPagar.data;
+          res.status(200).json({ data: result });
+          break;
       }
 
     } catch (error) {

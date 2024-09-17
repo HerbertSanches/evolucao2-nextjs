@@ -276,7 +276,12 @@ const DashboardVendedor: React.FC = () => {
                 <p className="text-blue-800 text-lg text-[18px]">R$: {funcionario.total_mes !== undefined && funcionario.total_mes !== null
                 ? funcionario.total_mes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 : '0,00'}</p>
-                <p className="text-blue-800 text-xs">Meta R$: {funcionario[chaveMetaMesFuncionario].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                
+                <p className="text-blue-800 text-xs">
+                  Meta R$: {funcionario[chaveMetaMesFuncionario] !== undefined && funcionario[chaveMetaMesFuncionario] !== null
+                    ? funcionario[chaveMetaMesFuncionario].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                    : '0,00'}
+                </p>
               </div>
             </div>
 
