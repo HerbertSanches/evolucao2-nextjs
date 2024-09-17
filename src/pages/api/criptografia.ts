@@ -112,5 +112,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 export function chamarMetas () {
   const { token } = useAuth();
-  console.log(token.token)
 }

@@ -18,7 +18,7 @@ const Faturamento = ({ tipoFaturamento, porcentagem, valor }: porcentagem) => {
       setValorFormatado(valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
     }
    
-  },[valor]);
+  },[valor]); 
 
   return (
     <div className="bg-branco rounded-lg p-2 flex items-center 
