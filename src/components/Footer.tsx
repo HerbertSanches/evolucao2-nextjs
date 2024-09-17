@@ -28,25 +28,25 @@ export const Footer = () => {
     <nav className="flex flex-row fixed inset-x-0 space-x-[2vh] bottom-0 items-center justify-center h-[45px] bg-azulEscuro text-white z-50">
       
       <div onClick={() => handleNavigation('/dashboard')} className="">
-        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'dashboard' ? 'bg-green-400' : 'bg-transparent'}`}>
+        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'dashboard' ? 'bg-azulClaro' : 'bg-transparent'}`}>
           <Image src={Dinheiro} alt="Faturamento" className="h-[30px] w-[35px]" />
         </div>
       </div>
 
       <div onClick={() => handleNavigation('/dashboardVendedor')}>
-        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'dashboardVendedor' ? 'bg-green-400' : 'bg-transparent'}`}>
+        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'dashboardVendedor' ? 'bg-azulClaro' : 'bg-transparent'}`}>
           <Image src={Usuario} alt="Vendedor" className="h-[30px] w-[25px]" />
         </div>
       </div>
 
       <div onClick={() => handleNavigation('/avisos')}>
-        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'avisos' ? 'bg-green-400' : 'bg-transparent'}`}>
+        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'avisos' ? 'bg-azulClaro' : 'bg-transparent'}`}>
           <Image src={Notificacao} alt="Avisos" className="h-[30px] w-[30px]" />
         </div>
       </div>
 
       <div >{/* onClick={() => handleNavigation('/maisVendidos')}*/}
-        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'maisVendidos' ? 'bg-green-400' : 'bg-transparent'}`}>
+        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'maisVendidos' ? 'bg-azulClaro' : 'bg-transparent'}`}>
           
           <p className="fonte-ev text-5xl">n</p>
         </div>

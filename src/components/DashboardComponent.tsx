@@ -209,6 +209,9 @@ const DashboardComponent: React.FC = () => {
   console.log(metaMesSelecionado)
   return (
     <div className='w-full'>
+      <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>
+        Dashboard Faturamento
+      </h1>
      
       <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
         { mesAtual  !== mesSelecionado && mesAtual !== 0 ? ( 

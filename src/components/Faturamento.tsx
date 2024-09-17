@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dinheiro from '../../public/assets/images/dinheiro.png';
 import Image from 'next/image';
 import DoughnutChartWithCenterText from '../components/DoughnutChart';
