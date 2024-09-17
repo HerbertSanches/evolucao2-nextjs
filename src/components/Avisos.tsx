@@ -143,7 +143,7 @@ const AvisosComponent = () => {
             <p className="text-azulEscuro font-bold text-lg">Qnt Mínima</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
             <p className="text-azulEscuro text-base">{qntMinimoDoRecomendado} mínimo do recomendado.</p>
-            <p className="text-azulEscuro text-base">{qntMinima} abaixo do padrão.</p> {/* Ajuste de número de notas */}
+            <p className="text-azulEscuro text-base">{qntMinima} abaixo do mínimo.</p> {/* Ajuste de número de notas */}
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
@@ -162,7 +162,7 @@ const AvisosComponent = () => {
             <p className="text-azulEscuro font-bold text-lg">Produtos a Vencer</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
             <p className="text-azulEscuro text-base">{produtoValidadeVencendo} vencendo.</p> 
-            <p className="text-azulEscuro text-base">{produtoValidadeVencido} abaixo do padrão.</p> {/* Ajuste de número de notas */}
+            <p className="text-azulEscuro text-base">{produtoValidadeVencido} vencidos.</p> {/* Ajuste de número de notas */}
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
