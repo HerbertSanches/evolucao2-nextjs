@@ -207,7 +207,7 @@ const DashboardComponent: React.FC = () => {
   console.log(anoAtual)
   console.log(metaMesSelecionado)
   return (
-    <div className='w-full'>
+    <div className='w-full bg-branco'>
       <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>
         Dashboard Faturamento
       </h1>

@@ -38,10 +38,14 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div onClick={() => handleNavigation('/avisos')}>
-        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'avisos' ? 'bg-azulClaro' : 'bg-transparent'}`}>
-          <Image src={Notificacao} alt="Avisos" className="h-[30px] w-[30px]" />
-        </div>
+      <div onClick={() => handleNavigation('/avisos')} className="flex  flex-col items-center justify-center mt-1">
+        
+          <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'avisos' ? 'bg-azulClaro' : 'bg-transparent'}`}>
+            <Image src={Notificacao} alt="Avisos" className={`h-[20px] w-[20px] ` } />
+          </div>
+
+          <p className={` ${selected === 'avisos' ? 'font-semibold' : ''}` } >Avisos</p>
+       
       </div>
 
       <div >{/* onClick={() => handleNavigation('/maisVendidos')}*/}
