@@ -4,21 +4,19 @@ import api from "@/services/api";
 
 const AvisosComponent = () => {
   const [dataAvisos, setDataAvisos] = useState('');
-  const [notasPendentes, setNotasPendentes] = useState('');
-  const [qntMinimoDoRecomendado, setQntMinimoDoRecomendado] = useState('');
-  const [qntMinima, setQntMinima] = useState('');
-  const [produtoValidadeVencido, setProdutoValidadeVencido] = useState('');
-  const [produtoValidadeVencendo, setProdutoValidadeVencendo] = useState('');
- 
-  const [encodeContasAReceber, setEncodeContasAReceber] = useState('');
+  const [notasPendentes, setNotasPendentes] = useState(0);
+  const [qntMinimoDoRecomendado, setQntMinimoDoRecomendado] = useState(0);
+  const [qntMinima, setQntMinima] = useState(0);
+  const [produtoValidadeVencido, setProdutoValidadeVencido] = useState(0);
+  const [produtoValidadeVencendo, setProdutoValidadeVencendo] = useState(0);
 
-  const [contasAReceberHoje, setContasAReceberHoje] = useState('');
-  const [contasAReceberSemana, setContasAReceberSemana] = useState('');
-  const [contasAReceberVencido, setContasAReceberVencido] = useState('');
+  const [contasAReceberHoje, setContasAReceberHoje] = useState(0);
+  const [contasAReceberSemana, setContasAReceberSemana] = useState(0);
+  const [contasAReceberVencido, setContasAReceberVencido] = useState(0);
 
-  const [contasAPagarHoje, setContasAPagarHoje] = useState('');
-  const [contasAPagarSemana, setContasAPagarSemana] = useState('');
-  const [contasAPagarVencido, setContasAPagarVencido] = useState('');
+  const [contasAPagarHoje, setContasAPagarHoje] = useState(0);
+  const [contasAPagarSemana, setContasAPagarSemana] = useState(0);
+  const [contasAPagarVencido, setContasAPagarVencido] = useState(0);
 
   const anoAtual = new Date().getFullYear();
 
@@ -92,11 +90,26 @@ const AvisosComponent = () => {
         console.log('Avisos: ', responseAvisos);
 
         setDataAvisos(responseAvisos.data);
-        setNotasPendentes(responseAvisos.data.notificacao[0].notapedente.nf_quantidade);
-        setQntMinimoDoRecomendado(responseAvisos.data.notificacao[1].qntminima.nf_minimo);
-        setQntMinima(responseAvisos.data.notificacao[1].qntminima.nf_abaixo);
-        setProdutoValidadeVencido(responseAvisos.data.notificacao[2].produtovalidade.nf_vencido);
-        setProdutoValidadeVencendo(responseAvisos.data.notificacao[2].produtovalidade.nf_vencendo)
+        if (responseAvisos.data.notificacao[0].notapedente.nf_quantidade) {
+          setNotasPendentes(responseAvisos.data.notificacao[0].notapedente.nf_quantidade);
+        }
+        
+        if (responseAvisos.data.notificacao[1].qntminima.nf_minimo) {
+          setQntMinimoDoRecomendado(responseAvisos.data.notificacao[1].qntminima.nf_minimo);
+        }
+        
+        if (responseAvisos.data.notificacao[1].qntminima.nf_abaixo) {
+          setQntMinima(responseAvisos.data.notificacao[1].qntminima.nf_abaixo);
+        }
+        
+        if(responseAvisos.data.notificacao[2].produtovalidade.nf_vencido) {
+          setProdutoValidadeVencido(responseAvisos.data.notificacao[2].produtovalidade.nf_vencido);
+        }
+        
+        if (responseAvisos.data.notificacao[2].produtovalidade.nf_vencendo) {
+          setProdutoValidadeVencendo(responseAvisos.data.notificacao[2].produtovalidade.nf_vencendo)
+        }
+        
       }
   
       fetchDataAvisos();
@@ -108,6 +121,31 @@ const AvisosComponent = () => {
 
   console.log(dataAvisos)
   console.log(notasPendentes)
+
+  const handleContasPagar = async () => {
+    try {
+      const response = await fetch('/api/criptografia', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          type: 'sqlDataPagar', 
+        })
+      });
+
+      if (response.ok) {
+        const responseDataContasPagar = await response.json();
+        console.log("CHAMOOOU")
+        console.log("chamou", responseDataContasPagar.data)
+        console.log(responseDataContasPagar)
+      }
+    } catch (error) {
+      
+    }
+  };
+
+  console.log(produtoValidadeVencendo)
   return (
     <>
       <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>
@@ -161,7 +199,7 @@ const AvisosComponent = () => {
           <div className="flex flex-col justify-center ml-2  ">
             <p className="text-azulEscuro font-bold text-lg">Produtos a Vencer</p>
             <p className="text-azulEscuro text-base">Você tem:</p>
-            <p className="text-azulEscuro text-base">{produtoValidadeVencendo} vencendo.</p> 
+            <p className="text-azulEscuro text-base">{produtoValidadeVencendo || produtoValidadeVencendo === 0 ? produtoValidadeVencendo : ''} vencendo.</p> 
             <p className="text-azulEscuro text-base">{produtoValidadeVencido} vencidos.</p> {/* Ajuste de número de notas */}
           </div>
 
@@ -206,7 +244,7 @@ const AvisosComponent = () => {
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3">
+          <div onClick={handleContasPagar} className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3">
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>

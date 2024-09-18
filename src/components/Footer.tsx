@@ -4,7 +4,6 @@ import Image from "next/image";
 import Usuario from "/public/assets/images/usuario.png"
 import Dinheiro from "../../public/assets/images/dinheiro-branco.png"
 import Notificacao from "../../public/assets/images/notificacao.png"
-import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 
 
@@ -19,9 +18,9 @@ export const Footer = () => {
   useEffect(() => {
     setSelected(path)
   },[selected])
-  // Função para atualizar o estado e navegar
+  
   const handleNavigation = (path:any) => {
-    router.push(path); // Usa o roteamento imediato
+    router.push(path); 
   };
 
   return (

@@ -92,12 +92,13 @@ const DashboardComponent: React.FC = () => {
   const [faturamentoMes, setFaturamentoMes] = useState(0);
   const [faturamentoSemana, setFaturamentoSemana] = useState(0);
   const [faturamentoDia, setFaturamentoDia] = useState(0);
-  const [idEmpresa, setIdEmpresa] = useState(0);
+  const [idEmpresaGeral, setIdEmpresaGeral] = useState(0);
+  
 
   useEffect(() => { 
     const idEmpresaConst = localStorage.getItem('idEmpresa')
-    setIdEmpresa(Number(idEmpresaConst) ?? 0); 
-    console.log(idEmpresa)
+    setIdEmpresaGeral(Number(idEmpresaConst) ?? 0); 
+    console.log(idEmpresaGeral)
     try {
       const fetchDataFaturamento = async () => {
         const idEmpresa = localStorage.getItem('idEmpresa')
@@ -124,7 +125,7 @@ const DashboardComponent: React.FC = () => {
     } catch (error) {
       console.error("Erro ao chamar faturamento")
     }
-  }, [mesSelecionado, anoSelecionado, idEmpresa]);
+  }, [mesSelecionado, anoSelecionado, setIdEmpresaGeral]);
 
 //-------------api gráfico anual--------------
 
@@ -151,13 +152,12 @@ const DashboardComponent: React.FC = () => {
     }
   }, [anoSelecionado]);
 
-
-
 //--Porcentagens-- 
   const anoPorcentagem = ((faturamentoAno / metaAno) * 100).toFixed(0);
   const mesPorcentagem = ((faturamentoMes / metaMes) * 100).toFixed(0);
   const semanaPorcentagem = ((faturamentoSemana / metaMes) * 100).toFixed(0);
   const diaPorcentagem = ((faturamentoDia / metaMes) * 100).toFixed(0);
+  const mesPorcentagemSelecionado = ((faturamentoMes / metaMesSelecionado) * 100).toFixed(0);
 //---------------------------------------------------------------------------
 
   if (!dataMeta && !dataFaturamento && !dataGraficoAnual) {
@@ -195,7 +195,6 @@ const DashboardComponent: React.FC = () => {
     console.log('meta do mes selecionado: ',value)
     setMetaMesSelecionado(value)
   }
-  const mesPorcentagemSelecionado = ((faturamentoMes / metaMesSelecionado) * 100).toFixed(0);
 
   function resetarMesAno() {
     setAnoSelecionado(anoAtual.toString());
@@ -214,6 +213,7 @@ const DashboardComponent: React.FC = () => {
       </h1>
      
       <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
+        
         { mesAtual  !== mesSelecionado && mesAtual !== 0 ? ( 
           <Metas metaMes={metaMesSelecionado} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />
         ) : <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />}
@@ -253,7 +253,6 @@ const DashboardComponent: React.FC = () => {
         </div>
 
       </div>
-     
     </div>
     )
     

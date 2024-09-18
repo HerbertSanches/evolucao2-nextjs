@@ -97,7 +97,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           result = responseContasPagar.data;
           res.status(200).json({ data: result });
           break;
+
+        case "sqlDataPagar":
+          const sqlDoPagar = "{\"sql\":\"SELECT pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, (current_date - INTERVAL '1 DAY') - fconta.fc_dtvencimento as atraso, fconta.fc_valor, fconta.fc_taxa, sum((fconta.fc_valor + fconta.fc_taxa)) as total FROM tb_financeiroconta fconta INNER JOIN tb_pessoa as pessoa on fconta.fc_idcliente = ps_id INNER JOIN tb_documento as doc on fconta.fc_iddocumento = dc_id where fc_dtvencimento <= current_timestamp and fc_tiporegistro = 2 GROUP BY pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, fconta.fc_valor, fconta.fc_taxa\"}"
+          const encodedPagar = await encode(sqlDoPagar, masterKey);
+          const responseDataContasPagar =  await api.post('buscar/generica', encodedPagar,{});
+          result = responseDataContasPagar.data;
+          res.status(200).json({ data: result });
+          break;
       }
+      
+        
 
     } catch (error) {
       console.error("Erro ao criptografar:", error);
