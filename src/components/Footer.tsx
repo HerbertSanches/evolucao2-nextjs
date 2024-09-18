@@ -31,7 +31,7 @@ export const Footer = () => {
           <Image src={Dinheiro} alt="Faturamento" className="h-[30px] w-[35px]" />
         </div>
 
-        <p className={` ${selected === 'dashboardVendedor' ? 'font-bold' : ''}` } >Faturamento</p>
+        <p className={` ${selected === 'Faturamento' ? 'font-bold' : ''}` } >Faturamento</p>
       </div>
 
       <div onClick={() => handleNavigation('/dashboardVendedor')} className="flex  flex-col items-center justify-center mt-2">
