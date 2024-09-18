@@ -24,7 +24,7 @@ export const Footer = () => {
   };
 
   return (
-    <nav className="flex flex-row fixed inset-x-0 space-x-[2vh] bottom-0 items-center justify-center h-[45px] bg-azulEscuro text-white z-50">
+    <nav className="flex flex-row fixed inset-x-0 space-x-[2vh] bottom-0 items-center justify-center h-[50px] bg-azulEscuro text-white z-50">
       
       <div onClick={() => handleNavigation('/dashboard')} className="flex  flex-col items-center justify-center mt-2">
       <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'dashboard' ? 'bg-azulClaro' : 'bg-transparent'}`}>
