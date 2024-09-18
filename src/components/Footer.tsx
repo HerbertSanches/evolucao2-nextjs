@@ -26,33 +26,37 @@ export const Footer = () => {
   return (
     <nav className="flex flex-row fixed inset-x-0 space-x-[2vh] bottom-0 items-center justify-center h-[45px] bg-azulEscuro text-white z-50">
       
-      <div onClick={() => handleNavigation('/dashboard')} className="">
-        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'dashboard' ? 'bg-azulClaro' : 'bg-transparent'}`}>
+      <div onClick={() => handleNavigation('/dashboard')} className="flex  flex-col items-center justify-center mt-2">
+      <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'dashboard' ? 'bg-azulClaro' : 'bg-transparent'}`}>
           <Image src={Dinheiro} alt="Faturamento" className="h-[30px] w-[35px]" />
         </div>
+
+        <p className={` ${selected === 'dashboardVendedor' ? 'font-bold' : ''}` } >Faturamento</p>
       </div>
 
-      <div onClick={() => handleNavigation('/dashboardVendedor')}>
-        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'dashboardVendedor' ? 'bg-azulClaro' : 'bg-transparent'}`}>
-          <Image src={Usuario} alt="Vendedor" className="h-[30px] w-[25px]" />
+      <div onClick={() => handleNavigation('/dashboardVendedor')} className="flex  flex-col items-center justify-center mt-2">
+      <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'dashboardVendedor' ? 'bg-azulClaro' : 'bg-transparent'}`}>
+          <Image src={Usuario} alt="Vendedor" className="h-[20px] w-[15px]" />
         </div>
+
+        <p className={` ${selected === 'dashboardVendedor' ? 'font-bold' : ''}` } >Vendedor</p>
       </div>
 
-      <div onClick={() => handleNavigation('/avisos')} className="flex  flex-col items-center justify-center mt-1">
+      <div onClick={() => handleNavigation('/avisos')} className="flex  flex-col items-center justify-center mt-2">
         
-          <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'avisos' ? 'bg-azulClaro' : 'bg-transparent'}`}>
-            <Image src={Notificacao} alt="Avisos" className={`h-[20px] w-[20px] ` } />
-          </div>
+        <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'avisos' ? 'bg-azulClaro' : 'bg-transparent'}`}>
+          <Image src={Notificacao} alt="Avisos" className={`h-[20px] w-[20px] ` } />
+        </div>
 
-          <p className={` ${selected === 'avisos' ? 'font-semibold' : ''}` } >Avisos</p>
+        <p className={` ${selected === 'avisos' ? 'font-bold' : ''}` } >Avisos</p>
        
       </div>
 
-      <div >{/* onClick={() => handleNavigation('/maisVendidos')}*/}
-        <div className={`flex items-center justify-center h-[35px] w-[80px] rounded-lg ${selected === 'maisVendidos' ? 'bg-azulClaro' : 'bg-transparent'}`}>
-          
-          <p className="fonte-ev text-5xl">n</p>
+      <div  className="flex  flex-col items-center justify-center mt-2">{/* onClick={() => handleNavigation('/maisVendidos')}*/}
+        <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'maisVendidos' ? 'bg-azulClaro' : 'bg-transparent'}`}>
+          <p className="fonte-ev text-3xl">n</p>
         </div>
+        <p className={` ${selected === 'maisVendidos' ? 'font-bold' : ''}` } >Produtos</p>
       </div>
       
     </nav>
