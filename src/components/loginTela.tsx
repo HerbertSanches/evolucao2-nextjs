@@ -42,6 +42,9 @@ const LoginTela: React.FC = () => {
         })
       });
       
+      
+      
+
       if (!response.ok) {
         throw new Error('Falha ao criptografar a senha');
       }
@@ -49,8 +52,9 @@ const LoginTela: React.FC = () => {
       const { result: encodedPassword } = await response.json();
       
       await signIn({ username, password: encodedPassword, selectedCompanyId });
+
       localStorage.setItem('NOMEFUNCIONARIO', username);
-      router.push('/dashboard');
+      // router.push('/dashboard');
 
     } catch (error) {
       console.error("Erro ao fazer o request do login: ", error);
@@ -60,6 +64,7 @@ const LoginTela: React.FC = () => {
   useEffect(() => {
     console.log('Componente montado ou pathname alterado:', company);
     setIsClient(true);
+
     const chamarEmpresa = async () => {
       try {
         const response = await api.get(`autenticacao/validacao-dashboard/${company}`);
@@ -96,7 +101,7 @@ const LoginTela: React.FC = () => {
           <div className="userEpassword flex items-center border-b-3 border-white 2xl:mt-2.5 xl:mt-1">
             {/* <p>{props.idEmpresa}</p> */}
             
-            <Image src={usuarioIcon} alt="Usuário" className='h-[30px] w-[30px] mb-1.5' />
+            <Image src={usuarioIcon} alt="Usuário" className='h-[30px] w-[25px] mb-1.5' />
             
             <input 
               type="text" 
@@ -116,7 +121,7 @@ const LoginTela: React.FC = () => {
               className="user_password bg-transparent items-center mb-1 border-none text-lg justify-center placeholder-center text-white focus:outline-none "
               placeholder="Senha"
               value={password}
-              onChange={(e)  =>{ setPassword(e.target.value); console.log('')}}
+              onChange={(e) => { setPassword(e.target.value); console.log('')}}
               required
             />
           </div>

@@ -12,14 +12,14 @@ interface Empresa {
   ep_nomefantasia: string;
 }
 
+interface usuarioGrupo {
+  us_id: number;
+  us_idempresa: number;
+}
+
 const Header = () => {
-  // Inicializa o estado como um array vazio
-  // const [dadosEmpresas, setDadosEmpresas] = useState<Empresa[]>([]);
-
-  // const [empresaSelecionada, setEmpresaSelecionada] = useState(0);
-
   const [ArrayEmpresas, setArrayEmpresas] = useState<Empresa[]>([]);
-
+  const [usuarioGrupo, setUsuarioGrupo] = useState<usuarioGrupo[]>([]);
   const [urlEmpresa, setUrlEmpresas] = useState('');
   
   const [nomeFuncionario, setNomeFuncionario] = useState('');
@@ -31,22 +31,26 @@ const Header = () => {
   }
 
   useEffect(() => {
-    // Carrega as empresas do localStorage
     const empresas = localStorage.getItem('empresas');
-    let empresaLocalStorage = localStorage.getItem('idEmpresa');
-    let url = localStorage.getItem('urlEmpresa');
-    nome = localStorage.getItem('NOMEFUNCIONARIO');
+    const storedUsuarioGrupo = localStorage.getItem('usuarioGrupo');
+    const empresaLocalStorage = localStorage.getItem('idEmpresa');
+    const url = localStorage.getItem('urlEmpresa');
+    const nome = localStorage.getItem('NOMEFUNCIONARIO');
+
     setNomeFuncionario(nome ?? '');
-    setUrlEmpresas(url ? JSON.parse(url) : null);
-    
+    setUrlEmpresas(url ? JSON.parse(url) : '');
+    // setUsuarioGrupo(storedUsuarioGrupo ? JSON.parse(storedUsuarioGrupo) : []);
+
+    // setUsuarioGrupo(storedUsuarioGrupo && typeof storedUsuarioGrupo === 'string' ? JSON.parse(storedUsuarioGrupo) : []);
+
+    setUsuarioGrupo(storedUsuarioGrupo && typeof storedUsuarioGrupo === 'string' && storedUsuarioGrupo !== 'undefined' ? JSON.parse(storedUsuarioGrupo) : []);
     if (empresas) {
       try {
         const parsedData = JSON.parse(empresas);
-        const empresaLogada = (parsedData.data.empresa as Empresa[]).filter((empresa: Empresa) => 
-          empresa.ep_id == Number(empresaLocalStorage)
+        const empresaLogada = (parsedData.data.empresa as Empresa[]).filter((empresa: Empresa) =>
+          empresa.ep_id === Number(empresaLocalStorage)
         );
-
-        const outrasEmpresas = (parsedData.data.empresa as Empresa[]).filter((empresa: Empresa) => 
+        const outrasEmpresas = (parsedData.data.empresa as Empresa[]).filter((empresa: Empresa) =>
           empresa.ep_id !== Number(empresaLocalStorage)
         );
 
@@ -57,6 +61,19 @@ const Header = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   if (ArrayEmpresas.length > 0 && usuarioGrupo.length > 0) {
+  //     const resultado = ArrayEmpresas.map(empresa => {
+  //       const usuario = usuarioGrupo.find(ug => ug.us_idempresa === empresa.ep_id);
+  //       return usuario 
+  //         ? { ...empresa, us_id: usuario.us_id, us_idempresa: usuario.us_idempresa } 
+  //         : empresa;
+  //     });
+  
+  //     console.log(resultado);
+  //     setEmpresaDefinitivo(resultado as empresaDefinitivo[]); // Assegure-se de fazer o cast para o tipo correto
+  //   }
+  // }, [usuarioGrupo, ArrayEmpresas]);
 
   const Logout = () => {
     const router = useRouter();
@@ -74,7 +91,23 @@ const Header = () => {
 
   const ChangeEmpresa = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const empSelecionada = parseInt((event.target as HTMLSelectElement).value, 10);
+    
+    //Atualiza o idEmpresa no localStorage
     localStorage.setItem('idEmpresa', String(empSelecionada));
+  
+    //Buscar o us_id associado à empresa selecionada
+    const empresaSelecionada = ArrayEmpresas.find(empresa => empresa.ep_id === empSelecionada);
+    
+    if (empresaSelecionada) {
+      //Atualizar o idUsuario com o us_id correspondente
+      const usuario = usuarioGrupo.find(ug => ug.us_idempresa === empresaSelecionada.ep_id);
+      
+      if (usuario) {
+        localStorage.setItem('idUsuario', String(usuario.us_id));
+      }
+    }
+  
+    // Recarregar a página, forçando a carregar com as alterações feitas no localStorage
     window.location.reload();
   }
 

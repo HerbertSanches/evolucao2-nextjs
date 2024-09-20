@@ -70,7 +70,6 @@ const AvisosComponent = () => {
         setContasAPagarHoje(responseContasPagar.data.buscar[0].fc_hoje);
         setContasAPagarSemana(responseContasPagar.data.buscar[0].fc_semana);
         setContasAPagarVencido(responseContasPagar.data.buscar[0].fc_vencido);
-
       }
 
     }
@@ -88,7 +87,7 @@ const AvisosComponent = () => {
           }
         });
         console.log('Avisos: ', responseAvisos);
-
+        console.log('Avisos: ', idUsuario);
         setDataAvisos(responseAvisos.data);
         if (responseAvisos.data.notificacao[0].notapedente.nf_quantidade) {
           setNotasPendentes(responseAvisos.data.notificacao[0].notapedente.nf_quantidade);

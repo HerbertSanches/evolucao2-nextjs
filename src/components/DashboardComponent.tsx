@@ -50,18 +50,18 @@ const DashboardComponent: React.FC = () => {
         const coIGUAL = 1; 
         const json = {
           meta: [
-              {
+            {
               campo: 'mt_anovigente',
               valor: Number(anoSelecionado),
               condicao: coIGUAL,
               tipo: ftInteger
-              },
-              {
+            },
+            {
               campo: 'mt_idempresa',
               valor: Number(idEmpresa),
               condicao: coIGUAL,
               tipo: ftInteger
-              }
+            }
           ]
         };
       
@@ -135,7 +135,6 @@ const DashboardComponent: React.FC = () => {
         const idEmpresa = localStorage.getItem('idEmpresa');
         const tokenHeader = localStorage.getItem('token');
         const idUsuario = localStorage.getItem('idUsuario')
-
         
         const responseGraficoAnual = await api.get(`/notificacao/${idEmpresa}/${idUsuario}/${anoSelecionado}`,{
           headers: {
@@ -144,6 +143,9 @@ const DashboardComponent: React.FC = () => {
         });
         console.log('Grafico anual: ', responseGraficoAnual)
         setDataGraficoAnual(responseGraficoAnual.data.notificacao[3].vendasmes)
+
+        console.log(idEmpresa);
+        console.log(idUsuario);
       }
 
       fetchDataGraficoAnual();

@@ -69,9 +69,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             
             console.log(responseData.data, "criou login");
 
-
             if (Array.isArray(responseData.data.usuario) && responseData.data.usuario.length > 0) {
+                
                 user = new usuarioRoot(responseData.data);
+                console.log(responseData.data.usuario)
+                localStorage.setItem('usuarioGrupo', JSON.stringify(responseData.data.usuario[0].us_usuariovinculado))
+
 
                 console.log(user)
                 console.log(user.Usuario)
@@ -90,14 +93,15 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 localStorage.setItem("idUsuario", user.Usuario[0].UsId.toString());
                 //localStorage.setItem("nomeFuncionario", user.Usuario[0].UsUsuario);
                 localStorage.setItem("idEmpresa", selectedCompanyId.toString());
-                
+
+                router.push('/dashboard');
             } else {
                 console.error("Erro: 'usuario' está indefinido ou não é um array.");
             }
                  
         } catch (error) {
             console.error("Erro ao fazer login: ", error);
-            alert("Erro ");
+            alert("Erro aaaaaaaaa");
         }
 
     }, []);
@@ -135,7 +139,7 @@ const criarToken = async ( {username, selectedCompanyId, userId}:  chamarToken) 
         }
         const responseTokenData = await responseToken.json();
 
-        console.log(responseTokenData.data, responseTokenData)
+        // console.log(responseTokenData.data, responseTokenData)
         
         // token = new tokenRoot(responseTokenData.data);
         // console.log(token.AuChave)
