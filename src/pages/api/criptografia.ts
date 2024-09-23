@@ -85,12 +85,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           result = loginResponse.data;
           console.log(result)
           console.log(loginResponse.data.usuario[0].us_idfuncionario)
+
           if (loginResponse.data.usuario[0].us_idfuncionario) {
             res.status(200).json({ data: result });
           } else {
             res.status(400).json({ data: result });
           }
-          
           break;
         
         case "sqlReceber":

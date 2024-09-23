@@ -34,12 +34,12 @@ export const Footer = () => {
         <p className={` ${selected === 'Faturamento' ? 'font-bold' : ''}` } >Faturamento</p>
       </div>
 
-      <div onClick={() => handleNavigation('/dashboardVendedor')} className="flex  flex-col items-center justify-center mt-2">
-      <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'dashboardVendedor' ? 'bg-azulClaro' : 'bg-transparent'}`}>
+      <div onClick={() => handleNavigation('/dashboardvendedor')} className="flex  flex-col items-center justify-center mt-2">
+      <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'dashboardvendedor' ? 'bg-azulClaro' : 'bg-transparent'}`}>
           <Image src={Usuario} alt="Vendedor" className="h-[20px] w-[15px]" />
         </div>
 
-        <p className={` ${selected === 'dashboardVendedor' ? 'font-bold' : ''}` } >Vendedor</p>
+        <p className={` ${selected === 'dashboardvendedor' ? 'font-bold' : ''}` } >Vendedor</p>
       </div>
 
       <div onClick={() => handleNavigation('/avisos')} className="flex  flex-col items-center justify-center mt-2">
@@ -52,11 +52,11 @@ export const Footer = () => {
        
       </div>
 
-      <div  className="flex  flex-col items-center justify-center mt-2">{/* onClick={() => handleNavigation('/maisVendidos')}*/}
-        <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'maisVendidos' ? 'bg-azulClaro' : 'bg-transparent'}`}>
+       <div onClick={() => handleNavigation('/produtosmaisvendidos')} className="flex  flex-col items-center justify-center mt-2"> 
+        <div className={`flex items-center justify-center rounded-lg h-[25px] w-[80px] ${selected === 'produtosmaisvendidos' ? 'bg-azulClaro' : 'bg-transparent'}`}>
           <p className="fonte-ev text-3xl">n</p>
         </div>
-        <p className={` ${selected === 'maisVendidos' ? 'font-bold' : ''}` } >Produtos</p>
+        <p className={` ${selected === 'produtosmaisvendidos' ? 'font-bold' : ''}` } >Produtos</p>
       </div>
       
     </nav>

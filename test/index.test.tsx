@@ -3,7 +3,7 @@ import { render, screen, fireEvent, waitFor  } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Metas from '../src/components/Metas';
 // import '@testing-library/jest-dom/extend-expect';
-import LoginTela from '../src/components/loginTela';
+import LoginTela from '../src/components/LoginTela';
 // import '@testing-library/jest-dom/extend-expect';
 import { AuthProvider } from '../src/context/AuthContext';
 import { useAuth } from '../src/context/AuthContext';

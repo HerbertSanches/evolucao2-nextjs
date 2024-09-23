@@ -33,6 +33,7 @@ const config: Config = {
         azulClaro: '#0066FF',
         branco: '#FFFFFF',
         cinza: '#D3D3D3',
+        // cinza: '#ECEFF4',
         verde: '#00FF7F',
       },
       boxShadow: {

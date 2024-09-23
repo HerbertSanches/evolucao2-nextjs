@@ -2,7 +2,7 @@
 
 import React from 'react';
 import "../../globals.css";
-import LoginTela from '../../../components/loginTela';
+import LoginTela from '../../../components/LoginTela';
 
 const Login: React.FC = () =>  {
   
