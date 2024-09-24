@@ -130,7 +130,7 @@ const ProdutosMaisVendidos = () => {
                             <option value={0}>
                             Quantidade
                             </option>
-                            <option value={1}>Valor</option>
+                            <option value={1}>Valor em R$</option>
                         </select>
                     </div>
 
@@ -145,11 +145,18 @@ const ProdutosMaisVendidos = () => {
                                 {maisVendidos.pr_descricao}
                             </span>
 
-                            <span 
-                                className="flex w-auto px-4 min-w-24 h-7 rounded-full p-1 items-center text-14 justify-center text-center"
-                            >
-                                {maisVendidos.total}
-                            </span>
+                            {quantidadeValorSelecionado == 0 ? <span 
+                                                                    className="flex w-auto px-4 min-w-24 h-7 rounded-full p-1 items-center text-14 justify-center text-center"
+                                                                >
+                                                                    {maisVendidos.total}
+                                                                </span>
+                            : <span 
+                                    className="flex w-auto px-4 min-w-24 h-7 rounded-full p-1 items-center text-14 justify-center text-center"
+                                >
+                                    {maisVendidos.total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </span>}
+                            
+                            
                         </div>
                     ))}
                 </div>
