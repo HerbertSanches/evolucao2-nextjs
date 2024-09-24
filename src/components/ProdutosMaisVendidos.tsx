@@ -86,7 +86,7 @@ const ProdutosMaisVendidos = () => {
             </button>
             ))}
 
-          <select value={anoSelecionado} onChange={handleSelectChange} className='justify-center rounded-full p-1 items-center font-semibold bg-branco mr-1 text-azulEscuro cursor-pointer '>
+          <select value={anoSelecionado} onChange={handleSelectChange} className='justify-center rounded-full p-1 items-center font-semibold mr-1 text-azulEscuro cursor-pointer '>
               <option value={anoAtual}>
               Vendas de {anoAtual}
               </option>
@@ -106,7 +106,7 @@ const ProdutosMaisVendidos = () => {
                 <div className="ml-2 mr-2 mt-2 pb-2 bg-branco rounded-md shadow-md">
                     <div className="flex flex-row ml-3 mr-3 p-1 mt-1 justify-between text-azulClaro items-center text-base font-semibold border-b-3 border-solid border-cinza">
                         <h1 className="ml-3">Produtos Mais Vendidos</h1>
-                        <select value={quantidadeValorSelecionado} onChange={handleSelectChange} className='justify-center rounded-full p-1 items-center font-semibold bg-branco mr-1 text-azulClaro cursor-pointer '>
+                        <select value={quantidadeValorSelecionado} onChange={handleSelectChange} className='text-right justify-center rounded-full p-1 items-end font-semibold mr-1 text-azulClaro cursor-pointer '>
                             <option value={0}>
                             Quantidade
                             </option>
