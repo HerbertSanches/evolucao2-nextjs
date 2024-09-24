@@ -70,6 +70,11 @@ const ProdutosMaisVendidos = () => {
         console.log(`Mês selecionado: ${quantidadeValorSelecionado}`);
     };
 
+    const handleResetarMesAno = () => {
+        setAnoSelecionado(anoAtual.toString());
+        setMesSelecionado(mesAtual)
+      }
+
     console.log(mesSelecionado)
     console.log(anoSelecionado)
     console.log(quantidadeValorSelecionado)
@@ -107,7 +112,17 @@ const ProdutosMaisVendidos = () => {
             </h1>
 
             <div className="flex flex-col ml-3 mr-3 mt-3 pb-2 bg-cinza rounded-[8px] h-auto shadow-md">
-                
+                <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7 flex justify-end": ""}`}>
+                    { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
+                    <>
+                        <button  id='btnFiltro' onClick={handleResetarMesAno} 
+                        className='text-azulEscuro text-[8px] mt-2 mr-4 bg-branco rounded-md p-1 shadow-md '>
+                        Filtrado: mês {mesSelecionado} ano {anoSelecionado} X
+                        </button>
+                    </>
+                    ) : null}  
+                </div> 
+
                 <div className="ml-2 mr-2 mt-2 pb-2 bg-branco rounded-md shadow-md">
                     <div className="flex flex-row ml-3 mr-3 p-1 mt-1 justify-between text-azulClaro items-center text-base font-semibold border-b-3 border-solid border-cinza">
                         <h1 className="ml-3">Produtos Mais Vendidos</h1>
