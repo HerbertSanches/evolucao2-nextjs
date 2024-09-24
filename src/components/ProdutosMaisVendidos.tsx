@@ -73,7 +73,7 @@ const ProdutosMaisVendidos = () => {
     const handleResetarMesAno = () => {
         setAnoSelecionado(anoAtual.toString());
         setMesSelecionado(mesAtual)
-      }
+    }
 
     console.log(mesSelecionado)
     console.log(anoSelecionado)
