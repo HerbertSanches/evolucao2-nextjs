@@ -26,9 +26,9 @@ const ProdutosMaisVendidos = () => {
                 }
             });
 
-            setMaisVendidos(responseMetaMesAno.data.buscar)
-            console.log(responseMetaMesAno.data)
-            console.log(responseMetaMesAno)
+            setMaisVendidos(responseMetaMesAno.data.buscar);
+            console.log(responseMetaMesAno.data);
+            console.log(responseMetaMesAno);
         };
 
         fetchDataProdutosMaisVendidos();
@@ -41,10 +41,10 @@ const ProdutosMaisVendidos = () => {
                 Dashboard 10 Mais Vendidos
             </h1>
 
-            <div className="flex flex-col ml-3 mr-3 mt-3 pb-3 bg-cinza rounded-[8px] h-auto">
+            <div className="flex flex-col ml-3 mr-3 mt-3 pb-2 bg-cinza rounded-[8px] h-auto">
                 
                 <div className="ml-2 mr-2 mt-2 pb-2 bg-branco rounded-md">
-                    <div className="flex flex-row ml-3 mr-3 p-1 mt-1 justify-between items-center text-base font-semibold border-b-3 border-solid border-cinza">
+                    <div className="flex flex-row ml-3 mr-3 p-1 mt-1 justify-between text-azulClaro items-center text-base font-semibold border-b-3 border-solid border-cinza">
                         <h1 className="ml-3">Produtos Mais Vendidos</h1>
                         <h1 className="mr-1">Quantidade</h1>
                     </div>
@@ -53,14 +53,14 @@ const ProdutosMaisVendidos = () => {
                             <span
                                 key={maisVendidos.pr_descricao}
                                 title={maisVendidos.pr_descricao}
-                                className={`px-4 min-w-24 h-7 bg-branco rounded-full p-1 items-center text-14 justify-center truncate`}
+                                className={`px-4 min-w-24 h-7 bg-branco rounded-full -1 items-center text-14 justify-center truncate`}
                             >
                                 {maisVendidos.pr_descricao}
                             </span>
 
                             <span
                                 key={maisVendidos.pr_descricao}
-                                className={`flex w-a px-4 min-w-24 h-7 rounded-full p-1 items-center text-14 justify-center `}
+                                className={`flex w-auto px-4 min-w-24 h-7 rounded-full p-1 items-center text-14 justify-center `}
                             >
                                 {maisVendidos.total}
                             </span>
