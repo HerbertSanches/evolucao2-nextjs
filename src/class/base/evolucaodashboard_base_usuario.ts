@@ -17,8 +17,10 @@ export class usuarioRoot {
             user.usuario, user.us_deletado, user.us_histdtalteracao, user.us_histdtcadastro, user.us_histdtdeletado, 
             user.us_histusalteracao, user.histuscadastro,user.us_histusdeletado,user.us_usuario, user.us_id, user.us_senha, user.us_idempresa,
             user.us_idfuncionario, user.us_us_cargo, user.us_funcionario, 
-            user.us_uscadastro, user.us_grupoxusuario, user.us_vinculado));
-    }}
+            user.us_uscadastro, user.us_grupoxusuario, user.us_vinculado)
+        );
+    }
+}
 
 
 class User {
@@ -59,7 +61,7 @@ class User {
         us_funcionario: string,
         us_uscadastro: string,
         us_grupoxusuario: string[],
-        us_vinculado: any[]
+        us_usuariovinculado: any[]
     ) { 
         this.RECURSO = usuario;
         this.UsDeletado = us_deletado;
@@ -78,13 +80,14 @@ class User {
         this.UsFuncionario = us_funcionario;
         this.UsCadastro = us_uscadastro;
         this.UsGrupoxUsuario = us_grupoxusuario;
-        this.UsVinculado = us_vinculado.map(vinculo => new UsuarioVinculado(
-         vinculo.us_id, vinculo.us_idempresa
-        ))
-
+        // Verificação de us_usuariovinculado antes do map
+        this.UsVinculado = Array.isArray(us_usuariovinculado) 
+            ? us_usuariovinculado.map(vinculo => new UsuarioVinculado(
+                vinculo.us_id, vinculo.us_idempresa
+              )) 
+            : []; // Se não for um array, inicializa como vazio
     }
 }
-
 
 export const TUsuario = ({
 
@@ -110,6 +113,7 @@ export const TUsuario = ({
 }) 
 
 
+
 class UsuarioVinculado {
     UsId: number;
     UsIdEmpresa: number;
@@ -121,6 +125,5 @@ class UsuarioVinculado {
         this.UsId = us_id;
         this.UsIdEmpresa = us_idempresa;
     }
-
 
 }
