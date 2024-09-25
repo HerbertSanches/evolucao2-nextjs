@@ -240,7 +240,7 @@ const DashboardVendedor: React.FC = () => {
               <option value={anoAtual}>
               Vendas de {anoAtual}
               </option>
-              <option value={(anoAtual -1)}>Vendas de {anoAtual -1}</option>
+              <option value={anoAtual - 1}>Vendas de {anoAtual - 1}</option>
               <option value={anoAtual - 2}>Vendas de {anoAtual - 2}</option>
               <option value={anoAtual - 3}>Vendas de {anoAtual - 3}</option>
           </select>

@@ -1,19 +1,19 @@
 'use client'
 import React from 'react';
-import DashboardVendedor from '@/components/DashboardVendedor';
 import { Footer } from '../../components/Footer';
 import { withAuth } from '@/context/AuthContext';
 import Header from '@/components/Header';
+import ProdutosMaisVendidos from '@/components/ProdutosMaisVendidos';
 
-const DashboardVenda: React.FC = () =>  {
+const ProdutosVendidos: React.FC = () =>  {
   
   return (
     <>
       <Header />
-      <DashboardVendedor />
+      <ProdutosMaisVendidos />
       <Footer />
-      </>
+    </>
   );
 };
 
-export default withAuth(DashboardVenda);
+export default withAuth(ProdutosVendidos);

@@ -101,7 +101,7 @@ const Header = () => {
     if (empresaSelecionada) {
       //Atualizar o idUsuario com o us_id correspondente
       const usuario = usuarioGrupo.find(ug => ug.us_idempresa === empresaSelecionada.ep_id);
-      
+      console.log(usuario)
       if (usuario) {
         localStorage.setItem('idUsuario', String(usuario.us_id));
       }
