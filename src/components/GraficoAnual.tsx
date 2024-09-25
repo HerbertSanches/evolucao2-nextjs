@@ -216,6 +216,11 @@ const GraficoAnual = ({ sendMesSelecionado, sendMetaSelecionada,vendas, metas }:
         }
       }
     },
+    datasets: {
+      bar: {
+        borderRadius: 2, // deixa a barra arredondada
+      },
+    },
   };
   console.log(selectedMonth)
 
