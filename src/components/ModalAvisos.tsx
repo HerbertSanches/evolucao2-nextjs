@@ -93,7 +93,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
       <div className="bg-white p-6 rounded-lg shadow-lg w-[90%]">
         <h2 className="text-2xl mb-4">Tabela de Informações</h2>
         <div  className='overflow-x-auto'>
-            <table className="w-full text-left hover:bg-azulClaro whitespace-nowrap">
+            <table className="w-full text-left whitespace-nowrap">
             <thead className='border-none'>
                 <tr>
                 <th className="border p-2">{coluna1}</th>
@@ -107,11 +107,11 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
             <tbody>
                 {Array.isArray(avisosValidadoMap) && avisosValidadoMap.map((item) => (
                 <tr key={item.pr_id}>
-                    <td className="border p-2 truncate">{item.pr_id}</td>
-                    <td className="border p-2 truncate">{item.pr_descricao}</td>
-                    <td className="border p-2 truncate">{item.pl_lote}</td>
-                    <td className="border p-2 truncate">{formatarDate(item.pl_dtvalidade)}</td>
-                    <td className="border p-2 truncate">{item.pl_quantidade}</td>
+                    <td className="border p-2 truncate hover:bg-azulClaro">{item.pr_id}</td>
+                    <td className="border p-2 truncate hover:bg-azulClaro">{item.pr_descricao}</td>
+                    <td className="border p-2 truncate hover:bg-azulClaro">{item.pl_lote}</td>
+                    <td className="border p-2 truncate hover:bg-azulClaro">{formatarDate(item.pl_dtvalidade)}</td>
+                    <td className="border p-2 truncate hover:bg-azulClaro">{item.pl_quantidade}</td>
                 </tr>
                 ))}
             </tbody>
