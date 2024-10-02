@@ -106,12 +106,12 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
             </thead>
             <tbody>
                 {Array.isArray(avisosValidadoMap) && avisosValidadoMap.map((item) => (
-                <tr key={item.pr_id}>
-                    <td className="border p-2 truncate hover:bg-azulClaro">{item.pr_id}</td>
-                    <td className="border p-2 truncate hover:bg-azulClaro">{item.pr_descricao}</td>
-                    <td className="border p-2 truncate hover:bg-azulClaro">{item.pl_lote}</td>
-                    <td className="border p-2 truncate hover:bg-azulClaro">{formatarDate(item.pl_dtvalidade)}</td>
-                    <td className="border p-2 truncate hover:bg-azulClaro">{item.pl_quantidade}</td>
+                <tr  className="hover:bg-azulClaro" key={item.pr_id}>
+                    <td className="border p-2 truncate ">{item.pr_id}</td>
+                    <td className="border p-2 truncate ">{item.pr_descricao}</td>
+                    <td className="border p-2 truncate ">{item.pl_lote}</td>
+                    <td className="border p-2 truncate ">{formatarDate(item.pl_dtvalidade)}</td>
+                    <td className="border p-2 truncate ">{item.pl_quantidade}</td>
                 </tr>
                 ))}
             </tbody>
