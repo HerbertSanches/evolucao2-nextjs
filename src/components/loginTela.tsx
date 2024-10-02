@@ -121,7 +121,7 @@ const LoginTela: React.FC = () => {
               className="user_password bg-transparent items-center mb-1 border-none text-lg justify-center placeholder-center text-white focus:outline-none "
               placeholder="Senha"
               value={password}
-              onChange={(e) => { setPassword(e.target.value); console.log('')}}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
