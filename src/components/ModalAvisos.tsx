@@ -108,7 +108,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
                 {Array.isArray(avisosValidadoMap) && avisosValidadoMap.map((item) => (
                 <tr  className="hover:bg-azulClaro" key={item.pr_id}>
                     <td className="border p-2 truncate ">{item.pr_id}</td>
-                    <td className="border p-2 truncate ">{item.pr_descricao}</td>
+                    <td className="border p-2 truncate max-w-40" title={item.pr_descricao} >{item.pr_descricao}</td>
                     <td className="border p-2 truncate ">{item.pl_lote}</td>
                     <td className="border p-2 truncate ">{formatarDate(item.pl_dtvalidade)}</td>
                     <td className="border p-2 truncate ">{item.pl_quantidade}</td>
