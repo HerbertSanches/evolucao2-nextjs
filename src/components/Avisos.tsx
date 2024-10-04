@@ -181,7 +181,7 @@ const AvisosComponent = () => {
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3">
+          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3"  onClick={() => handleOpenModal('notasPendentes')}>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>

@@ -284,6 +284,7 @@ class produtoEstoque {
 const TProdutoEstoque = ({
 
     RECURSO: 'produtoestoque',
+    TABELA: 'tb_produtoestoque',
     FIELD1: 'pe_id',
     FIELD2: 'pe_idempresa',
     FIELD3: 'pe_idproduto',

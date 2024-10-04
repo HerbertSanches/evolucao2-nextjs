@@ -11,7 +11,7 @@ import api from '@/services/api';
 import { tokenRoot, TToken } from '@/class/base/evolucaodashboard_base_token';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
 import { useAuth } from '@/context/AuthContext';
-import { TProduto,TProdutoLote } from '@/class/base/evolucaodashboard_base_produto';
+import { TProduto,TProdutoLote, TProdutoEstoque } from '@/class/base/evolucaodashboard_base_produto';
 
 const masterKey = '#-6!HY]sK!AHDqg1';
 const getKey = (masterKey:string) => {
@@ -115,13 +115,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           break;
 
         case "sqlValidade":
-          const where = ` where ${TProdutoLote.FIELD5} <= current_timestamp and ${TProdutoLote.FIELD15} > 0`;
-          const sqlValidade = {sql: `select p.${TProduto.FIELD1}, p.${TProduto.FIELD2}, p.${TProduto.FIELD5}, p.${TProduto.FIELD3}, l.${TProdutoLote.FIELD4}, l.${TProdutoLote.FIELD5}, l.${TProdutoLote.FIELD15} from ${TProduto.TABELA} p inner join ${TProdutoLote.TABELA} l on p.${TProduto.FIELD1} = l.${TProdutoLote.FIELD3} ${where}`};
+          const whereValidade = ` where ${TProdutoLote.FIELD5} <= current_timestamp and ${TProdutoLote.FIELD15} > 0`;
+          const sqlValidade = {sql: `select p.${TProduto.FIELD1}, p.${TProduto.FIELD2}, p.${TProduto.FIELD5}, p.${TProduto.FIELD3}, l.${TProdutoLote.FIELD4}, l.${TProdutoLote.FIELD5}, l.${TProdutoLote.FIELD15} from ${TProduto.TABELA} p inner join ${TProdutoLote.TABELA} l on p.${TProduto.FIELD1} = l.${TProdutoLote.FIELD3} ${whereValidade}`};
           const encodeValidade = await encode(JSON.stringify(sqlValidade), masterKey);
           const responseDataValidade = await api.post('buscar/generica', encodeValidade, {});
           result = responseDataValidade.data;
           res.status(200).json({ data: result });
           break;
+
+        case "sqlQntMinima":
+          const whereQntMinima = ` where ${TProdutoEstoque.FIELD5} <= ${TProdutoEstoque.FIELD6}`;
+          const SqlQntMinima = {sql:`select ${TProduto.FIELD1}, ${TProduto.FIELD5}, ${TProduto.FIELD3}, ${TProdutoEstoque.FIELD6}, ${TProdutoEstoque.FIELD5} from ${TProdutoEstoque.TABELA} inner join ${TProduto.TABELA} on ${TProduto.FIELD1} = ${TProdutoEstoque.FIELD3} ${whereQntMinima}`};
+          const encodeQntMinima = await encode(JSON.stringify(SqlQntMinima), masterKey);
+          const responseDataQntMinima = await api.post('buscar/generica', encodeQntMinima, {});
+          result = responseDataQntMinima.data;
+          res.status(200).json({ data: result });
+          break
       }
       
         
