@@ -19,6 +19,13 @@ interface AvisosValidadeMap {
   pl_quantidade: number;
   pr_descricao:string;
   pr_id: number;
+
+  //contas receber
+  ps_id: number;
+  ps_nomerazao: string;
+  dc_descricao: string;
+  fc_dtvencimento: string;
+  total: number;
 }
 
 interface ModalProps {
@@ -46,8 +53,8 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
   const [notasPendentes, setNotasPendentes] = useState([]);
   const [qntMinima, setQntMinima] = useState([]);
   const [produtosVencer, setProdutosVencer] = useState([]);
-
-  const [avisosValidadeMap, setAvisosValidadoMap] = useState<AvisosValidadeMap[]>([])
+  const [contasReceber, setContasReceber] = useState([]);
+  const [avisosValidadeMap, setAvisosValidadeMap] = useState<AvisosValidadeMap[]>([])
 
   if (!isOpen) return null;
 
@@ -77,7 +84,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
 
             if (responseDataNotasPendentes.data.venda.length > 0) {
               setNotasPendentes(responseDataNotasPendentes.data); // fazer loading com esse
-              setAvisosValidadoMap(responseDataNotasPendentes.data.venda);
+              setAvisosValidadeMap(responseDataNotasPendentes.data.venda);
               console.log("chamou", responseDataNotasPendentes.data);
             }
           } catch (error) {
@@ -115,7 +122,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
               if (response.ok) {
                 const responseDataQntMinima = await response.json();
                 setQntMinima(responseDataQntMinima.data); // fazer loading com esse
-                setAvisosValidadoMap(responseDataQntMinima.data.buscar);
+                setAvisosValidadeMap(responseDataQntMinima.data.buscar);
                 console.log("chamou", responseDataQntMinima.data);
               }
           } catch (error) {
@@ -139,7 +146,6 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
         setTituloColuna5("Qtd.");
 
           const chamarValidade = async () => {
-            const tokenHeader = localStorage.getItem('token');
             try {
               const response = await fetch('/api/criptografia', {
                   method: 'POST',
@@ -154,7 +160,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
               if (response.ok) {
                 const responseDataValidade = await response.json();
                 setProdutosVencer(responseDataValidade.data);// fazer loading com esse
-                setAvisosValidadoMap(responseDataValidade.data.buscar);
+                setAvisosValidadeMap(responseDataValidade.data.buscar);
                 console.log("chamou", responseDataValidade.data);
               }
           } catch (error) {
@@ -166,6 +172,50 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
       },[])
 
       break;
+
+    case "contasPagar":
+    case "contasReceber": 
+      useEffect(() => {
+        if (tipoAviso === "contasReceber") {
+          setTituloModal("Contas a Receber");
+        } else if (tipoAviso === "contasPagar"){
+          setTituloModal("Contas a Pagar");
+        }
+        setTituloColuna1("Cód.");
+        setTituloColuna2("Nome/Razão");
+        setTituloColuna3("Descrição");
+        setTituloColuna4("Dt Vencimento");
+        setTituloColuna5("Total");
+        console.log(tipoAviso)
+        const chamarContasReceber = async () => {
+          const inputTipoPagarReceber = tipoAviso === "contasReceber" ? 1 : 2;
+          try {
+            const response = await fetch('/api/criptografia', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  type: 'sqlPagarReceber', 
+                  inputPagarReceber: inputTipoPagarReceber
+                })
+            });
+    
+            if (response.ok) {
+              const responseDataContasReceber = await response.json();
+              setContasReceber(responseDataContasReceber.data); // fazer loading com esse
+              setAvisosValidadeMap(responseDataContasReceber.data.buscar);
+              console.log("chamou", responseDataContasReceber.data);
+            }
+        } catch (error) {
+            console.error("Erro ao chamar contas a Receber")
+        }
+      }
+      console.log(avisosValidadeMap)
+      chamarContasReceber();
+    },[])
+
+      break;
   }
 
   const formatarDate = (dateString: string): string => {
@@ -175,7 +225,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-auto max-h-[90%] overflow-y-auto">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-auto max-h-[90vh] overflow-y-auto">
         <h2 className="text-2xl mb-4">{tituloModal}</h2>
         <div  className='overflow-x-auto'>
             <table className="w-full text-left whitespace-nowrap">
@@ -217,14 +267,14 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
                   null
               )} 
 
-              {tipoAviso === "produtosVencer" && Array.isArray(avisosValidadeMap) ? (
+              {tipoAviso === "contasReceber" || tipoAviso === "contasPagar" && Array.isArray(avisosValidadeMap) ? (
                 avisosValidadeMap.map((item) => (
-                  <tr className="hover:bg-azulClaro" key={item.pr_id}>
-                    <td className="border p-2 truncate ">{item.pr_id}</td>
-                    <td className="border p-2 truncate max-w-40" title={item.pr_descricao}>{item.pr_descricao}</td>
-                    <td className="border p-2 truncate ">{item.pl_lote}</td>
-                    <td className="border p-2 truncate ">{formatarDate(item.pl_dtvalidade)}</td>
-                    <td className="border p-2 truncate ">{item.pl_quantidade}</td>
+                  <tr className="hover:bg-azulClaro" key={item.ps_id}>
+                    <td className="border p-2 truncate ">{item.ps_id}</td>
+                    <td className="border p-2 truncate max-w-40" title={item.ps_nomerazao}>{item.ps_nomerazao}</td>
+                    <td className="border p-2 truncate max-w-40" title={item.dc_descricao}>{item.dc_descricao}</td>
+                    <td className="border p-2 truncate ">{formatarDate(item.fc_dtvencimento)}</td>
+                    <td className="border p-2 truncate ">{item.total}</td>
                   </tr>
                 ))
                 ) : (

@@ -12,6 +12,9 @@ import { tokenRoot, TToken } from '@/class/base/evolucaodashboard_base_token';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
 import { useAuth } from '@/context/AuthContext';
 import { TProduto,TProdutoLote, TProdutoEstoque } from '@/class/base/evolucaodashboard_base_produto';
+import { TFinanceiroConta } from '@/class/base/evolucaodashboard_base_financeiroconta';
+import { TPessoa } from '@/class/base/evolucaodashboard_base_pessoa';
+import { TDocumento } from '@/class/base/evolucaodashboard_base_documento';
 
 const masterKey = '#-6!HY]sK!AHDqg1';
 const getKey = (masterKey:string) => {
@@ -52,7 +55,7 @@ const intToHex = (num:number, length:number) => {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { type, input, input2, input3, input4 } = req.body;
+    const { type, input, input2, input3, inputPagarReceber } = req.body;
 
     try {
       let result;
@@ -129,6 +132,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           const encodeQntMinima = await encode(JSON.stringify(SqlQntMinima), masterKey);
           const responseDataQntMinima = await api.post('buscar/generica', encodeQntMinima, {});
           result = responseDataQntMinima.data;
+          res.status(200).json({ data: result });
+          break
+        
+        case "sqlPagarReceber":
+          let wherePagarReceber;
+          console.log(inputPagarReceber);
+
+          if (inputPagarReceber === 1) {
+            wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 1 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1' `;
+          } 
+
+          if (inputPagarReceber === 2) {
+            wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 2 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1' `;
+          }
+
+          const sqlPagarReceber = {sql:`SELECT pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, (current_date - INTERVAL '1 DAY') - fconta.${TFinanceiroConta.FIELD11} as atraso, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18}, sum((fconta.${TFinanceiroConta.FIELD17} + fconta.${TFinanceiroConta.FIELD18})) as total FROM ${TFinanceiroConta.TABELA} fconta INNER JOIN ${TPessoa.TABELA} as pessoa on fconta.${TFinanceiroConta.FIELD4} = pessoa.${TPessoa.FIELD1} INNER JOIN ${TDocumento.TABELA} as doc on fconta.${TFinanceiroConta.FIELD5} = doc.${TDocumento.FIELD1} ${wherePagarReceber} GROUP BY pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18}`};
+          const encodePagarReceber = await encode(JSON.stringify(sqlPagarReceber), masterKey);
+          const responseDataPagarReceber = await api.post('buscar/generica', encodePagarReceber, {});
+          result = responseDataPagarReceber.data;
           res.status(200).json({ data: result });
           break
       }

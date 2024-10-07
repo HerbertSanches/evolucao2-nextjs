@@ -156,7 +156,6 @@ const AvisosComponent = () => {
     setIsModalOpen(true);
   };
 
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setAvisoSelecionado(null); // Resetar o valor do aviso ao fechar o modal
@@ -240,7 +239,7 @@ const AvisosComponent = () => {
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3">
+          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('contasReceber')}>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
@@ -260,7 +259,7 @@ const AvisosComponent = () => {
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
-          <div onClick={handleContasPagar} className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3">
+          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('contasPagar')}>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>

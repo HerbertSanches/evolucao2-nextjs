@@ -41,9 +41,6 @@ const LoginTela: React.FC = () => {
           input: password 
         })
       });
-      
-      
-      
 
       if (!response.ok) {
         throw new Error('Falha ao criptografar a senha');
