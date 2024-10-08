@@ -240,7 +240,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
 
-      <div className="flex flex-col bg-white p-6 pt rounded-lg shadow-lg w-[90%] h-auto max-h-[80vh] mb-16 overflow-y-auto">
+      <div className="flex flex-col bg-white p-6 pt rounded-lg shadow-lg w-[90%] h-auto max-h-[80vh] overflow-y-auto">
         <h2 className="text-2xl mb-4">{tituloModal}</h2>
         <div  className='overflow-x-auto'>
           <table className="w-full text-left whitespace-nowrap bg-branco">
@@ -256,7 +256,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
             <tbody>
               {tipoAviso === "notasPendentes" && Array.isArray(avisosValidadeMap) ? (
                 avisosValidadeMap.map((item, index) => (
-                  <tr className="hover:bg-blue-100" key={index}>
+                  <tr className="hover:bg-blue-100 border-b-2" key={index}>
                     <td className="border p-2 truncate ">{item.vd_id}</td>
                     <td className="border p-2 truncate " >{item.vd_tipovenda}</td>
                     <td className="border p-2 truncate max-w-40" title={item.vd_cliente}>{item.vd_cliente}</td>
@@ -270,7 +270,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
 
               {tipoAviso === "produtosVencer" && Array.isArray(avisosValidadeMap) ? (
                 avisosValidadeMap.map((item, index) => (
-                  <tr className="hover:bg-blue-100" key={index}>
+                  <tr className="hover:bg-blue-100 border-b-2" key={index}>
                     <td className="border p-2 truncate ">{item.pr_id}</td>
                     <td className="border p-2 truncate max-w-40" title={item.pr_descricao} >{item.pr_descricao}</td>
                     <td className="border p-2 truncate max-w-40" title={item.pl_lote}>{item.pl_lote}</td>
@@ -284,7 +284,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
 
               {tipoAviso === "qntMinima" && Array.isArray(avisosValidadeMap) ? (
                 avisosValidadeMap.map((item, index) => (
-                  <tr className="hover:bg-blue-100" key={index}>
+                  <tr className="hover:bg-blue-100 border-b-2" key={index}>
                     <td className="border p-2 truncate ">{item.pr_id}</td>
                     <td className="border p-2 truncate max-w-40" >{item.pr_codigobarras}</td>
                     <td className="border p-2 truncate max-w-40" title={item.pr_descricao}>{item.pr_descricao}</td>
