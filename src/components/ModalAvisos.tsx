@@ -243,14 +243,14 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
       <div className="flex flex-col bg-white p-6 pt rounded-lg shadow-lg w-[90%] h-auto max-h-[80vh] overflow-y-auto">
         <h2 className="text-2xl mb-4">{tituloModal}</h2>
         <div  className='overflow-x-auto'>
-          <table className="w-full text-left whitespace-nowrap">
-            <thead className='border-none'>
+          <table className="w-full text-left whitespace-nowrap bg-branco">
+            <thead className='border-none mt-0 bg-branco'>
               <tr>
-                <th className="border p-2">{tituloColuna1}</th>
-                <th className="border p-2">{tituloColuna2}</th>
-                <th className="border p-2">{tituloColuna3}</th>
-                <th className="border p-2">{tituloColuna4}</th>
-                <th className="border p-2">{tituloColuna5}</th>
+                <th className="bg-branco border p-2 sticky top-0 ">{tituloColuna1}</th>
+                <th className="bg-branco border p-2 sticky top-0">{tituloColuna2}</th>
+                <th className="bg-branco border p-2 sticky top-0">{tituloColuna3}</th>
+                <th className="bg-branco border p-2 sticky top-0">{tituloColuna4}</th>
+                <th className="bg-branco border p-2 sticky top-0">{tituloColuna5}</th>
               </tr>
             </thead>
             <tbody>
@@ -298,7 +298,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
             
               {tipoAviso === "contasReceber" || tipoAviso === "contasPagar" && Array.isArray(avisosValidadeMap) ? (
                 avisosValidadeMap.map((item, index) => (
-                  <tr className="hover:bg-blue-100" key={index}>
+                  <tr className="hover:bg-blue-100 border-b-2" key={index}>
                     <td className="border p-2 truncate max-w-40" title={item.ps_nomerazao}>{item.ps_nomerazao}</td>
                     <td className="border p-2 truncate ">{item.fc_idmovimento}</td>
                     <td className="border p-2 truncate max-w-40" title={item.dc_descricao}>{item.dc_descricao}</td>
