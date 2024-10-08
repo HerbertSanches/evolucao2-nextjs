@@ -123,8 +123,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           const sqlValidade = {sql: `select p.${TProduto.FIELD1}, p.${TProduto.FIELD2}, p.${TProduto.FIELD5}, p.${TProduto.FIELD3}, l.${TProdutoLote.FIELD4}, l.${TProdutoLote.FIELD5}, l.${TProdutoLote.FIELD15} from ${TProduto.TABELA} p inner join ${TProdutoLote.TABELA} l on p.${TProduto.FIELD1} = l.${TProdutoLote.FIELD3} ${whereValidade}`};
           const encodeValidade = await encode(JSON.stringify(sqlValidade), masterKey);
           const responseDataValidade = await api.post('buscar/generica', encodeValidade, {});
-          result = responseDataValidade.data;
-          res.status(200).json({ data: result });
+          // result = responseDataValidade.data;
+          res.status(200).json({ data: responseDataValidade.data });
           break;
 
         case "sqlQntMinima":
@@ -141,14 +141,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           console.log(inputPagarReceber);
 
           if (inputPagarReceber === 1) {
-            wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 1 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1' `;
+            wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 1 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1'  `;
           } 
 
           if (inputPagarReceber === 2) {
             wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 2 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1' `;
           }
 
-          const sqlPagarReceber = {sql:`SELECT pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, (current_date - INTERVAL '1 DAY') - fconta.${TFinanceiroConta.FIELD11} as atraso, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18}, sum((fconta.${TFinanceiroConta.FIELD17} + fconta.${TFinanceiroConta.FIELD18})) as total FROM ${TFinanceiroConta.TABELA} fconta INNER JOIN ${TPessoa.TABELA} as pessoa on fconta.${TFinanceiroConta.FIELD4} = pessoa.${TPessoa.FIELD1} INNER JOIN ${TDocumento.TABELA} as doc on fconta.${TFinanceiroConta.FIELD5} = doc.${TDocumento.FIELD1} ${wherePagarReceber} GROUP BY pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18}`};
+          const sqlPagarReceber = {sql:`SELECT pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, (current_date - INTERVAL '1 DAY') - fconta.${TFinanceiroConta.FIELD11} as atraso, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18}, sum((fconta.${TFinanceiroConta.FIELD17} + fconta.${TFinanceiroConta.FIELD18})) as total FROM ${TFinanceiroConta.TABELA} fconta INNER JOIN ${TPessoa.TABELA} as pessoa on fconta.${TFinanceiroConta.FIELD4} = pessoa.${TPessoa.FIELD1} INNER JOIN ${TDocumento.TABELA} as doc on fconta.${TFinanceiroConta.FIELD5} = doc.${TDocumento.FIELD1} ${wherePagarReceber} GROUP BY pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18} ORDER BY ${TFinanceiroConta.FIELD11} DESC`};
           const encodePagarReceber = await encode(JSON.stringify(sqlPagarReceber), masterKey);
           const responseDataPagarReceber = await api.post('buscar/generica', encodePagarReceber, {});
           result = responseDataPagarReceber.data;
