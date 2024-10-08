@@ -110,7 +110,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           break;
 
         case "sqlDataPagar":
-          const sqlDoPagar = "{\"sql\":\"SELECT pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, (current_date - INTERVAL '1 DAY') - fconta.fc_dtvencimento as atraso, fconta.fc_valor, fconta.fc_taxa, sum((fconta.fc_valor + fconta.fc_taxa)) as total FROM tb_financeiroconta fconta INNER JOIN tb_pessoa as pessoa on fconta.fc_idcliente = ps_id INNER JOIN tb_documento as doc on fconta.fc_iddocumento = dc_id where fc_dtvencimento <= current_timestamp and fc_tiporegistro = 2 GROUP BY pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, fconta.fc_valor, fconta.fc_taxa\"}"
+          const sqlDoPagar = "{\"sql\":\"SELECT pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, (current_date - INTERVAL '1 DAY') - fconta.fc_dtvencimento as atraso, fconta.fc_valor, fconta.fc_taxa, sum((fconta.fc_valor + fconta.fc_taxa)) as total FROM tb_financeiroconta fconta INNER JOIN tb_pessoa as pessoa on fconta.fc_idcliente = ps_id INNER JOIN tb_documento as doc on fconta.fc_iddocumento = dc_id where fc_dtvencimento <= current_timestamp and fc_tiporegistro = 2 and fc_quitado <> '1' GROUP BY pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, fconta.fc_valor, fconta.fc_taxa\"}"
           const encodedPagar = await encode(sqlDoPagar, masterKey);
           const responseDataContasPagar =  await api.post('buscar/generica', encodedPagar,{});
           result = responseDataContasPagar.data;
@@ -118,6 +118,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           break;
 
         case "sqlValidade":
+          console.log('chamou')
           const whereValidade = ` where ${TProdutoLote.FIELD5} <= current_timestamp and ${TProdutoLote.FIELD15} > 0`;
           const sqlValidade = {sql: `select p.${TProduto.FIELD1}, p.${TProduto.FIELD2}, p.${TProduto.FIELD5}, p.${TProduto.FIELD3}, l.${TProdutoLote.FIELD4}, l.${TProdutoLote.FIELD5}, l.${TProdutoLote.FIELD15} from ${TProduto.TABELA} p inner join ${TProdutoLote.TABELA} l on p.${TProduto.FIELD1} = l.${TProdutoLote.FIELD3} ${whereValidade}`};
           const encodeValidade = await encode(JSON.stringify(sqlValidade), masterKey);

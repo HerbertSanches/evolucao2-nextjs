@@ -13,6 +13,7 @@ interface AvisosValidadeMap {
   pr_codigobarras: string;
   pe_qntminima: number;
   pe_qnt: number;
+
   //validade
   pl_dtvalidade: string;
   pl_lote: string;
@@ -23,6 +24,7 @@ interface AvisosValidadeMap {
   //contas receber
   ps_id: number;
   ps_nomerazao: string;
+  fc_idmovimento: number;
   dc_descricao: string;
   fc_dtvencimento: string;
   total: number;
@@ -178,14 +180,18 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
       useEffect(() => {
         if (tipoAviso === "contasReceber") {
           setTituloModal("Contas a Receber");
-        } else if (tipoAviso === "contasPagar"){
+        } 
+
+        if (tipoAviso === "contasPagar") { 
           setTituloModal("Contas a Pagar");
         }
-        setTituloColuna1("Cód.");
-        setTituloColuna2("Nome/Razão");
+
+        setTituloColuna1("Nome/Razão");
+        setTituloColuna2("Cod. Movimento");
         setTituloColuna3("Descrição");
         setTituloColuna4("Dt Vencimento");
         setTituloColuna5("Total");
+
         console.log(tipoAviso)
         const chamarContasReceber = async () => {
           const inputTipoPagarReceber = tipoAviso === "contasReceber" ? 1 : 2;
@@ -223,12 +229,21 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
     return `${day}/${month}/${year}`;
   };
 
+  const formatarDateHora = (dataHora: string) => {
+    return dataHora.split(' ')[0];
+  };
+
+  const formatarValor = (valorString: number): string => {
+    return valorString.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  }
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] h-auto max-h-[90vh] overflow-y-auto">
+
+      <div className="flex flex-col bg-white p-6 pt rounded-lg shadow-lg w-[90%] h-auto max-h-[80vh] overflow-y-auto">
         <h2 className="text-2xl mb-4">{tituloModal}</h2>
         <div  className='overflow-x-auto'>
-            <table className="w-full text-left whitespace-nowrap">
+          <table className="w-full text-left whitespace-nowrap">
             <thead className='border-none'>
               <tr>
                 <th className="border p-2">{tituloColuna1}</th>
@@ -240,13 +255,27 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
             </thead>
             <tbody>
               {tipoAviso === "notasPendentes" && Array.isArray(avisosValidadeMap) ? (
-                avisosValidadeMap.map((item) => (
-                  <tr className="hover:bg-azulClaro" key={item.vd_id}>
+                avisosValidadeMap.map((item, index) => (
+                  <tr className="hover:bg-blue-100" key={index}>
                     <td className="border p-2 truncate ">{item.vd_id}</td>
                     <td className="border p-2 truncate " >{item.vd_tipovenda}</td>
                     <td className="border p-2 truncate max-w-40" title={item.vd_cliente}>{item.vd_cliente}</td>
-                    <td className="border p-2 truncate ">{item.vd_histdtcadastro}</td>
-                    <td className="border p-2 truncate ">{item.vd_vlrtotal}</td>
+                    <td className="border p-2 truncate ">{formatarDateHora(item.vd_histdtcadastro)}</td>
+                    <td className="border p-2 truncate ">{formatarValor(item.vd_vlrtotal)}</td>
+                  </tr>
+                ))
+                ) : (
+                  null
+              )} 
+
+              {tipoAviso === "produtosVencer" && Array.isArray(avisosValidadeMap) ? (
+                avisosValidadeMap.map((item, index) => (
+                  <tr className="hover:bg-blue-100" key={index}>
+                    <td className="border p-2 truncate ">{item.pr_id}</td>
+                    <td className="border p-2 truncate max-w-40" title={item.pr_descricao} >{item.pr_descricao}</td>
+                    <td className="border p-2 truncate max-w-40" title={item.pl_lote}>{item.pl_lote}</td>
+                    <td className="border p-2 truncate ">{formatarDate(item.pl_dtvalidade)}</td>
+                    <td className="border p-2 truncate ">{formatarValor(item.pl_quantidade)}</td>
                   </tr>
                 ))
                 ) : (
@@ -254,44 +283,47 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
               )} 
 
               {tipoAviso === "qntMinima" && Array.isArray(avisosValidadeMap) ? (
-                avisosValidadeMap.map((item) => (
-                  <tr className="hover:bg-azulClaro" key={item.pr_id}>
+                avisosValidadeMap.map((item, index) => (
+                  <tr className="hover:bg-blue-100" key={index}>
                     <td className="border p-2 truncate ">{item.pr_id}</td>
                     <td className="border p-2 truncate max-w-40" >{item.pr_codigobarras}</td>
                     <td className="border p-2 truncate max-w-40" title={item.pr_descricao}>{item.pr_descricao}</td>
-                    <td className="border p-2 truncate ">{item.pe_qntminima}</td>
-                    <td className="border p-2 truncate ">{item.pe_qnt}</td>
+                    <td className="border p-2 truncate ">{formatarValor(item.pe_qntminima)}</td>
+                    <td className="border p-2 truncate ">{formatarValor(item.pe_qnt)}</td>
                   </tr>
                 ))
                 ) : (
                   null
               )} 
-
+            
               {tipoAviso === "contasReceber" || tipoAviso === "contasPagar" && Array.isArray(avisosValidadeMap) ? (
-                avisosValidadeMap.map((item) => (
-                  <tr className="hover:bg-azulClaro" key={item.ps_id}>
-                    <td className="border p-2 truncate ">{item.ps_id}</td>
+                avisosValidadeMap.map((item, index) => (
+                  <tr className="hover:bg-blue-100" key={index}>
                     <td className="border p-2 truncate max-w-40" title={item.ps_nomerazao}>{item.ps_nomerazao}</td>
+                    <td className="border p-2 truncate ">{item.fc_idmovimento}</td>
                     <td className="border p-2 truncate max-w-40" title={item.dc_descricao}>{item.dc_descricao}</td>
                     <td className="border p-2 truncate ">{formatarDate(item.fc_dtvencimento)}</td>
-                    <td className="border p-2 truncate ">{item.total}</td>
+                    <td className="border p-2 truncate ">{formatarValor(item.total)}</td>
                   </tr>
                 ))
                 ) : (
                 null
               )} 
             </tbody>
-            </table>
+          </table>
         </div>
-        <div className="mt-4 flex justify-end">
+
+        <div className="mt-4 flex justify-end w-full">
           <button
-            className="bg-red-500 text-white px-4 py-2 rounded"
+            className="flex mb-0 bg-azulClaro text-white px-4 py-2 rounded ml-auto"
             onClick={onClose}
           >
             Fechar
           </button>
         </div>
+       
       </div>
+
     </div>
   );
 };
