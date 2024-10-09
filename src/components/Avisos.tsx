@@ -2,6 +2,7 @@
 import React, { use, useEffect, useState } from "react";
 import api from "@/services/api";
 import DashboardAvisosLoading from "../components/DashboardAvisosLoading"
+import ModalAvisos from "./ModalAvisos";
 
 const AvisosComponent = () => {
   const [dataAvisos, setDataAvisos] = useState('');
@@ -19,6 +20,10 @@ const AvisosComponent = () => {
   const [contasAPagarSemana, setContasAPagarSemana] = useState(0);
   const [contasAPagarVencido, setContasAPagarVencido] = useState(0);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [avisoSelecionado, setAvisoSelecionado] = useState<string | null>(null);
+  
+  
   const anoAtual = new Date().getFullYear();
 
   const [responsePagarData, setResponsePagarData] = useState<any>(null);
@@ -152,7 +157,7 @@ const AvisosComponent = () => {
         console.log(responseDataContasPagar)
       }
     } catch (error) {
-      
+      console.error("Erro ao chamar Data Pagar")
     }
   };
 
@@ -220,6 +225,17 @@ const CorReceber = () => {
   } 
 
   console.log(produtoValidadeVencendo)
+
+  const handleOpenModal = (buttonValue: string) => {
+    setAvisoSelecionado(buttonValue);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setAvisoSelecionado(null); // Resetar o valor do aviso ao fechar o modal
+  };
+
   return (
     <>
       <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>
@@ -240,7 +256,7 @@ const CorReceber = () => {
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3">
+          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3"  onClick={() => handleOpenModal('notasPendentes')}>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
@@ -261,7 +277,7 @@ const CorReceber = () => {
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3">
+          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('qntMinima')}>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
@@ -281,7 +297,7 @@ const CorReceber = () => {
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3">
+          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('produtosVencer')}>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
@@ -302,7 +318,7 @@ const CorReceber = () => {
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3">
+          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('contasReceber')}>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
@@ -323,13 +339,21 @@ const CorReceber = () => {
           </div>
 
           {/* Ícone de três pontos (kebab menu) */}
-          <div onClick={handleContasPagar} className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3">
+          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('contasPagar')}>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
             <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
           </div>
         </div>
       </div>  
+
+      {avisoSelecionado !== null && (
+        <ModalAvisos
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          tipoAviso={avisoSelecionado}
+        />
+      )}
     </>
   );
 }

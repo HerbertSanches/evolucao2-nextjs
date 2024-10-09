@@ -14,6 +14,10 @@
   --border-botton: 3px solid var(--branco);
 }
 
+table, th, td {
+  border: none;
+}
+
 @font-face {
   font-family: 'MinhaFonte';
   src: url('/assets/fontes/Ev_font.ttf') format('truetype');

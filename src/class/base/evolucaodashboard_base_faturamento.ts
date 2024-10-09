@@ -1,6 +1,6 @@
-class Faturamento{
-    RegistroLimite: number;
-    RegistroPosicao: number;
-    RegistroTotal: number;
-    Situacao: number;
-}
+// class Faturamento{
+//     RegistroLimite: number;
+//     RegistroPosicao: number;
+//     RegistroTotal: number;
+//     Situacao: number;
+// }

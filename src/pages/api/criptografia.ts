@@ -11,6 +11,10 @@ import api from '@/services/api';
 import { tokenRoot, TToken } from '@/class/base/evolucaodashboard_base_token';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
 import { useAuth } from '@/context/AuthContext';
+import { TProduto,TProdutoLote, TProdutoEstoque } from '@/class/base/evolucaodashboard_base_produto';
+import { TFinanceiroConta } from '@/class/base/evolucaodashboard_base_financeiroconta';
+import { TPessoa } from '@/class/base/evolucaodashboard_base_pessoa';
+import { TDocumento } from '@/class/base/evolucaodashboard_base_documento';
 
 const masterKey = '#-6!HY]sK!AHDqg1';
 const getKey = (masterKey:string) => {
@@ -51,7 +55,7 @@ const intToHex = (num:number, length:number) => {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { type, input, input2, input3, input4 } = req.body;
+    const { type, input, input2, input3, inputPagarReceber } = req.body;
 
     try {
       let result;
@@ -106,12 +110,50 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           break;
 
         case "sqlDataPagar":
-          const sqlDoPagar = "{\"sql\":\"SELECT pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, (current_date - INTERVAL '1 DAY') - fconta.fc_dtvencimento as atraso, fconta.fc_valor, fconta.fc_taxa, sum((fconta.fc_valor + fconta.fc_taxa)) as total FROM tb_financeiroconta fconta INNER JOIN tb_pessoa as pessoa on fconta.fc_idcliente = ps_id INNER JOIN tb_documento as doc on fconta.fc_iddocumento = dc_id where fc_dtvencimento <= current_timestamp and fc_tiporegistro = 2 GROUP BY pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, fconta.fc_valor, fconta.fc_taxa\"}"
+          const sqlDoPagar = "{\"sql\":\"SELECT pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, (current_date - INTERVAL '1 DAY') - fconta.fc_dtvencimento as atraso, fconta.fc_valor, fconta.fc_taxa, sum((fconta.fc_valor + fconta.fc_taxa)) as total FROM tb_financeiroconta fconta INNER JOIN tb_pessoa as pessoa on fconta.fc_idcliente = ps_id INNER JOIN tb_documento as doc on fconta.fc_iddocumento = dc_id where fc_dtvencimento <= current_timestamp and fc_tiporegistro = 2 and fc_quitado <> '1' GROUP BY pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, fconta.fc_valor, fconta.fc_taxa\"}"
           const encodedPagar = await encode(sqlDoPagar, masterKey);
           const responseDataContasPagar =  await api.post('buscar/generica', encodedPagar,{});
           result = responseDataContasPagar.data;
           res.status(200).json({ data: result });
           break;
+
+        case "sqlValidade":
+          console.log('chamou')
+          const whereValidade = ` where ${TProdutoLote.FIELD5} <= current_timestamp and ${TProdutoLote.FIELD15} > 0`;
+          const sqlValidade = {sql: `select p.${TProduto.FIELD1}, p.${TProduto.FIELD2}, p.${TProduto.FIELD5}, p.${TProduto.FIELD3}, l.${TProdutoLote.FIELD4}, l.${TProdutoLote.FIELD5}, l.${TProdutoLote.FIELD15} from ${TProduto.TABELA} p inner join ${TProdutoLote.TABELA} l on p.${TProduto.FIELD1} = l.${TProdutoLote.FIELD3} ${whereValidade}`};
+          const encodeValidade = await encode(JSON.stringify(sqlValidade), masterKey);
+          const responseDataValidade = await api.post('buscar/generica', encodeValidade, {});
+          // result = responseDataValidade.data;
+          res.status(200).json({ data: responseDataValidade.data });
+          break;
+
+        case "sqlQntMinima":
+          const whereQntMinima = ` where ${TProdutoEstoque.FIELD5} <= ${TProdutoEstoque.FIELD6}`;
+          const SqlQntMinima = {sql:`select ${TProduto.FIELD1}, ${TProduto.FIELD5}, ${TProduto.FIELD3}, ${TProdutoEstoque.FIELD6}, ${TProdutoEstoque.FIELD5} from ${TProdutoEstoque.TABELA} inner join ${TProduto.TABELA} on ${TProduto.FIELD1} = ${TProdutoEstoque.FIELD3} ${whereQntMinima}`};
+          const encodeQntMinima = await encode(JSON.stringify(SqlQntMinima), masterKey);
+          const responseDataQntMinima = await api.post('buscar/generica', encodeQntMinima, {});
+          result = responseDataQntMinima.data;
+          res.status(200).json({ data: result });
+          break
+        
+        case "sqlPagarReceber":
+          let wherePagarReceber;
+          console.log(inputPagarReceber);
+
+          if (inputPagarReceber === 1) {
+            wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 1 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1'  `;
+          } 
+
+          if (inputPagarReceber === 2) {
+            wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 2 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1' `;
+          }
+
+          const sqlPagarReceber = {sql:`SELECT pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, (current_date - INTERVAL '1 DAY') - fconta.${TFinanceiroConta.FIELD11} as atraso, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18}, sum((fconta.${TFinanceiroConta.FIELD17} + fconta.${TFinanceiroConta.FIELD18})) as total FROM ${TFinanceiroConta.TABELA} fconta INNER JOIN ${TPessoa.TABELA} as pessoa on fconta.${TFinanceiroConta.FIELD4} = pessoa.${TPessoa.FIELD1} INNER JOIN ${TDocumento.TABELA} as doc on fconta.${TFinanceiroConta.FIELD5} = doc.${TDocumento.FIELD1} ${wherePagarReceber} GROUP BY pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18} ORDER BY ${TFinanceiroConta.FIELD11} DESC`};
+          const encodePagarReceber = await encode(JSON.stringify(sqlPagarReceber), masterKey);
+          const responseDataPagarReceber = await api.post('buscar/generica', encodePagarReceber, {});
+          result = responseDataPagarReceber.data;
+          res.status(200).json({ data: result });
+          break
       }
       
         

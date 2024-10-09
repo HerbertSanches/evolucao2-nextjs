@@ -38,6 +38,8 @@ const config: Config = {
         cinza: '#D3D3D3',
         // cinza: '#ECEFF4',
         verde: '#00FF7F',
+        dark: '#11121E',
+        darkClaro: '#1D1D29',
       },
       boxShadow: {
         'global': '0px 0px 5px rgba(0, 0, 0, 0.3)',
