@@ -11,11 +11,11 @@ const Dashboard: React.FC = () => {
     
     return (
        
-        <Suspense fallback={<LoadingPadrao  />}>
+        <>
             <Header />
             <DashboardComponent />
             <Footer />
-        </Suspense>
+        </>
       
     );
 };

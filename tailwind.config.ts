@@ -12,11 +12,14 @@ const config: Config = {
         wave: {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(100%)' },
+          '0%, 100%': { boxShadow: '0 0 10px 5px rgba(59, 130, 246, 0.5)' },
+          '50%': { boxShadow: '0 0 20px 10px rgba(59, 130, 246, 1)' },
         },
       },
       animation: {
         wave: 'wave 1s ease-in-out infinite',
-        wave2: 'wave 1s ease-in-out'
+        wave2: 'wave 1s ease-in-out',
+        shine: 'shine 1s ease-in-out infinite',
       },
       backgroundImage: {
         "azul-gradiente": "linear-gradient(45deg, #0066FF, #0053D1, #0041A4, #003473)",    

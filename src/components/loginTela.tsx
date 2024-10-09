@@ -8,13 +8,13 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
-import { ComboBox } from './ComboBox'
+import { ComboBox } from './ComboBox';
 import api from '@/services/api';
 
 const LoginTela: React.FC = () => {
   const pathname = usePathname();
   const company = useMemo(() => pathname?.split('/').pop(), [pathname]);
-  console.log('empresa: ', company)
+  console.log('empresa: ', company);
 
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -23,13 +23,13 @@ const LoginTela: React.FC = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState(0);
   const [empresas, setEmpresas] = useState([]);
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Novo estado de loading
 
   const { signIn, token } = useAuth();
 
-
   const handleEncode = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); 
-    console.log("chamou handleEncode")
+    console.log("chamou handleEncode");
     try {
       const response = await fetch('/api/criptografia', {
         method: 'POST',
@@ -41,21 +41,16 @@ const LoginTela: React.FC = () => {
           input: password 
         })
       });
-      
-      
-      
 
       if (!response.ok) {
         throw new Error('Falha ao criptografar a senha');
       }
   
       const { result: encodedPassword } = await response.json();
-      
       await signIn({ username, password: encodedPassword, selectedCompanyId });
-
+      
       localStorage.setItem('NOMEFUNCIONARIO', username);
       // router.push('/dashboard');
-
     } catch (error) {
       console.error("Erro ao fazer o request do login: ", error);
     }
@@ -67,8 +62,9 @@ const LoginTela: React.FC = () => {
 
     const chamarEmpresa = async () => {
       try {
+        setIsLoading(true); // Inicia o loading
         const response = await api.get(`autenticacao/validacao-dashboard/${company}`);
-
+        
         const data = response;
         localStorage.setItem("urlEmpresa", JSON.stringify(company));
         localStorage.setItem("empresas", JSON.stringify(data));
@@ -76,6 +72,8 @@ const LoginTela: React.FC = () => {
       } catch (error) {
         console.error('Erro ao chamar a empresa:', error);
         setLoginError(true);
+      } finally {
+        setIsLoading(false); // Finaliza o loading
       }
     };
   
@@ -85,7 +83,7 @@ const LoginTela: React.FC = () => {
       console.log('Componente desmontado');
     };
   }, [company]);
-   
+
   return (
     <div className='flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro w-full'>
       <div id="login_container" className="flex flex-col h-[80vh] w-full md:max-w-[100vh] items-center justify-center bg-azulEscuro text-white p-10 rounded-[20px] sm:shadow-global">
@@ -93,23 +91,26 @@ const LoginTela: React.FC = () => {
           <Image src={logo} alt="Logo" className='smartphone:w-[40vw] smartphone:mb-14 tablet:w-[25vw] tablet:mb-7 tablet2:w-[20vw] laptop:w-[15vw] laptop:mb-5 desktop:w-[13vw] desktop:mb-0 2xl:mb-1.2 2xl:w-[17vh]' />
         </div>
         <form id="login" className="flex flex-col items-center gap-4 p-10" onSubmit={handleEncode}>
-        <div>
-          {/* <ComboBox options={empresas} onChange={setSelectedCompanyId} /> */}
-          {isClient && <ComboBox options={empresas} onChange={setSelectedCompanyId} />}
-        </div>
-        <br />
+          <div>
+            {isLoading ? (
+              <div className="flex justify-center items-center">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+            </div>
+            ) : (
+              isClient && <ComboBox options={empresas} onChange={setSelectedCompanyId} />
+            )}
+            
+          </div>
+          <br />
           <div className="userEpassword flex items-center border-b-3 border-white 2xl:mt-2.5 xl:mt-1">
-            {/* <p>{props.idEmpresa}</p> */}
-            
             <Image src={usuarioIcon} alt="Usuário" className='h-[30px] w-[25px] mb-1.5' />
-            
             <input 
               type="text" 
               name="user_name" 
               className="user_name bg-transparent items-center mb-1 border-none text-lg justify-center placeholder-center text-white focus:outline-none "
               placeholder="Usuário"
               value={username}
-              onChange={(e) =>setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>

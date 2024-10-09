@@ -7,7 +7,6 @@ import Image from 'next/image';
 import DoughnutChartWithCenterText from './DoughnutChart';
 import Usuario from "/public/assets/images/usuario-azul.png"
 import Metas from './Metas';
-import dashBoardVendedorLoading from '../components/dashboardVendedorLoading';
 import DashBoardVendedorLoading from '../components/dashboardVendedorLoading';
 
 
