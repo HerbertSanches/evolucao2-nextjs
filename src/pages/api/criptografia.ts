@@ -7,7 +7,8 @@
 //   return hash2 + hash3;
 // };
 import { NextApiRequest, NextApiResponse } from 'next';
-import { api, apiCompany } from '@/services/api';
+// import { api, apiCompany } from '@/services/api';
+import { api, apiCompany } from '../../services/api';
 import { tokenRoot, TToken } from '@/class/base/evolucaodashboard_base_token';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
 import { useAuth } from '@/context/AuthContext';

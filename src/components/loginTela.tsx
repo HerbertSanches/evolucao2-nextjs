@@ -9,7 +9,7 @@ import { useAuth } from '../context/AuthContext';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { ComboBox } from './ComboBox'
-import { apiCompany } from '@/services/api';
+import { apiCompany } from '../services/api';
 
 const LoginTela: React.FC = () => {
   const pathname = usePathname();

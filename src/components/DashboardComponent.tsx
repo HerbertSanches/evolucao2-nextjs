@@ -3,7 +3,7 @@ import Metas  from '../components/Metas'
 import Faturamento from './Faturamento';
 import '../app/globals.css'
 import GraficoAnual from './GraficoAnual'
-import {api} from '@/services/api';
+import {api} from '../services/api';
 import LoadingPadrao from '@/app/loading';
 
 

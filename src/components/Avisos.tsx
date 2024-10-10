@@ -1,6 +1,6 @@
 'use client'
 import React, { use, useEffect, useState } from "react";
-import {api} from "@/services/api";
+import {api} from "../services/api";
 import ModalAvisos from "./ModalAvisos";
 
 const AvisosComponent = () => {
