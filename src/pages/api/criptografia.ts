@@ -7,7 +7,7 @@
 //   return hash2 + hash3;
 // };
 import { NextApiRequest, NextApiResponse } from 'next';
-import {api, apiCompany} from '@/services/api';
+import { api, apiCompany } from '@/services/api';
 import { tokenRoot, TToken } from '@/class/base/evolucaodashboard_base_token';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
 import { useAuth } from '@/context/AuthContext';
@@ -56,6 +56,7 @@ const intToHex = (num:number, length:number) => {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+
   if (req.method === 'POST') {
     const { type, input, input2, input3, inputPagarReceber, idEmpresa } = req.body;
 

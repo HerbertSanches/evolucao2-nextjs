@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-const api = axios.create({
+export const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_APP_API,
     
     headers: {
@@ -11,8 +11,7 @@ const api = axios.create({
     }
 });
 
-const apiCompany = axios.create({
+export const apiCompany = axios.create({
     baseURL: process.env.NEXT_PUBLIC_APP_API,
 });
 
-export  { api, apiCompany };
