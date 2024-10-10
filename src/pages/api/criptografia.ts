@@ -7,7 +7,7 @@
 //   return hash2 + hash3;
 // };
 import { NextApiRequest, NextApiResponse } from 'next';
-import api from '@/services/api';
+import {api, apiCompany} from '@/services/api';
 import { tokenRoot, TToken } from '@/class/base/evolucaodashboard_base_token';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
 import { useAuth } from '@/context/AuthContext';
@@ -15,6 +15,8 @@ import { TProduto,TProdutoLote, TProdutoEstoque } from '@/class/base/evolucaodas
 import { TFinanceiroConta } from '@/class/base/evolucaodashboard_base_financeiroconta';
 import { TPessoa } from '@/class/base/evolucaodashboard_base_pessoa';
 import { TDocumento } from '@/class/base/evolucaodashboard_base_documento';
+import { useEffect } from 'react';
+import twilio from 'twilio';
 
 const masterKey = '#-6!HY]sK!AHDqg1';
 const getKey = (masterKey:string) => {
@@ -55,7 +57,7 @@ const intToHex = (num:number, length:number) => {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { type, input, input2, input3, inputPagarReceber } = req.body;
+    const { type, input, input2, input3, inputPagarReceber, idEmpresa } = req.body;
 
     try {
       let result;
@@ -73,86 +75,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             [TToken.FIELD3]: input2,
             [TToken.FIELD4]: input3,
           });
-          result= token.data;
+          result = token.data;
           // const tokenObj =  new class tokenRoot()
           res.status(200).json({ data: result });
           break
           
         case "login":
-          const loginResponse = await api.post("usuario/login", {
-            [TUsuario.FIELD2]: input3,
-            [TUsuario.FIELD4]: input,
-            [TUsuario.FIELD5]: input2,
-            "us_permissaoapp": 50,
-          });
+          const loginResponse = await chamarLogin(input, input2, input3)
 
-          result = loginResponse.data;
-          console.log(result)
-          console.log(loginResponse.data.usuario[0].us_idfuncionario)
-
-          if (loginResponse.data.usuario[0].us_idfuncionario) {
-            res.status(200).json({ data: result });
+          if (loginResponse.usuario[0].us_idfuncionario) {
+            res.status(200).json({ data: loginResponse });
           } else {
-            res.status(400).json({ data: result });
+            res.status(400).json({ data: loginResponse });
           }
           break;
-        
-        case "sqlReceber":
-          const responseContasReceber =  await api.post('buscar/generica', process.env.SQL_CONTAS_RECEBER,{});
-          result = responseContasReceber.data;
-          res.status(200).json({ data: result });
-          break;
-        
-        case "sqlPagar":
-          const responseContasPagar =  await api.post('buscar/generica', process.env.SQL_CONTAS_PAGAR,{});
-          result = responseContasPagar.data;
-          res.status(200).json({ data: result });
-          break;
 
-        case "sqlDataPagar":
-          const sqlDoPagar = "{\"sql\":\"SELECT pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, (current_date - INTERVAL '1 DAY') - fconta.fc_dtvencimento as atraso, fconta.fc_valor, fconta.fc_taxa, sum((fconta.fc_valor + fconta.fc_taxa)) as total FROM tb_financeiroconta fconta INNER JOIN tb_pessoa as pessoa on fconta.fc_idcliente = ps_id INNER JOIN tb_documento as doc on fconta.fc_iddocumento = dc_id where fc_dtvencimento <= current_timestamp and fc_tiporegistro = 2 and fc_quitado <> '1' GROUP BY pessoa.ps_id, pessoa.ps_nomerazao, doc.dc_descricao, fconta.fc_idmovimento, fconta.fc_dtemissao, fconta.fc_dtvencimento, fconta.fc_valor, fconta.fc_taxa\"}"
-          const encodedPagar = await encode(sqlDoPagar, masterKey);
-          const responseDataContasPagar =  await api.post('buscar/generica', encodedPagar,{});
-          result = responseDataContasPagar.data;
-          res.status(200).json({ data: result });
+        case "sqlQuantidadePagarReceber":
+          console.log('s')
+          const responseDataContasPagarReceber = await sqlQuantidadePagarReceber(idEmpresa, inputPagarReceber);
+          res.status(200).json({ data: responseDataContasPagarReceber });
           break;
 
         case "sqlValidade":
-          console.log('chamou')
-          const whereValidade = ` where ${TProdutoLote.FIELD5} <= current_timestamp and ${TProdutoLote.FIELD15} > 0`;
-          const sqlValidade = {sql: `select p.${TProduto.FIELD1}, p.${TProduto.FIELD2}, p.${TProduto.FIELD5}, p.${TProduto.FIELD3}, l.${TProdutoLote.FIELD4}, l.${TProdutoLote.FIELD5}, l.${TProdutoLote.FIELD15} from ${TProduto.TABELA} p inner join ${TProdutoLote.TABELA} l on p.${TProduto.FIELD1} = l.${TProdutoLote.FIELD3} ${whereValidade}`};
-          const encodeValidade = await encode(JSON.stringify(sqlValidade), masterKey);
-          const responseDataValidade = await api.post('buscar/generica', encodeValidade, {});
-          // result = responseDataValidade.data;
-          res.status(200).json({ data: responseDataValidade.data });
+          console.log('chamou')   
+          const responseDataValidade = await  sqlValidade(idEmpresa);
+          res.status(200).json({ data: responseDataValidade });
           break;
 
         case "sqlQntMinima":
           const whereQntMinima = ` where ${TProdutoEstoque.FIELD5} <= ${TProdutoEstoque.FIELD6}`;
           const SqlQntMinima = {sql:`select ${TProduto.FIELD1}, ${TProduto.FIELD5}, ${TProduto.FIELD3}, ${TProdutoEstoque.FIELD6}, ${TProdutoEstoque.FIELD5} from ${TProdutoEstoque.TABELA} inner join ${TProduto.TABELA} on ${TProduto.FIELD1} = ${TProdutoEstoque.FIELD3} ${whereQntMinima}`};
           const encodeQntMinima = await encode(JSON.stringify(SqlQntMinima), masterKey);
-          const responseDataQntMinima = await api.post('buscar/generica', encodeQntMinima, {});
+          const responseDataQntMinima = await apiCompany.post('buscar/generica', encodeQntMinima, {});
           result = responseDataQntMinima.data;
           res.status(200).json({ data: result });
           break
         
         case "sqlPagarReceber":
-          let wherePagarReceber;
-          console.log(inputPagarReceber);
-
-          if (inputPagarReceber === 1) {
-            wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 1 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1'  `;
-          } 
-
-          if (inputPagarReceber === 2) {
-            wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 2 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1' `;
-          }
-
-          const sqlPagarReceber = {sql:`SELECT pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, (current_date - INTERVAL '1 DAY') - fconta.${TFinanceiroConta.FIELD11} as atraso, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18}, sum((fconta.${TFinanceiroConta.FIELD17} + fconta.${TFinanceiroConta.FIELD18})) as total FROM ${TFinanceiroConta.TABELA} fconta INNER JOIN ${TPessoa.TABELA} as pessoa on fconta.${TFinanceiroConta.FIELD4} = pessoa.${TPessoa.FIELD1} INNER JOIN ${TDocumento.TABELA} as doc on fconta.${TFinanceiroConta.FIELD5} = doc.${TDocumento.FIELD1} ${wherePagarReceber} GROUP BY pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18} ORDER BY ${TFinanceiroConta.FIELD11} DESC`};
-          const encodePagarReceber = await encode(JSON.stringify(sqlPagarReceber), masterKey);
-          const responseDataPagarReceber = await api.post('buscar/generica', encodePagarReceber, {});
-          result = responseDataPagarReceber.data;
-          res.status(200).json({ data: result });
+          const responseDataPagarReceber = await sqlPagarReceber(idEmpresa, inputPagarReceber);
+          res.status(200).json({ data: responseDataPagarReceber });
           break
       }
       
@@ -172,3 +133,95 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 export function chamarMetas () {
   const { token } = useAuth();
 }
+
+const sqlQuantidadePagarReceber = async (idEmpresa:number, inputPagarReceber:number) => {
+  const sqlPagar = {sql: `
+                          select 
+                            * 
+                          from 
+                            vw_financeirocontacontagem 
+                          where 
+                            fc_idempresa = ${idEmpresa} 
+                            and fc_tiporegistro = ${inputPagarReceber}`};
+
+  const encodeContasPagar = await encode(JSON.stringify(sqlPagar), masterKey);
+  const responseDataContasPagar = await apiCompany.post('buscar/generica', encodeContasPagar, {}); 
+  return responseDataContasPagar.data;
+}
+
+const sqlValidade = async (idEmpresa:number) => {
+  const whereValidade = ` where 
+                            ${TProdutoLote.FIELD5} <= current_timestamp 
+                            and ${TProdutoLote.FIELD15} > 0 
+                            and ${TProdutoLote.FIELD2} = ${idEmpresa}`;
+
+  const sqlValidade = {sql: `select 
+                                p.${TProduto.FIELD1}, 
+                                p.${TProduto.FIELD2}, 
+                                p.${TProduto.FIELD5}, 
+                                p.${TProduto.FIELD3}, 
+                                l.${TProdutoLote.FIELD4}, 
+                                l.${TProdutoLote.FIELD5}, 
+                                l.${TProdutoLote.FIELD15} 
+                              from 
+                                ${TProduto.TABELA} p 
+                              inner join ${TProdutoLote.TABELA} l on p.${TProduto.FIELD1} = l.${TProdutoLote.FIELD3} 
+                              ${whereValidade}`};
+
+  const encodeValidade = await encode(JSON.stringify(sqlValidade), masterKey);
+  const responseDataValidade = await apiCompany.post('buscar/generica', encodeValidade, {});
+
+
+// const accountSid = 'AC91775b0355ffa7b544a80765a7951d03';
+// const client = require('twilio')(accountSid, authToken);
+
+
+// const authToken = '64954ba10c4fde27f2e43c00c3ae9df3';
+// const teste= 'VariavelTeste'
+
+
+// const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+// client.messages
+//     .create({
+//         from: 'whatsapp:+14155238886',
+//         // contentSid: 'HXb5b62575e6e4ff6129ad7c8efe1f983e',
+//         body: `olá estou testando o Twilio integrado com o projeto dashboard web!`,
+//         // contentVariables: '{"1":"12/1","2":"3pm"}',
+//         to: 'whatsapp:+556992274949'
+//     })
+//     .then(message => console.log(`Mensagem enviada com sucesso!  SID: ${message.sid}`))
+//     .catch(error => console.error(`Erro ao enviar mensagem: ${error.message}`));
+
+  return responseDataValidade.data;
+}
+
+const chamarLogin = async (input:number, input2:number, input3:string) => {
+  const loginResponse = await api.post("usuario/login", {
+    [TUsuario.FIELD4]: input,
+    [TUsuario.FIELD5]: input2,
+    [TUsuario.FIELD2]: input3,
+    "us_permissaoapp": 50,
+  });
+
+  return loginResponse.data;
+}
+
+const sqlPagarReceber = async (idEmpresa:number, inputPagarReceber:number) => {
+  let wherePagarReceber;
+  console.log(inputPagarReceber);
+
+  if (inputPagarReceber === 1) {
+    wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 1 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1'  AND ${TFinanceiroConta.FIELD2} = ${idEmpresa}`;
+  } 
+
+  if (inputPagarReceber === 2) {
+    wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 2 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1' AND ${TFinanceiroConta.FIELD2} = ${idEmpresa}`;
+  }
+
+  const sqlPagarReceber = {sql:`SELECT pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, (current_date - INTERVAL '1 DAY') - fconta.${TFinanceiroConta.FIELD11} as atraso, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18}, sum((fconta.${TFinanceiroConta.FIELD17} + fconta.${TFinanceiroConta.FIELD18})) as total FROM ${TFinanceiroConta.TABELA} fconta INNER JOIN ${TPessoa.TABELA} as pessoa on fconta.${TFinanceiroConta.FIELD4} = pessoa.${TPessoa.FIELD1} INNER JOIN ${TDocumento.TABELA} as doc on fconta.${TFinanceiroConta.FIELD5} = doc.${TDocumento.FIELD1} ${wherePagarReceber} GROUP BY pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18} ORDER BY ${TFinanceiroConta.FIELD11} DESC`};
+  const encodePagarReceber = await encode(JSON.stringify(sqlPagarReceber), masterKey);
+  const responseDataPagarReceber = await apiCompany.post('buscar/generica', encodePagarReceber, {});
+
+  return responseDataPagarReceber.data;
+}
+

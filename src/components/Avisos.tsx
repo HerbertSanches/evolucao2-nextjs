@@ -1,6 +1,6 @@
 'use client'
 import React, { use, useEffect, useState } from "react";
-import api from "@/services/api";
+import {api} from "@/services/api";
 import ModalAvisos from "./ModalAvisos";
 
 const AvisosComponent = () => {
@@ -31,6 +31,7 @@ const AvisosComponent = () => {
     const idUsuario = localStorage.getItem('idUsuario')
   
     const fetchDataGenerinaPagarReceber = async () => {
+      
       // const responseCriptografiaContasReceber = await fetch('/api/criptografia', {
       //   method: 'POST',
       //   headers: {
@@ -48,7 +49,9 @@ const AvisosComponent = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          type: 'sqlReceber', 
+          type: 'sqlQuantidadePagarReceber', 
+          idEmpresa: idEmpresa,
+          inputPagarReceber: 1, 
         })
       });
 
@@ -66,7 +69,9 @@ const AvisosComponent = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          type: 'sqlPagar', 
+          type: 'sqlQuantidadePagarReceber',
+          idEmpresa: idEmpresa,
+          inputPagarReceber: 2, 
         })
       });
 
@@ -86,11 +91,7 @@ const AvisosComponent = () => {
       const fetchDataAvisos = async () => {
 
         
-        const responseAvisos = await api.get(`/notificacao/${idEmpresa}/${idUsuario}/${anoAtual}`,{
-          headers: {
-            'Authorization': `Bearer ${tokenHeader}`
-          }
-        });
+        const responseAvisos = await api.get(`/notificacao/${idEmpresa}/${idUsuario}/${anoAtual}`,{});
         console.log('Avisos: ', responseAvisos);
         console.log('Avisos: ', idUsuario);
         setDataAvisos(responseAvisos.data);
@@ -126,28 +127,28 @@ const AvisosComponent = () => {
   console.log(dataAvisos)
   console.log(notasPendentes)
 
-  const handleContasPagar = async () => {
-    try {
-      const response = await fetch('/api/criptografia', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          type: 'sqlDataPagar', 
-        })
-      });
+  // const handleContasPagar = async () => {
+  //   try {
+  //     const response = await fetch('/api/criptografia', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({
+  //         type: 'sqlDataPagar', 
+  //       })
+  //     });
 
-      if (response.ok) {
-        const responseDataContasPagar = await response.json();
-        console.log("CHAMOOOU")
-        console.log("chamou", responseDataContasPagar.data)
-        console.log(responseDataContasPagar)
-      }
-    } catch (error) {
-      console.error("Erro ao chamar Data Pagar")
-    }
-  };
+  //     if (response.ok) {
+  //       const responseDataContasPagar = await response.json();
+  //       console.log("CHAMOOOU")
+  //       console.log("chamou", responseDataContasPagar.data)
+  //       console.log(responseDataContasPagar)
+  //     }
+  //   } catch (error) {
+  //     console.error("Erro ao chamar Data Pagar")
+  //   }
+  // };
 
   console.log(produtoValidadeVencendo)
 

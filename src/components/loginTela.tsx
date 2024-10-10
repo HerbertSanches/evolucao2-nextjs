@@ -9,7 +9,7 @@ import { useAuth } from '../context/AuthContext';
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
 import { ComboBox } from './ComboBox'
-import api from '@/services/api';
+import { apiCompany } from '@/services/api';
 
 const LoginTela: React.FC = () => {
   const pathname = usePathname();
@@ -64,7 +64,7 @@ const LoginTela: React.FC = () => {
 
     const chamarEmpresa = async () => {
       try {
-        const response = await api.get(`autenticacao/validacao-dashboard/${company}`);
+        const response = await apiCompany.get(`autenticacao/validacao-dashboard/${company}`);
 
         const data = response;
         localStorage.setItem("urlEmpresa", JSON.stringify(company));
@@ -89,12 +89,15 @@ const LoginTela: React.FC = () => {
         <div id="evo_icon" className="desktop:mb-[2.8vh] mt-3">
           <Image src={logo} alt="Logo" className='smartphone:w-[40vw] smartphone:mb-14 tablet:w-[25vw] tablet:mb-7 tablet2:w-[20vw] laptop:w-[15vw] laptop:mb-5 desktop:w-[13vw] desktop:mb-0 2xl:mb-1.2 2xl:w-[17vh]' />
         </div>
+
         <form id="login" className="flex flex-col items-center gap-4 p-10" onSubmit={handleEncode}>
-        <div>
-          {/* <ComboBox options={empresas} onChange={setSelectedCompanyId} /> */}
-          {isClient && <ComboBox options={empresas} onChange={setSelectedCompanyId} />}
-        </div>
-        <br />
+
+          <div>
+            {isClient && <ComboBox options={empresas} onChange={setSelectedCompanyId} />}
+          </div>
+
+          <br />
+
           <div className="userEpassword flex items-center border-b-3 border-white 2xl:mt-2.5 xl:mt-1">
             {/* <p>{props.idEmpresa}</p> */}
             
@@ -110,6 +113,7 @@ const LoginTela: React.FC = () => {
               required
             />
           </div>
+
           <div className="userEpassword flex items-center border-b-3 border-white 2xl:mt-2.5 xl:mt-1">
             <Image src={cadeadoIcon} alt="Senha" className='h-[30px] w-[30px] mb-1.5' />
             <input 
@@ -122,6 +126,7 @@ const LoginTela: React.FC = () => {
               required
             />
           </div>
+
           {loginError && <div className="login_erro text-red-500">Erro ao conectar com o servidor</div>}
           <button type="submit" className="btn-entrar flex items-center justify-center w-full h-[38px] bg-white text-lg text-blue-900 font-bold py-2 px-4 rounded-[10px] 2xl:mt-10 xl:mt-4 hover:bg-gray-200 transition-transform">
             Entrar

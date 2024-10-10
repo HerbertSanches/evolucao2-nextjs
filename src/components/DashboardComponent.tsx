@@ -3,11 +3,13 @@ import Metas  from '../components/Metas'
 import Faturamento from './Faturamento';
 import '../app/globals.css'
 import GraficoAnual from './GraficoAnual'
-import api from '@/services/api';
+import {api} from '@/services/api';
 import LoadingPadrao from '@/app/loading';
 
 
 const DashboardComponent: React.FC = () => {
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
+
   const [metaMes, setMetaMes] = useState(0);
   const [metaAno, setMetaAno] = useState(0);
   
@@ -44,8 +46,7 @@ const DashboardComponent: React.FC = () => {
     try {
       const fetchDataMetaMesAno = async () => {
         const idEmpresa = localStorage.getItem('idEmpresa')
-        const tokenHeader = localStorage.getItem('token')
-
+        
         const ftInteger = 3; 
         const coIGUAL = 1; 
         const json = {
@@ -65,11 +66,7 @@ const DashboardComponent: React.FC = () => {
           ]
         };
       
-        const responseMetaMesAno =  await api.post('meta/localizar', json,{
-          headers: {
-            'Authorization': `Bearer ${tokenHeader}`
-          }
-        });
+        const responseMetaMesAno =  await api.post('meta/localizar', json,{});
         console.log('Meta: ', responseMetaMesAno)
 
         setDataMeta(responseMetaMesAno.data.meta)
@@ -77,6 +74,7 @@ const DashboardComponent: React.FC = () => {
           setMetaMes(responseMetaMesAno.data.meta[0][chaveMetaMes]);
           console.log(responseMetaMesAno)
           setMetaAno(responseMetaMesAno.data.meta[0].mt_vlranual); 
+          setIsDataLoaded(true);
         }
         
       }
@@ -102,23 +100,19 @@ const DashboardComponent: React.FC = () => {
     try {
       const fetchDataFaturamento = async () => {
         const idEmpresa = localStorage.getItem('idEmpresa')
-        const tokenHeader = localStorage.getItem('token')
         console.log(idEmpresa)
 
         const mes:number = Number(mesSelecionado)
 
         console.log("ID EMPRESA: " , idEmpresa);
-        const responseFaturamento =  await api.get(`/venda/faturamento/${idEmpresa}/${anoSelecionado}/${mes}`,{
-          headers: {
-            'Authorization': `Bearer ${tokenHeader}`
-          }
-        });
+        const responseFaturamento =  await api.get(`/venda/faturamento/${idEmpresa}/${anoSelecionado}/${mes}`,{});
         console.log('Faturamento: ', responseFaturamento)
         setDataFaturamento(responseFaturamento);
         setFaturamentoAno(responseFaturamento.data.buscar[0].total_ano);
         setFaturamentoMes(responseFaturamento.data.buscar[0].total_mes);
         setFaturamentoSemana(responseFaturamento.data.buscar[0].total_semana);
         setFaturamentoDia(responseFaturamento.data.buscar[0].total_dia);
+        setIsDataLoaded(true);
       }
     
       fetchDataFaturamento();
@@ -133,14 +127,9 @@ const DashboardComponent: React.FC = () => {
     try {
       const fetchDataGraficoAnual = async () => {
         const idEmpresa = localStorage.getItem('idEmpresa');
-        const tokenHeader = localStorage.getItem('token');
         const idUsuario = localStorage.getItem('idUsuario')
         
-        const responseGraficoAnual = await api.get(`/notificacao/${idEmpresa}/${idUsuario}/${anoSelecionado}`,{
-          headers: {
-            'Authorization': `Bearer ${tokenHeader}`
-          }
-        });
+        const responseGraficoAnual = await api.get(`/notificacao/${idEmpresa}/${idUsuario}/${anoSelecionado}`,{});
         console.log('Grafico anual: ', responseGraficoAnual)
         setDataGraficoAnual(responseGraficoAnual.data.notificacao[3].vendasmes)
 
@@ -154,17 +143,9 @@ const DashboardComponent: React.FC = () => {
     }
   }, [anoSelecionado]);
 
-//--Porcentagens-- 
-  const anoPorcentagem = ((faturamentoAno / metaAno) * 100).toFixed(0);
-  const mesPorcentagem = ((faturamentoMes / metaMes) * 100).toFixed(0);
-  const semanaPorcentagem = ((faturamentoSemana / metaMes) * 100).toFixed(0);
-  const diaPorcentagem = ((faturamentoDia / metaMes) * 100).toFixed(0);
-  const mesPorcentagemSelecionado = ((faturamentoMes / metaMesSelecionado) * 100).toFixed(0);
 //---------------------------------------------------------------------------
 
-  if (!dataMeta && !dataFaturamento && !dataGraficoAnual) {
-    return <LoadingPadrao />;
-  }
+  
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setMesSelecionado(mesAtual);
@@ -203,11 +184,37 @@ const DashboardComponent: React.FC = () => {
     setMesSelecionado(mesAtual)
   }
 
-  console.log(anoSelecionado)
-  console.log(mesSelecionado)
-  console.log(mesAtual)
-  console.log(anoAtual)
+  if (!dataMeta && !dataFaturamento && !dataGraficoAnual) {
+    return <LoadingPadrao />;
+  }
+
+  if (!isDataLoaded) {
+    return <LoadingPadrao />;
+  }
+  //--Porcentagens-- 
+  const faturamentoMesFormatado = faturamentoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  const anoPorcentagem = ((faturamentoAno / metaAno) * 100).toFixed(0);
+  const mesPorcentagem = ((faturamentoMes / metaMes) * 100).toFixed(0);
+  const semanaPorcentagem = ((faturamentoSemana / metaMes) * 100).toFixed(0);
+  const diaPorcentagem = ((faturamentoDia / metaMes) * 100).toFixed(0);
+  const mesPorcentagemSelecionado = ((faturamentoMes / metaMesSelecionado) * 100).toFixed(0);
+
+  console.log(faturamentoMesFormatado)
+  console.log(faturamentoMes, faturamentoAno, faturamentoDia)
   console.log(metaMesSelecionado)
+  console.log(((faturamentoMes / metaMesSelecionado) * 100).toFixed(0));
+
+  console.log(faturamentoMes, metaMesSelecionado)
+
+  console.log(faturamentoMes, metaMes)
+  console.log(mesPorcentagem)
+  // console.log(anoSelecionado)
+  // console.log(mesSelecionado)
+  // console.log(mesAtual)
+  // console.log(anoAtual)
+  // console.log(faturamentoMes)
+
+
   return (
     <div className='w-full '>
       <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>
@@ -227,9 +234,9 @@ const DashboardComponent: React.FC = () => {
           </>
         ) : null}
 
-        { mesAtual  !== mesSelecionado || mesAtual !== 0 ? (
-          <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMes} porcentagem={Number(mesPorcentagem)} />
-        ) : <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMes} porcentagem={Number(mesPorcentagemSelecionado)} />}
+        { mesAtual  !== mesSelecionado || mesAtual !== 0  && !isDataLoaded ? (
+          <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMes} porcentagem={Number(mesPorcentagemSelecionado)} /> /*verificar se da pra tirar um*/ 
+        ) : <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMes} porcentagem={Number(mesPorcentagem)} />}
         
         <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAno} porcentagem={Number(anoPorcentagem)} />
        

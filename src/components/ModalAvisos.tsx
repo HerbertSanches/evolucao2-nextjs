@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '@/services/api';
+import {api} from '@/services/api';
 
 interface AvisosValidadeMap {
   //notas pendentes
@@ -61,8 +61,12 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
   if (!isOpen) return null;
 
   switch (tipoAviso) {
-    case "notasPendentes": 
+    
+    case "notasPendentes":
+     
       useEffect(() => {
+        const idEmpresa = localStorage.getItem('idEmpresa'); 
+        const tokenHeader = localStorage.getItem('token');
         setTituloModal("Notas Pendentes");
 
         setTituloColuna1("Cód.");
@@ -72,15 +76,11 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
         setTituloColuna5("Total");
 
         const chamarNotasPendentes = async () => {
-          const tokenHeader = localStorage.getItem('token');
-          const idEmpresa = localStorage.getItem('idEmpresa');
+          // const tokenHeader = localStorage.getItem('token');
+          // const idEmpresa = localStorage.getItem('idEmpresa');
           try {
             console.log("meu amigo...")
-            const responseDataNotasPendentes = await api.get(`/venda/notaspendentes/${idEmpresa}`, {
-              headers: {
-                'Authorization': `Bearer ${tokenHeader}`
-              }
-            });
+            const responseDataNotasPendentes = await api.get(`/venda/notaspendentes/${idEmpresa}`, {});
 
             console.log("chamou", responseDataNotasPendentes.data);
 
@@ -100,8 +100,10 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
 
     case "qntMinima":
         useEffect(() => {
-          setTituloModal("Quantidade Mínima");
+          const idEmpresa = localStorage.getItem('idEmpresa'); 
+          const tokenHeader = localStorage.getItem('token');
 
+          setTituloModal("Quantidade Mínima");
           setTituloColuna1("Cód.");
           setTituloColuna2("Cód. de Barras");
           setTituloColuna3("Descrição");
@@ -117,6 +119,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
                   },
                   body: JSON.stringify({
                     type: 'sqlQntMinima', 
+                    idEmpresa: idEmpresa,
                   })
               });
               
@@ -139,6 +142,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
 
     case "produtosVencer": 
       useEffect(() => {
+        const idEmpresa = localStorage.getItem('idEmpresa');
         setTituloModal("Produtos a Vencer");
 
         setTituloColuna1("Cód.");
@@ -156,6 +160,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
                   },
                   body: JSON.stringify({
                     type: 'sqlValidade', 
+                    idEmpresa: idEmpresa
                   })
               });
       
@@ -178,6 +183,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
     case "contasPagar":
     case "contasReceber": 
       useEffect(() => {
+        const idEmpresa = localStorage.getItem('idEmpresa');
         if (tipoAviso === "contasReceber") {
           setTituloModal("Contas a Receber");
         } 
@@ -203,7 +209,8 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
                 },
                 body: JSON.stringify({
                   type: 'sqlPagarReceber', 
-                  inputPagarReceber: inputTipoPagarReceber
+                  inputPagarReceber: inputTipoPagarReceber,
+                  idEmpresa: idEmpresa,
                 })
             });
     

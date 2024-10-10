@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "@/services/api";
+import {api} from "@/services/api";
 
 
 interface produtosMaisVendidos {
@@ -8,8 +8,6 @@ interface produtosMaisVendidos {
 }
 
 const ProdutosMaisVendidos = () => {
-
-
     const anoAtual = new Date().getFullYear();
     const mesAtual = new Date().getMonth()+1;
     const anoAtualString = anoAtual.toString();
@@ -37,11 +35,7 @@ const ProdutosMaisVendidos = () => {
         const idEmpresa = localStorage.getItem('idEmpresa');
         const tokenHeader = localStorage.getItem('token');
         const fetchDataProdutosMaisVendidos = async () => {
-            const responseMetaMesAno = await api.get(`venda/listarmaisvendidos/${idEmpresa}/${quantidadeValorSelecionado}/${anoSelecionado}/${mesSelecionado}`,{
-                headers: {
-                    'Authorization': `Bearer ${tokenHeader}`
-                }
-            });
+            const responseMetaMesAno = await api.get(`venda/listarmaisvendidos/${idEmpresa}/${quantidadeValorSelecionado}/${anoSelecionado}/${mesSelecionado}`,{});
 
             setMaisVendidos(responseMetaMesAno.data.buscar);
             console.log(responseMetaMesAno.data);

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './Header';
-import api from '@/services/api';
+import {api} from '@/services/api';
 import Image from 'next/image';
 import DoughnutChartWithCenterText from './DoughnutChart';
 import Usuario from "/public/assets/images/usuario-azul.png"
@@ -122,11 +122,7 @@ const DashboardVendedor: React.FC = () => {
       const idEmpresa = localStorage.getItem('idEmpresa');
       const tokenHeader = localStorage.getItem('token');
 
-      const responseVendasFuncionario =  await api.get(`metafuncionario/metafaturamento/${idEmpresa}/${anoSelecionado}/${mesSelecionado}`,{
-          headers: {
-          'Authorization': `Bearer ${tokenHeader}`
-          }
-      });
+      const responseVendasFuncionario =  await api.get(`metafuncionario/metafaturamento/${idEmpresa}/${anoSelecionado}/${mesSelecionado}`,{});
       console.log('Vendas Funcionário: ', responseVendasFuncionario)
 
       setMetaFuncionario(responseVendasFuncionario.data.buscar)
@@ -189,11 +185,7 @@ const DashboardVendedor: React.FC = () => {
           ]
         };
       
-        const responseMetaMesAno =  await api.post('meta/localizar', json,{
-          headers: {
-            'Authorization': `Bearer ${tokenHeader}`
-          }
-        });
+        const responseMetaMesAno =  await api.post('meta/localizar', json,{});
         console.log('Meta: ', responseMetaMesAno)
 
         setDataMeta(responseMetaMesAno.data.meta)
