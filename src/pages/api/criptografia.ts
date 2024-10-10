@@ -1,6 +1,6 @@
 // const RESTCHAVE_REQUEST = '$4060_REST@Evol#Sistema'
 
-// const getSHA = (input) => {
+// const getSHA = (input) => {+
 //   const hash1 = CryptoJS.SHA256(input).toString(CryptoJS.enc.Hex).slice(0, 64);
 //   const hash2 = CryptoJS.SHA256(hash1).toString(CryptoJS.enc.Hex);
 //   const hash3 = CryptoJS.SHA256(input).toString(CryptoJS.enc.Hex);
