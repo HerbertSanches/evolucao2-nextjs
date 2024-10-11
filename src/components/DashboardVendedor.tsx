@@ -1,13 +1,11 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from 'react';
-import Header from './Header';
-import {api} from '../services/api';
+import api from '../services/api';
 import Image from 'next/image';
 import DoughnutChartWithCenterText from './DoughnutChart';
 import Usuario from "/public/assets/images/usuario-azul.png"
 import Metas from './Metas';
-import dashBoardVendedorLoading from '../components/dashboardVendedorLoading';
 import DashBoardVendedorLoading from '../components/dashboardVendedorLoading';
 
 

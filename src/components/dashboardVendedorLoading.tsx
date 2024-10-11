@@ -4,14 +4,12 @@ import React from 'react';
 const DashBoardVendedorLoading = () => {
     console.log("chamou loading");
 
-
     return (
 
         <>
         <div className="flex space-x-3 overflow-x-auto py-2 px-2 bg-azulEscuro">
 
             <div className='flex flex-row smallphone:gap-2 justify-center items-center smallphone:g-3 h-7 roun]'>
-
 
                     <div id='metaMes' className='relative overflow-hidden bg-gray-200 flex rounded-full h-7 min-w-24 items-center justify-center shadow-global'>
                         <div className="absolute inset-0 bg-gray-100 opacity-50 animate-wave  flex items-center space-x-1 justify-center">

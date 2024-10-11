@@ -1,7 +1,7 @@
 import { _capitalize } from "chart.js/dist/helpers/helpers.core";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import React, {useMemo} from "react";
+import React from "react";
 
 
 

@@ -1,7 +1,4 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { useAuth } from '../context/AuthContext';
-// import "@/app/globals.css";
-import { useRouter, useSearchParams } from 'next/navigation';
 import graficoMeta from '../../public/assets/images/graficoMeta.png';
 import Image from 'next/image';
 

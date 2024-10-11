@@ -8,7 +8,8 @@
 // };
 import { NextApiRequest, NextApiResponse } from 'next';
 // import { api, apiCompany } from '@/services/api';
-import { api, apiCompany } from '../../services/api';
+import api from '../../services/api';
+import apiCompany from '../../services/apiCompany';
 import { tokenRoot, TToken } from '@/class/base/evolucaodashboard_base_token';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
 import { useAuth } from '@/context/AuthContext';
