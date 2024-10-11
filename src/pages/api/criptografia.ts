@@ -109,7 +109,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           const whereQntMinima = ` where ${TProdutoEstoque.FIELD5} <= ${TProdutoEstoque.FIELD6}`;
           const SqlQntMinima = {sql:`select ${TProduto.FIELD1}, ${TProduto.FIELD5}, ${TProduto.FIELD3}, ${TProdutoEstoque.FIELD6}, ${TProdutoEstoque.FIELD5} from ${TProdutoEstoque.TABELA} inner join ${TProduto.TABELA} on ${TProduto.FIELD1} = ${TProdutoEstoque.FIELD3} ${whereQntMinima}`};
           const encodeQntMinima = await encode(JSON.stringify(SqlQntMinima), masterKey);
-          const responseDataQntMinima = await apiCompany.post('buscar/generica', encodeQntMinima, {});
+          const responseDataQntMinima = await api.post('buscar/generica', encodeQntMinima, {});
           result = responseDataQntMinima.data;
           res.status(200).json({ data: result });
           break
