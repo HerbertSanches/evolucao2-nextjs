@@ -7,17 +7,14 @@
 //   return hash2 + hash3;
 // };
 import { NextApiRequest, NextApiResponse } from 'next';
-// import { api, apiCompany } from '@/services/api';
 import api from '../../services/api';
-import apiCompany from '../../services/apiCompany';
-import { tokenRoot, TToken } from '@/class/base/evolucaodashboard_base_token';
+import { TToken } from '@/class/base/evolucaodashboard_base_token';
 import { TUsuario, usuarioRoot } from '@/class/base/evolucaodashboard_base_usuario';
 import { useAuth } from '@/context/AuthContext';
 import { TProduto,TProdutoLote, TProdutoEstoque } from '@/class/base/evolucaodashboard_base_produto';
 import { TFinanceiroConta } from '@/class/base/evolucaodashboard_base_financeiroconta';
 import { TPessoa } from '@/class/base/evolucaodashboard_base_pessoa';
 import { TDocumento } from '@/class/base/evolucaodashboard_base_documento';
-import { useEffect } from 'react';
 import twilio from 'twilio';
 
 const masterKey = '#-6!HY]sK!AHDqg1';
@@ -78,9 +75,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             [TToken.FIELD3]: input2,
             [TToken.FIELD4]: input3,
           });
-          result = token.data;
-          // const tokenObj =  new class tokenRoot()
-          res.status(200).json({ data: result });
+
+          res.status(200).json({ data: token.data });
           break
           
         case "login":
@@ -106,12 +102,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           break;
 
         case "sqlQntMinima":
-          const whereQntMinima = ` where ${TProdutoEstoque.FIELD5} <= ${TProdutoEstoque.FIELD6}`;
-          const SqlQntMinima = {sql:`select ${TProduto.FIELD1}, ${TProduto.FIELD5}, ${TProduto.FIELD3}, ${TProdutoEstoque.FIELD6}, ${TProdutoEstoque.FIELD5} from ${TProdutoEstoque.TABELA} inner join ${TProduto.TABELA} on ${TProduto.FIELD1} = ${TProdutoEstoque.FIELD3} ${whereQntMinima}`};
-          const encodeQntMinima = await encode(JSON.stringify(SqlQntMinima), masterKey);
-          const responseDataQntMinima = await api.post('buscar/generica', encodeQntMinima, {});
-          result = responseDataQntMinima.data;
-          res.status(200).json({ data: result });
+          const ResponseSqlQntMinima = await sqlQntMinima();
+          res.status(200).json({ data: ResponseSqlQntMinima });
           break
         
         case "sqlPagarReceber":
@@ -121,7 +113,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       
         
-
     } catch (error) {
       console.error("Erro ao criptografar:", error);
       res.status(500).json({ error: "Erro durante a criptografia" });
@@ -148,7 +139,7 @@ const sqlQuantidadePagarReceber = async (idEmpresa:number, inputPagarReceber:num
                             and fc_tiporegistro = ${inputPagarReceber}`};
 
   const encodeContasPagar = await encode(JSON.stringify(sqlPagar), masterKey);
-  const responseDataContasPagar = await apiCompany.post('buscar/generica', encodeContasPagar, {}); 
+  const responseDataContasPagar = await api.post('buscar/generica', encodeContasPagar, {}); 
   return responseDataContasPagar.data;
 }
 
@@ -172,7 +163,7 @@ const sqlValidade = async (idEmpresa:number) => {
                               ${whereValidade}`};
 
   const encodeValidade = await encode(JSON.stringify(sqlValidade), masterKey);
-  const responseDataValidade = await apiCompany.post('buscar/generica', encodeValidade, {});
+  const responseDataValidade = await api.post('buscar/generica', encodeValidade, {});
 
 
 // const accountSid = 'AC91775b0355ffa7b544a80765a7951d03';
@@ -210,21 +201,38 @@ const chamarLogin = async (input:number, input2:number, input3:string) => {
 }
 
 const sqlPagarReceber = async (idEmpresa:number, inputPagarReceber:number) => {
-  let wherePagarReceber;
-  console.log(inputPagarReceber);
 
-  if (inputPagarReceber === 1) {
-    wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 1 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1'  AND ${TFinanceiroConta.FIELD2} = ${idEmpresa}`;
-  } 
-
-  if (inputPagarReceber === 2) {
-    wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' AND ${TFinanceiroConta.FIELD9} = 2 AND ${TFinanceiroConta.FIELD30} IS NULL AND ${TFinanceiroConta.FIELD15} <> '1' AND ${TFinanceiroConta.FIELD14} <> '1' AND ${TFinanceiroConta.FIELD2} = ${idEmpresa}`;
-  }
+  const wherePagarReceber = `WHERE ${TFinanceiroConta.FIELD11} <= NOW() + INTERVAL '7 DAYS' 
+                        AND ${TFinanceiroConta.FIELD9} = ${inputPagarReceber} 
+                        AND ${TFinanceiroConta.FIELD30} IS NULL 
+                        AND ${TFinanceiroConta.FIELD15} <> '1' 
+                        AND ${TFinanceiroConta.FIELD14} <> '1'  
+                        AND ${TFinanceiroConta.FIELD2} = ${idEmpresa}`;
 
   const sqlPagarReceber = {sql:`SELECT pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, (current_date - INTERVAL '1 DAY') - fconta.${TFinanceiroConta.FIELD11} as atraso, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18}, sum((fconta.${TFinanceiroConta.FIELD17} + fconta.${TFinanceiroConta.FIELD18})) as total FROM ${TFinanceiroConta.TABELA} fconta INNER JOIN ${TPessoa.TABELA} as pessoa on fconta.${TFinanceiroConta.FIELD4} = pessoa.${TPessoa.FIELD1} INNER JOIN ${TDocumento.TABELA} as doc on fconta.${TFinanceiroConta.FIELD5} = doc.${TDocumento.FIELD1} ${wherePagarReceber} GROUP BY pessoa.${TPessoa.FIELD1}, pessoa.${TPessoa.FIELD2}, doc.${TDocumento.FIELD3}, fconta.${TFinanceiroConta.FIELD8}, fconta.${TFinanceiroConta.FIELD10}, fconta.${TFinanceiroConta.FIELD11}, fconta.${TFinanceiroConta.FIELD17}, fconta.${TFinanceiroConta.FIELD18} ORDER BY ${TFinanceiroConta.FIELD11} DESC`};
   const encodePagarReceber = await encode(JSON.stringify(sqlPagarReceber), masterKey);
-  const responseDataPagarReceber = await apiCompany.post('buscar/generica', encodePagarReceber, {});
+  const responseDataPagarReceber = await api.post('buscar/generica', encodePagarReceber, {});
 
   return responseDataPagarReceber.data;
 }
 
+
+const sqlQntMinima = async () => {
+  const whereQntMinima = ` where ${TProdutoEstoque.FIELD5} <= ${TProdutoEstoque.FIELD6}`;
+  const SqlQntMinima = {
+    sql: `select 
+            ${TProduto.FIELD1}, 
+            ${TProduto.FIELD5}, 
+            ${TProduto.FIELD3}, 
+            ${TProdutoEstoque.FIELD6}, 
+            ${TProdutoEstoque.FIELD5} 
+          from ${TProdutoEstoque.TABELA} 
+            inner join ${TProduto.TABELA} on ${TProduto.FIELD1} = ${TProdutoEstoque.FIELD3} 
+            ${whereQntMinima}`
+  };
+  
+  const encodeQntMinima = await encode(JSON.stringify(SqlQntMinima), masterKey);
+  const responseDataQntMinima = await api.post('buscar/generica', encodeQntMinima, {});
+
+  return responseDataQntMinima.data;
+}
