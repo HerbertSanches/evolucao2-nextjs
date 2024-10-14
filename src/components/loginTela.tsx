@@ -15,7 +15,7 @@ import Carrosel from './Carrossel';
 const LoginTela: React.FC = () => {
   const pathname = usePathname();
   const company = useMemo(() => pathname?.split('/').pop(), [pathname]);
-  console.log('empresa: ', company)
+  console.log('empresa: ', company);
 
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -24,13 +24,13 @@ const LoginTela: React.FC = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState(0);
   const [empresas, setEmpresas] = useState([]);
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Novo estado de loading
 
   const { signIn, token } = useAuth();
 
-
   const handleEncode = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); 
-    console.log("chamou handleEncode")
+    console.log("chamou handleEncode");
     try {
       const response = await fetch('/api/criptografia', {
         method: 'POST',
@@ -48,12 +48,10 @@ const LoginTela: React.FC = () => {
       }
   
       const { result: encodedPassword } = await response.json();
-      
       await signIn({ username, password: encodedPassword, selectedCompanyId });
-
+      
       localStorage.setItem('NOMEFUNCIONARIO', username);
       // router.push('/dashboard');
-
     } catch (error) {
       console.error("Erro ao fazer o request do login: ", error);
     }
@@ -74,6 +72,8 @@ const LoginTela: React.FC = () => {
       } catch (error) {
         console.error('Erro ao chamar a empresa:', error);
         setLoginError(true);
+      } finally {
+        setIsLoading(false); // Finaliza o loading
       }
     };
   
@@ -83,7 +83,7 @@ const LoginTela: React.FC = () => {
       console.log('Componente desmontado');
     };
   }, [company]);
-   
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro w-full max-w-full">
       <div

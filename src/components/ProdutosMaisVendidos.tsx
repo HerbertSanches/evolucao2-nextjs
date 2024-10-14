@@ -129,7 +129,7 @@ const ProdutosMaisVendidos = () => {
                     </div>
 
                     {maisVendidos.map((maisVendidos) => (
-                        <div className="flex items-center justify-between border-b border-solid ml-2 mr-2 p-1 mt-1 border-cinza shadow-md"
+                        <div className="flex items-center justify-between border-b border-solid ml-2 mr-2 p-1 mt-1 border-cinza"
                         key={maisVendidos.pr_descricao}
                         >
                             <span

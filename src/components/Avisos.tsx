@@ -1,6 +1,7 @@
 'use client'
 import React, { use, useEffect, useState } from "react";
-import api from "../services/api";
+import api from "@/services/api";
+import DashboardAvisosLoading from "../components/DashboardAvisosLoading"
 import ModalAvisos from "./ModalAvisos";
 
 const AvisosComponent = () => {
@@ -24,6 +25,11 @@ const AvisosComponent = () => {
   
   
   const anoAtual = new Date().getFullYear();
+
+  const [responsePagarData, setResponsePagarData] = useState<any>(null);
+  const [responseReceberData, setResponseReceberData] = useState<any>(null);
+  const [responseAvisos, setResponseAvisosData] = useState<any>(null);
+  const [responseContasPagar, setResponseContasPagar] = useState<any>(null);
 
   useEffect(() => {
     const idEmpresa = localStorage.getItem('idEmpresa');
@@ -135,6 +141,7 @@ const AvisosComponent = () => {
       }
   
       fetchDataAvisos();
+      setResponseAvisosData(responseAvisos);
     } catch (error) {
       console.error("Erro ao chamar avisos")
     }
@@ -168,6 +175,69 @@ const AvisosComponent = () => {
   //   }
   // };
 
+const CorBordaPendente = () => {
+  if(notasPendentes === 0){
+    return 'bg-green-500';
+  }if(notasPendentes > 0){
+    return 'bg-red-600';
+  } 
+}
+
+const CorBordaQntMinima = () => {
+  if(qntMinimoDoRecomendado > 0 && qntMinima <= 0){ //retorna amarelo
+    return 'bg-yellow-500';
+  }
+  if(qntMinima > 0){
+    return 'bg-red-600';
+  }
+  if(qntMinima === 0 && qntMinimoDoRecomendado === 0){
+    return 'bg-green-500'
+  }
+}
+
+const CorVencer = () => {
+  if(produtoValidadeVencido === 0 && produtoValidadeVencendo === 0){
+    return 'bg-green-500'
+  }
+  if(produtoValidadeVencendo > 0 && produtoValidadeVencido <= 0){
+    return 'bg-yellow-500'
+  }
+  if(produtoValidadeVencido > 0){
+    return 'bg-red-600'
+  }
+}
+
+
+const CorReceber = () => {
+  if(contasAReceberHoje === 0 && contasAReceberSemana === 0 && contasAReceberVencido === 0 ){
+    return 'bg-green-500'
+  }
+  if(contasAReceberVencido > 0){
+    return 'bg-red-600'
+  }
+  if(contasAReceberSemana > 0 || contasAReceberHoje > 0 && contasAPagarVencido <= 0){
+    return 'bg-yellow-500'
+  }
+}
+
+
+  const CorPagar = () => {
+    if(contasAPagarHoje === 0 && contasAPagarSemana === 0 && contasAPagarVencido === 0 ){
+      return 'bg-green-500'
+    }
+    if(contasAPagarVencido> 0){
+      return 'bg-red-600'
+    }
+    if(contasAPagarSemana > 0 || contasAPagarHoje > 0 && contasAPagarVencido <= 0){
+      return 'bg-yellow-500'
+    }
+  }
+
+
+  if (!responsePagarData && !responseReceberData && !responseAvisos && !responseContasPagar) {
+    return <DashboardAvisosLoading/>;
+  } 
+
   console.log(produtoValidadeVencendo)
 
   const handleOpenModal = (buttonValue: string) => {
@@ -189,6 +259,7 @@ const AvisosComponent = () => {
       <div className='flex flex-col ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px] bg-cinza rounded-[8px] h-auto'> 
         
         <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
+          <div className={`h-full w-2 rounded-l-md ${CorBordaPendente()}`}></div>
          <h1 className="fonte-ev text-8xl h-auto mt-3">Â</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
@@ -208,6 +279,7 @@ const AvisosComponent = () => {
 
 
         <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
+        <div className={`h-full w-2 rounded-l-md ${CorBordaQntMinima()}`}></div>
          <h1 className="fonte-ev left-0 text-8xl h-auto ">n</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
@@ -227,6 +299,7 @@ const AvisosComponent = () => {
         </div>
 
         <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
+        <div className={`h-full w-2 rounded-l-md ${CorReceber()}`}></div>
          <h1 className="fonte-ev left-0 text-8xl h-auto ">d</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
@@ -246,6 +319,7 @@ const AvisosComponent = () => {
         </div>
 
         <div className="flex h-32 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
+        <div className={`h-full w-2 rounded-l-md ${CorVencer()}`}></div>
          <h1 className="fonte-ev left-0 text-8xl h-auto ">$</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
@@ -266,6 +340,7 @@ const AvisosComponent = () => {
         </div>
 
         <div className="flex h-32 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
+        <div className={`h-full w-2 rounded-l-md ${CorPagar()}`}></div>
          <h1 className="fonte-ev left-0 text-8xl h-auto ">$</h1>
           
           {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
