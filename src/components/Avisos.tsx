@@ -25,11 +25,11 @@ const AvisosComponent = () => {
   
   
   const anoAtual = new Date().getFullYear();
-
+  
   const [responsePagarData, setResponsePagarData] = useState<any>(null);
   const [responseReceberData, setResponseReceberData] = useState<any>(null);
   const [responseAvisos, setResponseAvisosData] = useState<any>(null);
-  const [responseContasPagar, setResponseContasPagar] = useState<any>(null);
+  // const [responseContasPagar, setResponseContasPagar] = useState<any>(null);
 
   useEffect(() => {
     const idEmpresa = localStorage.getItem('idEmpresa');
@@ -63,6 +63,7 @@ const AvisosComponent = () => {
 
       if (responseCriptografiaContasReceber.ok) {
         const responseContasReceber = await responseCriptografiaContasReceber.json();
+        setResponsePagarData(responseContasReceber);
         // console.log(responseContasReceber.data.buscar[0].fc_hoje)
         if (responseContasReceber?.data?.buscar?.length > 0) {
           const contasReceber = responseContasReceber.data.buscar[0];
@@ -94,14 +95,14 @@ const AvisosComponent = () => {
 
       if (responseCriptografiaContasPagar.ok) {
         const responseContasPagar = await responseCriptografiaContasPagar.json();
-        // console.log(responseContasPagar.data.buscar[0].fc_hoje)
+
         if (responseContasPagar?.data?.buscar?.length > 0) {
+          setResponseReceberData(responseContasPagar)
         
           setContasAPagarHoje(responseContasPagar.data.buscar[0].fc_hoje);
         
-        
-        setContasAPagarSemana(responseContasPagar.data.buscar[0].fc_semana);
-        setContasAPagarVencido(responseContasPagar.data.buscar[0].fc_vencido);
+          setContasAPagarSemana(responseContasPagar.data.buscar[0].fc_semana);
+          setContasAPagarVencido(responseContasPagar.data.buscar[0].fc_vencido);
         }
       }
 
@@ -147,78 +148,51 @@ const AvisosComponent = () => {
     }
     
   }, []);
-  
 
-  console.log(dataAvisos)
-  console.log(notasPendentes)
+  const CorBordaPendente = () => {
+    if(notasPendentes === 0){
+      return 'bg-green-500';
+    }if(notasPendentes > 0){
+      return 'bg-red-600';
+    } 
+  }
 
-  // const handleContasPagar = async () => {
-  //   try {
-  //     const response = await fetch('/api/criptografia', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({
-  //         type: 'sqlDataPagar', 
-  //       })
-  //     });
+  const CorBordaQntMinima = () => {
+    if(qntMinimoDoRecomendado > 0 && qntMinima <= 0){ //retorna amarelo
+      return 'bg-yellow-500';
+    }
+    if(qntMinima > 0){
+      return 'bg-red-600';
+    }
+    if(qntMinima === 0 && qntMinimoDoRecomendado === 0){
+      return 'bg-green-500'
+    }
+  }
 
-  //     if (response.ok) {
-  //       const responseDataContasPagar = await response.json();
-  //       console.log("CHAMOOOU")
-  //       console.log("chamou", responseDataContasPagar.data)
-  //       console.log(responseDataContasPagar)
-  //     }
-  //   } catch (error) {
-  //     console.error("Erro ao chamar Data Pagar")
-  //   }
-  // };
-
-const CorBordaPendente = () => {
-  if(notasPendentes === 0){
-    return 'bg-green-500';
-  }if(notasPendentes > 0){
-    return 'bg-red-600';
-  } 
-}
-
-const CorBordaQntMinima = () => {
-  if(qntMinimoDoRecomendado > 0 && qntMinima <= 0){ //retorna amarelo
-    return 'bg-yellow-500';
+  const CorVencer = () => {
+    if(produtoValidadeVencido === 0 && produtoValidadeVencendo === 0){
+      return 'bg-green-500'
+    }
+    if(produtoValidadeVencendo > 0 && produtoValidadeVencido <= 0){
+      return 'bg-yellow-500'
+    }
+    if(produtoValidadeVencido > 0){
+      return 'bg-red-600'
+    }
   }
-  if(qntMinima > 0){
-    return 'bg-red-600';
-  }
-  if(qntMinima === 0 && qntMinimoDoRecomendado === 0){
-    return 'bg-green-500'
-  }
-}
-
-const CorVencer = () => {
-  if(produtoValidadeVencido === 0 && produtoValidadeVencendo === 0){
-    return 'bg-green-500'
-  }
-  if(produtoValidadeVencendo > 0 && produtoValidadeVencido <= 0){
-    return 'bg-yellow-500'
-  }
-  if(produtoValidadeVencido > 0){
-    return 'bg-red-600'
-  }
-}
 
 
-const CorReceber = () => {
-  if(contasAReceberHoje === 0 && contasAReceberSemana === 0 && contasAReceberVencido === 0 ){
-    return 'bg-green-500'
+  const CorReceber = () => {
+    if(contasAReceberHoje === 0 && contasAReceberSemana === 0 && contasAReceberVencido === 0 ){
+      return 'bg-green-500'
+    }
+    if(contasAReceberVencido > 0){
+      return 'bg-red-600'
+    }
+    if(contasAReceberSemana > 0 || contasAReceberHoje > 0 && contasAPagarVencido <= 0){
+      return 'bg-yellow-500'
+    }
   }
-  if(contasAReceberVencido > 0){
-    return 'bg-red-600'
-  }
-  if(contasAReceberSemana > 0 || contasAReceberHoje > 0 && contasAPagarVencido <= 0){
-    return 'bg-yellow-500'
-  }
-}
 
 
   const CorPagar = () => {
@@ -233,10 +207,8 @@ const CorReceber = () => {
     }
   }
 
+  // setResponsePagarData, setResponseReceberData, setResponseAvisosData
 
-  if (!responsePagarData && !responseReceberData && !responseAvisos && !responseContasPagar) {
-    return <DashboardAvisosLoading/>;
-  } 
 
   console.log(produtoValidadeVencendo)
 
@@ -250,6 +222,10 @@ const CorReceber = () => {
     setAvisoSelecionado(null); // Resetar o valor do aviso ao fechar o modal
   };
 
+  if (!responsePagarData && !responseReceberData && !responseAvisos) {
+    return <DashboardAvisosLoading/>;
+  } 
+  
   return (
     <>
       <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>
