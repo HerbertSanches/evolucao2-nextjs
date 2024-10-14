@@ -97,12 +97,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         case "sqlValidade":
           console.log('chamou')   
-          const responseDataValidade = await  sqlValidade(idEmpresa);
+          const responseDataValidade = await sqlValidade(idEmpresa);
           res.status(200).json({ data: responseDataValidade });
           break;
 
         case "sqlQntMinima":
-          const ResponseSqlQntMinima = await sqlQntMinima();
+          const ResponseSqlQntMinima = await sqlQntMinima(idEmpresa);
+          console.log(ResponseSqlQntMinima)
           res.status(200).json({ data: ResponseSqlQntMinima });
           break
         
@@ -217,8 +218,9 @@ const sqlPagarReceber = async (idEmpresa:number, inputPagarReceber:number) => {
 }
 
 
-const sqlQntMinima = async () => {
-  const whereQntMinima = ` where ${TProdutoEstoque.FIELD5} <= ${TProdutoEstoque.FIELD6}`;
+const sqlQntMinima = async (idEmpresa:number) => {
+  const whereQntMinima = ` where ${TProdutoEstoque.FIELD5} <= ${TProdutoEstoque.FIELD6}
+                            and ${TProdutoEstoque.FIELD2} = ${idEmpresa}`;
   const SqlQntMinima = {
     sql: `select 
             ${TProduto.FIELD1}, 

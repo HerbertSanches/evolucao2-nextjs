@@ -192,14 +192,14 @@ const DashboardComponent: React.FC = () => {
     return <LoadingPadrao />;
   }
   //--Porcentagens-- 
-  const faturamentoMesFormatado = faturamentoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  // const faturamentoMesFormatado = faturamentoMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   const anoPorcentagem = ((faturamentoAno / metaAno) * 100).toFixed(0);
   const mesPorcentagem = ((faturamentoMes / metaMes) * 100).toFixed(0);
   const semanaPorcentagem = ((faturamentoSemana / metaMes) * 100).toFixed(0);
   const diaPorcentagem = ((faturamentoDia / metaMes) * 100).toFixed(0);
   const mesPorcentagemSelecionado = ((faturamentoMes / metaMesSelecionado) * 100).toFixed(0);
 
-  console.log(faturamentoMesFormatado)
+  // console.log(faturamentoMesFormatado)
   console.log(faturamentoMes, faturamentoAno, faturamentoDia)
   console.log(metaMesSelecionado)
   console.log(((faturamentoMes / metaMesSelecionado) * 100).toFixed(0));

@@ -57,10 +57,21 @@ const AvisosComponent = () => {
 
       if (responseCriptografiaContasReceber.ok) {
         const responseContasReceber = await responseCriptografiaContasReceber.json();
-
-        setContasAReceberHoje(responseContasReceber.data.buscar[0].fc_hoje);
-        setContasAReceberSemana(responseContasReceber.data.buscar[0].fc_semana);
-        setContasAReceberVencido(responseContasReceber.data.buscar[0].fc_vencido);
+        // console.log(responseContasReceber.data.buscar[0].fc_hoje)
+        if (responseContasReceber?.data?.buscar?.length > 0) {
+          const contasReceber = responseContasReceber.data.buscar[0];
+      
+          // Verifique se as propriedades existem antes de acessá-las
+          if (contasReceber.fc_hoje !== undefined) {
+            setContasAReceberHoje(contasReceber.fc_hoje);
+          }
+          if (contasReceber.fc_semana !== undefined) {
+            setContasAReceberSemana(contasReceber.fc_semana);
+          }
+          if (contasReceber.fc_vencido !== undefined) {
+            setContasAReceberVencido(contasReceber.fc_vencido);
+          }
+        }
       }
 
       const responseCriptografiaContasPagar = await fetch('/api/criptografia', {
@@ -77,9 +88,15 @@ const AvisosComponent = () => {
 
       if (responseCriptografiaContasPagar.ok) {
         const responseContasPagar = await responseCriptografiaContasPagar.json();
-        setContasAPagarHoje(responseContasPagar.data.buscar[0].fc_hoje);
+        // console.log(responseContasPagar.data.buscar[0].fc_hoje)
+        if (responseContasPagar?.data?.buscar?.length > 0) {
+        
+          setContasAPagarHoje(responseContasPagar.data.buscar[0].fc_hoje);
+        
+        
         setContasAPagarSemana(responseContasPagar.data.buscar[0].fc_semana);
         setContasAPagarVencido(responseContasPagar.data.buscar[0].fc_vencido);
+        }
       }
 
     }
@@ -121,6 +138,7 @@ const AvisosComponent = () => {
     } catch (error) {
       console.error("Erro ao chamar avisos")
     }
+    
   }, []);
   
 
