@@ -204,9 +204,9 @@ const DashboardVendedor: React.FC = () => {
 
   console.log(metaMes)
 
-   if (!dataMeta && !dataMetaFuncionario) {
-     return <DashBoardVendedorLoading />;
-   }
+  if (!dataMeta && !dataMetaFuncionario) {
+    return <DashBoardVendedorLoading />;
+  }
 
   return (
     <>

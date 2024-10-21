@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import imgTest from '../../public/assets/images/aaaaaa.jpg'
 
-const Slider = () => {
-  // Array de imagens de exemplo
+const Carrossel = () => {
   const images = [
-    'https://as1.ftcdn.net/v2/jpg/03/93/37/24/1000_F_393372407_u34qDqrJuvMZICQC0oKnKgEUi8XqVPJG.jpg',
-    'https://marketingpordados.com/wp-content/uploads/2021/07/O-que-e-dashboard.jpg',
-    'https://img.freepik.com/vetores-gratis/painel-de-negocios-do-painel-do-usuario_23-2148358960.jpg?w=996&t=st=1728911326~exp=1728911926~hmac=ea80cc17bcec4ab0a35cd6e96fcb5e73d0e856e51a3d17b6651722eec50a16c9',
-    'https://th.bing.com/th/id/OIG2.ZIEkIEOANZuFMgzXDFI9?pid=ImgGn',
+    'https://i.pinimg.com/originals/96/ff/ef/96ffef1d1a805b3a9a7e985100894fa3.jpg',
+    'https://th.bing.com/th/id/OIG2.DqhYI1nYyMAW8BnSxY12?pid=ImgGn',
+    'https://files.oaiusercontent.com/file-Tksr6lz7VinHVty2A23vl3Um?se=2024-10-14T16%3A45%3A18Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Da9b17d31-0e7b-4f6e-925f-b7ba16324fcb.webp&sig=kqQheE%2B%2BH48m8d8Zd5EHFZfy3yGEbJJfdnKwElgOOPY%3D',
+    'https://files.oaiusercontent.com/file-8E8w1uDFKTUV9O2TXoKZsvAX?se=2024-10-14T16%3A17%3A01Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Db75186b3-6583-424b-82ff-69424b81255d.webp&sig=I5JGx6JOOqT03abaKz96TZyj89e8sTJ0fHpufI0DFts%3D',
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -25,63 +26,63 @@ const Slider = () => {
     setCurrentIndex(index);
   };
 
-  // Passagem automática dos slides
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
-    }, 6000); 
+    }, 539000);
 
     return () => {
-      clearInterval(interval); 
+      clearInterval(interval);
     };
   }, [currentIndex]);
 
   return (
-    <div className="w-full h-full max-w-4xl mx-auto mr-1 text-center relative group">
-      <div className="relative h-full">
-        {/* Botão para o slide anterior */}
-        <button
-          onClick={prevSlide}
-          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full focus:outline-none hover:bg-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
-          &#10094;
-        </button>
+    <div className="relative w-full h-full overflow-hidden">
+     
+      <img
+        src={images[currentIndex]}
+        alt={`Slide ${currentIndex + 1}`}
+        className="w-full h-full bg-custom-img bg-no-repeat bg-center bg-cover"
 
-        {/* Slide atual */}
-        <div className="w-full h-full">
-          <img
-            src={images[currentIndex]}
-            alt={`Slide ${currentIndex + 1}`}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
+        // src={imgTest}
+        // alt=''
+        // className="w-full h-full bg-custom-img bg-no-repeat bg-center bg-cover"
+      />
 
-        {/* Botão para o próximo slide */}
-        <button
-          onClick={nextSlide}
-          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full focus:outline-none hover:bg-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
-          &#10095;
-        </button>
-      </div>
+    
+
+      {/* Botão para o slide anterior */}
+      <button
+        onClick={prevSlide}
+        className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full focus:outline-none hover:bg-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+      >
+        &#10094;
+      </button>
+
+      {/* Botão para o próximo slide */}
+      <button
+        onClick={nextSlide}
+        className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full focus:outline-none hover:bg-gray-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+      >
+        &#10095;
+      </button>
 
       {/* Indicadores de navegação (bolinhas) */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-4 h-4 rounded-full ${
-                currentIndex === index
-                  ? 'bg-white'
-                  : 'bg-gray-400 hover:bg-gray-600'
-              } focus:outline-none transition-colors duration-300`}
-            />
-          ))}
-        </div>
+        {images.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`w-4 h-4 rounded-full ${
+              currentIndex === index
+                ? 'bg-white'
+                : 'bg-gray-400 hover:bg-gray-600'
+            } focus:outline-none transition-colors duration-300`}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
-export default Slider;
+export default Carrossel;
