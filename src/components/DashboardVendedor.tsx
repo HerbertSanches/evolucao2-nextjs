@@ -103,12 +103,7 @@ const DashboardVendedor: React.FC = () => {
     
    if (dataMeta && dataMetaFuncionario) {
 
-    if (containerRef.current) {
-      const element = containerRef.current.querySelector(`[data-mes='${mesSelecionado}']`);
-      if (element) {
-        (element as HTMLElement).scrollIntoView({ behavior: 'smooth', inline: 'start' });
-      }
-    }
+    
   }
 
     // Ajusta o scroll para o mês atual
@@ -206,6 +201,13 @@ const DashboardVendedor: React.FC = () => {
 
   if (!dataMeta && !dataMetaFuncionario) {
     return <DashBoardVendedorLoading />;
+  } else {
+    if (containerRef.current) {
+      const element = containerRef.current.querySelector(`[data-mes='${mesSelecionado}']`);
+      if (element) {
+        (element as HTMLElement).scrollIntoView({ behavior: 'smooth', inline: 'start' });
+      }
+    }
   }
 
   return (

@@ -49,7 +49,7 @@ table, th, td {
  
 html,body {
   @apply text-16;
-  font-family: 'Franklin Gothic Regular', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'Inter', 'Arial Narrow', Arial, sans-serif;
   max-width: 100%;
   overflow-x: hidden;
 }

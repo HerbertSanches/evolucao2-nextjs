@@ -104,7 +104,7 @@ const HeaderDasktop = () => {
             </option>
           ))}
         </select> */}
-
+        
         <ComboBox options={ArrayEmpresas} onChange={ChangeEmpresa} tipoComboBox={'header'} />
   
       </nav>

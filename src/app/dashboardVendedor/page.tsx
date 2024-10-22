@@ -16,16 +16,20 @@ const DashboardVenda: React.FC = () => {
   const windowWidth = useWindowWidth();
   
   if (windowWidth === undefined) {
-    return <DashBoardVendedorLoading />;
+    return null
   }
 
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <>
       <Header />
-      {windowWidth < 600 ? <DashboardVendedor /> : <DashboardComponentDasktop />} 
+      {/* <Suspense fallback={<div>Loading...</div>}> */}
+        
+        {windowWidth < 600 ? <DashboardVendedor /> : <DashboardComponentDasktop />} 
+        
+      {/* </Suspense> */}
       <Footer />
-    </Suspense>
+    </>
   );
 };
 
