@@ -1,6 +1,6 @@
 import { _capitalize } from "chart.js/dist/helpers/helpers.core";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import React from "react";
 
 
@@ -88,6 +88,7 @@ const Header = () => {
 
     return(handleLogout);
   }
+
 
   const ChangeEmpresa = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const empSelecionada = parseInt((event.target as HTMLSelectElement).value, 10);

@@ -221,7 +221,8 @@ const DashboardComponent: React.FC = () => {
         Dashboard Faturamento
       </h1>
      
-      <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-cinza rounded-[8px] h-auto'>
+      {/* bg-cinza */}
+      <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-slate-300 bg-opacity-50 rounded-[8px] h-auto'>
         
         { mesAtual  !== mesSelecionado && mesAtual !== 0 ? ( 
           <Metas metaMes={metaMesSelecionado} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />

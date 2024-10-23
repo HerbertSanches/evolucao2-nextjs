@@ -232,7 +232,7 @@ const AvisosComponent = () => {
         Dashboard Avisos
       </h1>
       
-      <div className='flex flex-col ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px] bg-cinza rounded-[8px] h-auto'> 
+      <div className='flex flex-col ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px]  bg-slate-300 bg-opacity-50 rounded-[8px] h-auto'> 
         
         <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
           <div className={`h-full w-2 rounded-l-md ${CorBordaPendente()}`}></div>

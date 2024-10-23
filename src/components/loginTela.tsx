@@ -13,6 +13,7 @@ import apiCompany from '../services/apiCompany';
 import Carrosel from './Carrossel';
 
 const LoginTela: React.FC = () => {
+
   const pathname = usePathname();
   const company = useMemo(() => pathname?.split('/').pop(), [pathname]);
   console.log('empresa: ', company);
@@ -24,9 +25,26 @@ const LoginTela: React.FC = () => {
   const [selectedCompanyId, setSelectedCompanyId] = useState(0);
   const [empresas, setEmpresas] = useState([]);
   const [isClient, setIsClient] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // Novo estado de loading
+  const [isLoading, setIsLoading] = useState(true); // Novo estado de loading 
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const { signIn, token } = useAuth();
+
+  useEffect(() => {
+    setIsClient(true);
+
+    // Checar se o window está disponível e se o localStorage existe
+    const savedDarkMode = localStorage.getItem('DarkMode');
+    if (savedDarkMode) {
+      setIsDarkMode(savedDarkMode === 'true'); // Atualiza o estado baseado no valor salvo
+    }
+  }, []); // Executa apenas na montagem inicial
+
+  useEffect(() => {
+    if (isClient) {
+      localStorage.setItem('DarkMode', isDarkMode.toString()); // Salva o estado no localStorage
+    }
+  }, [isDarkMode, isClient]); // Atualiza o localStorage sempre que isDarkMode mudar
 
   const handleEncode = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); 
@@ -83,6 +101,7 @@ const LoginTela: React.FC = () => {
       console.log('Componente desmontado');
     };
   }, [company]);
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro w-full max-w-full">
@@ -154,6 +173,15 @@ const LoginTela: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+            </div>
+
+            <h1>Modo escuro</h1>
+            <div className='flex-col justify-center'>
+              
+                <label className='relative inline-flex items-center cursor-pointer'>
+                <input type="checkbox" onChange={ () => setIsDarkMode(!isDarkMode)} checked={isDarkMode}  className="sr-only peer"/>
+                <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                </label>
             </div>
   
             {loginError && (

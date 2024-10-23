@@ -105,7 +105,7 @@ const ProdutosMaisVendidos = () => {
                 Dashboard 10 Mais Vendidos
             </h1>
 
-            <div className="flex flex-col ml-3 mr-3 mt-3 pb-2 bg-cinza rounded-[8px] h-auto shadow-md">
+            <div className="flex flex-col ml-3 mr-3 mt-3 pb-2  bg-slate-300 bg-opacity-50 rounded-[8px] h-auto shadow-md">
                 <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7 flex justify-end": ""}`}>
                     { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
                     <>
