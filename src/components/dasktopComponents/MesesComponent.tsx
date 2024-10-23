@@ -4,7 +4,8 @@ import { darkMode } from "@/services/comum.utils";
 const MesesComponent =  ({ onMesSelecionado }: any) => {
     const mesAtual = new Date().getMonth()+1;
     const [mesSelecionado, setMesSelecionado] = useState(mesAtual);
-     const [mode, setMode] = useState<string | null>('');
+    const [mode, setMode] = useState<string | null>('');
+    
     const meses = [
         { nome: 'Janeiro', valor: 1 },
         { nome: 'Fevereiro', valor: 2 },

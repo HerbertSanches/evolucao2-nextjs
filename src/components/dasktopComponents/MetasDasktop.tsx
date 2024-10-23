@@ -3,10 +3,10 @@ import graficoMeta from '../../../public/assets/images/graficoMeta.png';
 import Image from 'next/image';
 
 export interface metaMesAno{
-  metaMes: number,
-  mes:number;
-  metaAno: number,
-  ano: string,
+  metaMes?: number,
+  mes?:number;
+  metaAno?: number,
+  ano?: string,
 }
 
 const MetasDasktop: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano }) => {
@@ -15,10 +15,11 @@ const MetasDasktop: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano }) => {
 
   const [metaMesFormatado, setMetaMesFormatado] = useState('');
   const [metaAnoFormatado, setMetaAnoFormatado] = useState('');
-
+ 
   useEffect(() => {
-    setMetaMesFormatado(metaMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
-    setMetaAnoFormatado(metaAno.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+    if (metaMes) {setMetaMesFormatado(metaMes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))};
+    
+    if(metaAno) {setMetaAnoFormatado(metaAno.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))};
   },[metaMes, metaAno])
 
   const mesParaChave: { [key: number]: string }  = {
@@ -35,29 +36,35 @@ const MetasDasktop: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano }) => {
     10: 'Novembro',
     11: 'Dezembro'
   };
-  const chaveMetaMes:string = mesParaChave[mes];
 
-
+  let chaveMetaMes: string | undefined;
+  if (mes !== undefined) {
+    chaveMetaMes = mesParaChave[mes];
+  }
+  
+console.log(metaAno)
+console.log(metaAnoFormatado)
   return (
-    <div className='h-full w-full items-left justify-start rounded-[8px] '> 
-        <div id='containerMeta' className='flex flex-row h-full w-full smallphone:gap-2 justify-start items-center smallphone:g-3 '>
+    <div className='h-full w-full items-left justify-start overflow-hidden'> 
+        <div id='containerMeta' className=' ml-5 mt-5 flex flex-row h-full w-full justify-start items-center '>
 
-            <div id='metaMes' className='flex h-full w-full rounded-[8px]  ml-1 items-center justify-start shadow-global mt-1'>
+            
 
-            <div className="flex flex-col h-full w-full space-x-1 ml-5 justify-start">
+            <div className="flex flex-col h-full w-full space-x-1 justify-start">
                 
-                <div className='flex flex-row'>
+                <div className='flex flex-row ml-1'>
                     <div>
                         <Image src={graficoMeta} alt="Grafico meta" />
                     </div>
-
-                    <h2 className=" text-branco font-regular text-xl mt-[1.4rem] mb-0 ml-3 h-auto ">Meta {chaveMetaMes}</h2>
+                    
+                    {metaMesFormatado && chaveMetaMes ? <h2 className=" text-branco font-regular text-xl mt-[1.4rem] mb-0 ml-3 h-auto ">Meta {chaveMetaMes}</h2> : ''}
+                    {ano ?<h2 className="text-branco font-regular text-xl mt-[1.4rem] mb-0 ml-3 h-auto ">Meta {ano} </h2> : ''}
                 </div>
-                <p className="text-branco font-semibold text-4xl ml-0">R$ {metaMesFormatado}</p>
-                
+                {metaMesFormatado ? <p className="text-branco font-semibold text-4xl ml-0 mt-4">R$ {metaMesFormatado}</p> : ''}
+                {metaAnoFormatado ? <p className="text-branco font-semibold text-4xl ml-0 mt-4">R$ {metaAnoFormatado}</p> : ''}
             </div>
             
-            </div>
+          
 
         </div>
     </div>
