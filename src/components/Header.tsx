@@ -21,8 +21,8 @@ const Header = () => {
   const [ArrayEmpresas, setArrayEmpresas] = useState<Empresa[]>([]);
   const [usuarioGrupo, setUsuarioGrupo] = useState<usuarioGrupo[]>([]);
   const [urlEmpresa, setUrlEmpresas] = useState('');
-  
   const [nomeFuncionario, setNomeFuncionario] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState('');
 
   let nome;
 
@@ -36,7 +36,10 @@ const Header = () => {
     const empresaLocalStorage = localStorage.getItem('idEmpresa');
     const url = localStorage.getItem('urlEmpresa');
     const nome = localStorage.getItem('NOMEFUNCIONARIO');
+    const darkMode = localStorage.getItem('DarkMode');
 
+
+    setIsDarkMode(darkMode ?? '');
     setNomeFuncionario(nome ?? '');
     setUrlEmpresas(url ? JSON.parse(url) : '');
     // setUsuarioGrupo(storedUsuarioGrupo ? JSON.parse(storedUsuarioGrupo) : []);
@@ -112,8 +115,13 @@ const Header = () => {
     window.location.reload();
   }
 
+    console.log("%c É dark mode? :", "color: yellow; background-color:black;padding:1rem", isDarkMode);
+
   return (
-    <header className="bg-azulEscuro h-12 flex flex-1 items-center justify-between w-full">
+    <header className={`${isDarkMode === 'true'
+      ? 'bg-slate-900'
+      : 'bg-slate-500'
+    } h-12 flex flex-1 items-center justify-between w-full`}>
       <nav className="p-4 flex flex-row items-center justify-between w-full">
         <img className="h-9" src="/assets/images/logo.png" alt="Logo" />
         <p className="text-branco font-bold">{capitalizeFirstLetter(nomeFuncionario)}</p>

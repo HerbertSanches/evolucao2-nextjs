@@ -33,18 +33,17 @@ const LoginTela: React.FC = () => {
   useEffect(() => {
     setIsClient(true);
 
-    // Checar se o window está disponível e se o localStorage existe
     const savedDarkMode = localStorage.getItem('DarkMode');
     if (savedDarkMode) {
-      setIsDarkMode(savedDarkMode === 'true'); // Atualiza o estado baseado no valor salvo
+      setIsDarkMode(savedDarkMode === 'true'); 
     }
-  }, []); // Executa apenas na montagem inicial
+  }, []); 
 
   useEffect(() => {
     if (isClient) {
       localStorage.setItem('DarkMode', isDarkMode.toString()); // Salva o estado no localStorage
     }
-  }, [isDarkMode, isClient]); // Atualiza o localStorage sempre que isDarkMode mudar
+  }, [isDarkMode, isClient]);
 
   const handleEncode = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); 
