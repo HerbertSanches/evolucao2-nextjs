@@ -58,7 +58,7 @@ type props = {
   metas:Metas[];
 }
 
-const GraficoAnual = ({ sendMesSelecionado, sendMetaSelecionada,vendas, metas }:props) => {
+const GraficoAnual = ({ sendMesSelecionado, sendMetaSelecionada, vendas, metas }:props) => {
   console.log(vendas)
  
   console.log(metas)

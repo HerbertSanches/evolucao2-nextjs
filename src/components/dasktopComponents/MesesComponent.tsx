@@ -37,11 +37,11 @@ const MesesComponent =  ({ onMesSelecionado }: any) => {
 
   return(
     <span>
-        <div className="flex space-x-3 overflow-x-auto py-2 bg-azulEscuro ">
+        <div className={`flex space-x-3 px-4 overflow-x-auto py-2 ${mode ==='S' ? 'bg-dark' : 'bg-azulEscuro'} `} >
           {meses.map((mes) => (
             <button
                 key={mes.valor}
-                className={`px-4 min-w-24 h-7 ${mode === 'S' ? 'bg-dark' : 'bg-azulEscuro'} rounded-full p-1 items-center font-semibold fonte-inter text-16 text-white justify-center ${
+                className={`px-4 min-w-24 h-7 ${mode === 'S' ? 'bg-darkClaro' : 'bg-azulEscuro'} rounded-full p-1 items-center font-semibold fonte-inter text-16 text-white justify-center ${
                     mesSelecionado === mes.valor
                     ? 'azulclaro '
                     : ''

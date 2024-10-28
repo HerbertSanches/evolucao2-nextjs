@@ -89,7 +89,7 @@ const HeaderDasktop = () => {
 
   return (
     <header className={`h-16 flex  w-full ${mode === 'S' ? 'bg-dark' : 'bg-azulEscuro'}`}>
-      <nav className="flex flex-row items-end w-full ml-32 justify-between">
+      <nav className="flex flex-row items-end w-full ml-4 justify-between">
   
         <h1 className="mb-2  text-branco font-medium fonte-inter tablet:text-2xl laptop:text-4xl ">Dashboard Faturamento</h1>
   
@@ -105,7 +105,7 @@ const HeaderDasktop = () => {
           ))}
         </select> */}
         
-        <ComboBox options={ArrayEmpresas} onChange={ChangeEmpresa} tipoComboBox={'header'} />
+        <ComboBox options={ArrayEmpresas} onChange={ChangeEmpresa} tipoComboBox={'header'} isDarkMode="true"/>
   
       </nav>
     </header>

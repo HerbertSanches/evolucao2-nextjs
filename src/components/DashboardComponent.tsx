@@ -133,7 +133,7 @@ const DashboardComponent: React.FC = () => {
         console.log('Grafico anual: ', responseGraficoAnual)
         setDataGraficoAnual(responseGraficoAnual.data.notificacao[3].vendasmes)
 
-        console.log(idEmpresa);
+        console.log(idEmpresa); 
         console.log(idUsuario);
       }
 
@@ -175,7 +175,7 @@ const DashboardComponent: React.FC = () => {
   }; 
 
   const handleMetaSelecionada = (value:any) => {
-    console.log('meta do mes selecionado: ',value)
+    console.log('meta do mes selecionado: ', value)
     setMetaMesSelecionado(value)
   }
 
@@ -230,7 +230,7 @@ const DashboardComponent: React.FC = () => {
         { mesAtual === mesSelecionado && anoAtual === Number(anoSelecionado)  ? (
           <>
             <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDia} porcentagem={Number(diaPorcentagem)} />
-            <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemana} porcentagem={Number(semanaPorcentagem)} />
+            <Faturamento tipoFaturamento={'Semana'} valor={faturamentoSemana} porcentagem={Number(semanaPorcentagem)} />
           </>
         ) : null}
 

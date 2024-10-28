@@ -5,12 +5,14 @@ export interface EmpresaOption {
     ep_id: number;
     ep_nomerao: string;
     ep_nomefantasia: string;
+    isDarkMode?:string;
 }
 
 interface ComboBoxProps {
     options: EmpresaOption[];
     onChange: (value: number) => void;
     tipoComboBox: string;
+    isDarkMode?: string;
 }
 
 // Definir o tipo da opção usada pelo react-select
@@ -20,10 +22,10 @@ interface OptionType {
 }
 
 // Função para gerar estilos customizados com base no tipoComboBox
-const getCustomStyles = (tipoComboBox: string): StylesConfig<OptionType, false> => ({
+const getCustomStyles = (tipoComboBox: string, isDarkMode:string): StylesConfig<OptionType, false> => ({
     control: (provided, state) => ({
         ...provided,
-        backgroundColor: tipoComboBox === 'header' ? '#11121E' : '#ffffff', // Define a cor de fundo
+        backgroundColor: isDarkMode === 'true' ? '#11121E' : '#ffffff', // Define a cor de fundo
         color: '#ffffff', // Define a cor do texto para garantir contraste
         borderColor: 'transparent', // Estilo da borda ao focar
         boxShadow: state.isFocused ? '0 0 0 1px #000000' : undefined,
@@ -62,7 +64,7 @@ const getCustomStyles = (tipoComboBox: string): StylesConfig<OptionType, false> 
 });
 
 
-const ComboBox: React.FC<ComboBoxProps> = ({ options, onChange, tipoComboBox }) => {
+const ComboBox: React.FC<ComboBoxProps> = ({ options, onChange, tipoComboBox , isDarkMode}) => {
 
     if (!Array.isArray(options)) {
         console.error('ComboBox espera um array para options, recebido:', options);
@@ -94,7 +96,7 @@ const ComboBox: React.FC<ComboBoxProps> = ({ options, onChange, tipoComboBox }) 
             <Select<OptionType, false>
                 onChange={handleChange}
                 options={formattedOptions}
-                styles={getCustomStyles(tipoComboBox)} // Passa o tipoComboBox para gerar os estilos
+                styles={getCustomStyles(tipoComboBox, isDarkMode || 'false')} // Passa o tipoComboBox para gerar os estilos
                 isSearchable={false}
                 placeholder={placeholderText}
             />

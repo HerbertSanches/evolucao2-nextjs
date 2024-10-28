@@ -20,9 +20,7 @@ export default function useWindowWidth() {
 }
 
 export function darkMode() {
-  // const [mode, setMode] = useState<string | null>('');
   const setMode = localStorage.getItem('darkMode');
 
-  // setMode(modeGetLocalStorage); //pegando o mode aqui
   return setMode;
 }

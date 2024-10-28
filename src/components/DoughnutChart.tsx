@@ -9,12 +9,13 @@ import {
 import { Chart } from 'chart.js/dist';
 
 interface porcentagem{
-  porcentagem: number
+  porcentagem: number,
+  tipoCard?: string;
 }
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChartWithCenterText = ({ porcentagem }: porcentagem) => {
+const DoughnutChartWithCenterText = ({ porcentagem, tipoCard }: porcentagem) => {
   console.log(porcentagem)
   const validPorcentagem = isNaN(porcentagem) ? 0 : Number(porcentagem);
   
@@ -60,10 +61,10 @@ const DoughnutChartWithCenterText = ({ porcentagem }: porcentagem) => {
   };
 
   return (
-    <div className="relative h-25 w-25 flex items-center justify-center">
-      <Doughnut  className='h-20 w-20' data={data} options={options} />
+    <div className="relative  flex items-center justify-center">
+      <Doughnut  className='h-16 w-16' data={data} options={options} />
       <div className="absolute inset-0 flex items-center justify-center ">
-        <span className="text-blue-800  font-bold text-lg">{validPorcentagem}%</span>
+        <span className={`text-azulClaro ${tipoCard === 'grande' ? 'text-4xl': 'text-lg'} font-bold `}>{validPorcentagem}%</span>
       </div>
     </div>
   );

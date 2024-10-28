@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import { Footer } from '../../components/Footer';
 import { withAuth } from '@/context/AuthContext';
 import HeaderDasktop from '@/components/dasktopComponents/HeaderDasktop';
+import DashboardComponentDasktop from '@/components/dasktopComponents/DashboardComponentDasktop';
 
 const Dashboard: React.FC = () => {
     const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
@@ -34,8 +35,8 @@ const Dashboard: React.FC = () => {
        
         <>
             {windowWidth < 600 ? <Header /> : <HeaderDasktop />}
-            <DashboardComponent />
-            <Footer />
+            {windowWidth < 600 ? <DashboardComponent /> : <DashboardComponentDasktop />}
+            {windowWidth < 600 ? <Footer /> : null}
         </>
                                             
     );
