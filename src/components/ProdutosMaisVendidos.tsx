@@ -45,11 +45,7 @@ const ProdutosMaisVendidos = () => {
         fetchDataProdutosMaisVendidos();
     }, [mesSelecionado, anoSelecionado, quantidadeValorSelecionado])
 
-
-
-
-
-    const handleClick = (mes: number) => {
+    const handleMesClick = (mes: number) => {
         setMesSelecionado(mes);
         console.log(`Mês selecionado: ${mes}`);
     };
@@ -83,7 +79,7 @@ const ProdutosMaisVendidos = () => {
                     ? 'bg-green-400 text-white '
                     : 'text-azulEscuro'
                 }`}
-                onClick={() => handleClick(mes.valor)}
+                onClick={() => handleMesClick(mes.valor)}
                 data-mes={mes.valor} // Adiciona o valor do mês como um data attribute
             >
                 {mes.nome}
@@ -91,12 +87,12 @@ const ProdutosMaisVendidos = () => {
             ))}
 
           <select value={anoSelecionado} onChange={handleSelectAnoChange} className='justify-center rounded-full p-1 items-center font-semibold mr-1 text-azulEscuro cursor-pointer '>
-              <option value={anoAtual}>
-              Vendas de {anoAtual}
-              </option>
-              <option value={anoAtual - 1}>Vendas de {anoAtual - 1}</option>
-              <option value={anoAtual - 2}>Vendas de {anoAtual - 2}</option>
-              <option value={anoAtual - 3}>Vendas de {anoAtual - 3}</option>
+                <option value={anoAtual}>
+                Vendas de {anoAtual}
+                </option>
+                <option value={anoAtual - 1}>Vendas de {anoAtual - 1}</option>
+                <option value={anoAtual - 2}>Vendas de {anoAtual - 2}</option>
+                <option value={anoAtual - 3}>Vendas de {anoAtual - 3}</option>
           </select>
         </div>
         

@@ -227,8 +227,8 @@ const AvisosComponent = () => {
   } 
   
   return (
-    <>
-      <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>
+    <div className="bg-dark h-screen overflow-hidden">
+      <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl p-3'>
         Dashboard Avisos
       </h1>
       
@@ -344,7 +344,7 @@ const AvisosComponent = () => {
           tipoAviso={avisoSelecionado}
         />
       )}
-    </>
+    </div>
   );
 }
 

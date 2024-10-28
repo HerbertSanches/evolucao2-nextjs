@@ -9,11 +9,12 @@ import AvisosComponent from '@/components/Avisos';
 const Avisos = () => {
 
     return(
-        <>
+    
+        <div className='overflow-hidden h-auto'>
             <Header />
             <AvisosComponent />
-            <Footer />
-        </>
+            </div>
+        
     )
 }
 

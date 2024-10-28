@@ -7,9 +7,10 @@ export interface metaMesAno{
   mes:number;
   metaAno: number,
   ano: string,
+  modo: string;
 }
 
-const Metas: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano }) => {
+const Metas: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano, modo }) => {
   console.log(metaAno)
   console.log(metaMes)
 
@@ -42,7 +43,7 @@ const Metas: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano }) => {
     <div className='ml-3 mr-3 items-center justify-center rounded-[8px] '> 
       <div id='containerMeta' className='flex flex-row smallphone:gap-2 justify-center items-center smallphone:g-3 h-[90px] '>
 
-        <div id='metaMes' className='flex bg-azulEscuro rounded-[8px] h-[70px] w-responsive ml-1 items-center justify-center shadow-global mt-1'>
+        <div id='metaMes' className={`flex ${modo === 'true' ? 'bg-darkClaro' : 'bg-azulEscuro'} rounded-[8px] h-[70px] w-responsive ml-1 items-center justify-center shadow-global mt-1`}>
 
           <div className="flex items-center space-x-1 justify-center">
             <Image src={graficoMeta} alt="Grafico meta" width={40} height={40} className='smallphone:h-8 smallphone:w-8 ' />
@@ -54,7 +55,7 @@ const Metas: React.FC<metaMesAno> = ({ metaMes, mes, metaAno, ano }) => {
           
         </div>
 
-        <div id='metaMes' className='flex bg-azulEscuro w-responsive rounded-[8px] h-[70px] mr-1 items-center justify-center shadow-global mt-1'>
+        <div id='metaMes' className={`flex ${modo === 'true' ? 'bg-darkClaro' : 'bg-azulEscuro'} rounded-[8px] h-[70px] w-responsive ml-1 items-center justify-center shadow-global mt-1`}>
 
           <div className="flex items-center space-x-1 justify-center">
             <Image src={graficoMeta} alt="Grafico meta" width={40} height={40} className=' smallphone:h-8 smallphone:w-8' />

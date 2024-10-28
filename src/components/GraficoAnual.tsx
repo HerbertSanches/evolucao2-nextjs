@@ -16,6 +16,9 @@ import {
 import { ChartDataset } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
+
+
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -56,9 +59,10 @@ type props = {
   sendMetaSelecionada: (value: number) => void;
   vendas: Vendas[];
   metas:Metas[];
+  modo:string;
 }
 
-const GraficoAnual = ({ sendMesSelecionado, sendMetaSelecionada,vendas, metas }:props) => {
+const GraficoAnual = ({ sendMesSelecionado, sendMetaSelecionada,vendas, metas, modo }:props) => {
   console.log(vendas)
  
   console.log(metas)
@@ -231,7 +235,7 @@ const GraficoAnual = ({ sendMesSelecionado, sendMetaSelecionada,vendas, metas }:
   
   console.log(meses)
   return (
-    <div className="min-w-[250px] max-w-full max-h-[500px] bg-branco rounded-b-lg mr-4 ml-4 mt-0 ">
+    <div className={`min-w-[250px] max-w-full max-h-[500px] ${modo === 'true' ? 'bg-darkClaro': 'bg-white' } rounded-b-lg mr-4 ml-4 mt-0 `}>
       <Bar ref={chartRef} data={data} options={options} />
     </div>
   );

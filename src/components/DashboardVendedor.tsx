@@ -7,6 +7,7 @@ import DoughnutChartWithCenterText from './DoughnutChart';
 import Usuario from "/public/assets/images/usuario-azul.png"
 import Metas from './Metas';
 import DashBoardVendedorLoading from '../components/dashboardVendedorLoading';
+import { darkMode } from '@/services/comum.utils';
 
 
 interface Funcionario {
@@ -42,6 +43,7 @@ const DashboardVendedor: React.FC = () => {
   const [anoSelecionado, setAnoSelecionado] = useState<string>(anoAtualString); 
   const [metafuncionario, setMetaFuncionario] = useState<Funcionario[]>([]);
   const [dataMetaFuncionario, setDataMetaFuncionario] = useState<any>(null);
+  const [mode, setMode] = useState<string | any>('');
  
 
   const [metaIndividual, setMetaIndividual] = useState('')
@@ -100,15 +102,11 @@ const DashboardVendedor: React.FC = () => {
 
   useEffect(() => {
 
-    
+   setMode(darkMode());
    if (dataMeta && dataMetaFuncionario) {
 
-    if (containerRef.current) {
-      const element = containerRef.current.querySelector(`[data-mes='${mesSelecionado}']`);
-      if (element) {
-        (element as HTMLElement).scrollIntoView({ behavior: 'smooth', inline: 'start' });
-      }
-    }
+
+    
   }
 
     // Ajusta o scroll para o mês atual
@@ -204,13 +202,20 @@ const DashboardVendedor: React.FC = () => {
 
   console.log(metaMes)
 
-   if (!dataMeta && !dataMetaFuncionario) {
-     return <DashBoardVendedorLoading />;
-   }
+  if (!dataMeta && !dataMetaFuncionario) {
+    return <DashBoardVendedorLoading />;
+  } else {
+    if (containerRef.current) {
+      const element = containerRef.current.querySelector(`[data-mes='${mesSelecionado}']`);
+      if (element) {
+        (element as HTMLElement).scrollIntoView({ behavior: 'smooth', inline: 'start' });
+      }
+    }
+  }
 
   return (
     <>
-      <div className="flex space-x-3 overflow-x-auto py-2 bg-azulEscuro " ref={containerRef}>
+      <div className={`flex space-x-3 overflow-x-auto py-2 ${mode === 'true' ? 'bg-dark' : 'bg-azulEscuro'} `} ref={containerRef}>
           {meses.map((mes) => (
           <button
               key={mes.valor}
@@ -240,7 +245,7 @@ const DashboardVendedor: React.FC = () => {
       <h1 className='flex text-azulEscuro  bg-red-200items-center justify-center font-bold text-xl mt-3 mb-3'>Dashboard Por Vendedor</h1>
 
       <div className='flex flex-col ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px]  bg-slate-300 bg-opacity-50 rounded-[8px] h-auto'>  
-        <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />  
+        <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} modo={mode}/>  
         
 
         <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7 flex justify-end": ""}`}>
@@ -256,8 +261,7 @@ const DashboardVendedor: React.FC = () => {
 
         {metafuncionario.map((funcionario, index) => (
 
-          <div key={index} className="bg-branco rounded-lg p-4 flex items-center 
-                                        justify-between shadow-global ml-4 mr-4 mt-3" >
+          <div key={index} className={`${mode === 'true' ? 'bg-darkClaro' : 'bg-branco'} rounded-lg p-4 flex items-center justify-between shadow-global ml-4 mr-4 mt-3`} >
 
             <div className="flex items-center mr-1">
               <Image src={Usuario} alt='' className="h-12 w-12 object-contain" />
@@ -277,7 +281,7 @@ const DashboardVendedor: React.FC = () => {
 
             <div className="flex items-center justify-center relative" style={{ width: '80px', height: '80px' }}>
               <div className="absolute inset-0 flex items-center justify-center ">
-                <DoughnutChartWithCenterText porcentagem={Number(((funcionario.total_mes / funcionario[chaveMetaMesFuncionario])* 100).toFixed(0))}/>
+                <DoughnutChartWithCenterText modo={mode} porcentagem={Number(((funcionario.total_mes / funcionario[chaveMetaMesFuncionario])* 100).toFixed(0))}/>
               </div>
             </div>
 

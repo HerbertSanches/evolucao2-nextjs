@@ -1,18 +1,35 @@
 'use client'
-import React from 'react';
+import React, { useState, useEffect, Suspense  } from 'react';
 import DashboardVendedor from '@/components/DashboardVendedor';
 import { Footer } from '../../components/Footer';
 import { withAuth } from '@/context/AuthContext';
 import Header from '@/components/Header';
+import DashboardComponentDasktop from '@/components/dasktopComponents/DashboardComponentDasktop';
+import useWindowWidth from '../../services/comum.utils';
+import DashBoardVendedorLoading from '@/components/DashboardAvisosLoading';
 
-const DashboardVenda: React.FC = () =>  {
+// async function chamarLargura() {
+//   verificarLargura();
+// }
+
+const DashboardVenda: React.FC = () => {
+  const windowWidth = useWindowWidth();
   
+  if (windowWidth === undefined) {
+    return null
+  }
+
+
   return (
     <>
       <Header />
-      <DashboardVendedor />
+      {/* <Suspense fallback={<div>Loading...</div>}> */}
+        
+        {windowWidth < 600 ? <DashboardVendedor /> : <DashboardComponentDasktop />} 
+        
+      {/* </Suspense> */}
       <Footer />
-      </>
+    </>
   );
 };
 

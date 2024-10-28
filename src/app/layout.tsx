@@ -24,7 +24,7 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-          <div className='mb-[57px] '>
+          <div className=' '>
             {children}
           </div>
        </AuthProvider>

@@ -2,6 +2,7 @@ import { _capitalize } from "chart.js/dist/helpers/helpers.core";
 import { useRouter } from "next/navigation";
 import { useState, useEffect} from "react";
 import React from "react";
+import { darkMode } from "@/services/comum.utils";
 
 
 
@@ -22,7 +23,7 @@ const Header = () => {
   const [usuarioGrupo, setUsuarioGrupo] = useState<usuarioGrupo[]>([]);
   const [urlEmpresa, setUrlEmpresas] = useState('');
   const [nomeFuncionario, setNomeFuncionario] = useState('');
-  const [isDarkMode, setIsDarkMode] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState<string | null>('');
 
   let nome;
 
@@ -36,10 +37,9 @@ const Header = () => {
     const empresaLocalStorage = localStorage.getItem('idEmpresa');
     const url = localStorage.getItem('urlEmpresa');
     const nome = localStorage.getItem('NOMEFUNCIONARIO');
-    const darkMode = localStorage.getItem('DarkMode');
+    
+    setIsDarkMode(darkMode())
 
-
-    setIsDarkMode(darkMode ?? '');
     setNomeFuncionario(nome ?? '');
     setUrlEmpresas(url ? JSON.parse(url) : '');
     // setUsuarioGrupo(storedUsuarioGrupo ? JSON.parse(storedUsuarioGrupo) : []);
@@ -62,7 +62,7 @@ const Header = () => {
         console.error("Erro ao fazer o parse do JSON do empresa: ", error);
       }
     }
-  }, []);
+  }, [isDarkMode]);
 
   // useEffect(() => {
   //   if (ArrayEmpresas.length > 0 && usuarioGrupo.length > 0) {
@@ -118,15 +118,13 @@ const Header = () => {
     console.log("%c É dark mode? :", "color: yellow; background-color:black;padding:1rem", isDarkMode);
 
   return (
-    <header className={`${isDarkMode === 'true'
-      ? 'bg-slate-900'
-      : 'bg-slate-500'
-    } h-12 flex flex-1 items-center justify-between w-full`}>
+ 
+    <header className={`${isDarkMode === 'true' ? 'bg-darkClaro': 'bg-azulEscuro' } h-12 flex flex-1 items-center justify-between w-full`}>
       <nav className="p-4 flex flex-row items-center justify-between w-full">
         <img className="h-9" src="/assets/images/logo.png" alt="Logo" />
         <p className="text-branco font-bold">{capitalizeFirstLetter(nomeFuncionario)}</p>
 
-        <select className="bg-azulEscuro text-branco border-none w-28 outline-none" name="select" onChange={ChangeEmpresa} id="">
+        <select className={` ${isDarkMode === 'true' ? 'bg-darkClaro':'bg-azulEscuro'}  text-branco font-bold border-none w-28 outline-none`} name="select" onChange={ChangeEmpresa} id="">
           {ArrayEmpresas.map((empresa) => (
             <option key={empresa.ep_id} value={empresa.ep_id}>
               {empresa.ep_nomerazao}
@@ -137,6 +135,9 @@ const Header = () => {
         <img onClick={Logout()} className="h-6 cursor-pointer" src="/assets/images/logout.png " alt="Logout" />
       </nav>
     </header>
+
+  
+   
   );
 };
 

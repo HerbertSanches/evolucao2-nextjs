@@ -23,6 +23,8 @@ const DashboardComponent: React.FC = () => {
   const anoAtualString = anoAtual.toString();
   const [mesSelecionado, setMesSelecionado] = useState(mesAtual);
   const [anoSelecionado, setAnoSelecionado] = useState<string>(anoAtualString); 
+
+  const [isDarkMode, setIsDarkMode] = useState('');
   
   const mesParaChave: { [key: number]: string }  = {
     0: 'mt_vlrjan',
@@ -44,6 +46,10 @@ const DashboardComponent: React.FC = () => {
   //----------------------------Meta------------------------------------------------
   useEffect(() => { 
     try {
+    
+      const darkMode = localStorage.getItem('DarkMode');
+      setIsDarkMode(darkMode ?? '');
+
       const fetchDataMetaMesAno = async () => {
         const idEmpresa = localStorage.getItem('idEmpresa')
         
@@ -214,35 +220,37 @@ const DashboardComponent: React.FC = () => {
   // console.log(anoAtual)
   // console.log(faturamentoMes)
 
+ 
+
 
   return (
-    <div className='w-full '>
-      <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>
+    <div className={`w-full h-[100%] ${isDarkMode === 'true' ? 'bg-dark border-t border-white': 'bg-white' } `}>
+      <h1 className={`flex text-white ${isDarkMode === 'true' ? 'bg-darkClaro': 'bg-white' } items-center justify-center font-bold text-xl p-3 mb-3`}>
         Dashboard Faturamento
       </h1>
      
       {/* bg-cinza */}
-      <div className='ml-3 mr-3 mt-3 mb-4 pb-3 bg-slate-300 bg-opacity-50 rounded-[8px] h-auto'>
+        <div className={`ml-3 mr-3 mt-3 mb-4 pb-3 ${isDarkMode === 'true' ? 'bg-dark': 'bg-slate-300 bg-opacity-50' }  rounded-[8px] h-auto`}>
         
         { mesAtual  !== mesSelecionado && mesAtual !== 0 ? ( 
-          <Metas metaMes={metaMesSelecionado} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />
-        ) : <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} />}
+          <Metas metaMes={metaMesSelecionado} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} modo={isDarkMode} />
+        ) : <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} modo={isDarkMode} />}
         
         { mesAtual === mesSelecionado && anoAtual === Number(anoSelecionado)  ? (
           <>
-            <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDia} porcentagem={Number(diaPorcentagem)} />
-            <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemana} porcentagem={Number(semanaPorcentagem)} />
+            <Faturamento tipoFaturamento={'Dia'} valor={faturamentoDia} porcentagem={Number(diaPorcentagem)} modo={isDarkMode} />
+            <Faturamento tipoFaturamento={'semana'} valor={faturamentoSemana} porcentagem={Number(semanaPorcentagem)} modo={isDarkMode} />
           </>
         ) : null}
 
         { mesAtual  !== mesSelecionado || mesAtual !== 0  && !isDataLoaded ? (
-          <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMes} porcentagem={Number(mesPorcentagemSelecionado)} /> /*verificar se da pra tirar um*/ 
-        ) : <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMes} porcentagem={Number(mesPorcentagem)} />}
+          <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMes} porcentagem={Number(mesPorcentagemSelecionado)} modo={isDarkMode} /> /*verificar se da pra tirar um*/ 
+        ) : <Faturamento tipoFaturamento={'Mês'} valor={faturamentoMes} porcentagem={Number(mesPorcentagem)} modo={isDarkMode}/>}
         
-        <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAno} porcentagem={Number(anoPorcentagem)} />
+        <Faturamento tipoFaturamento={'Ano'} valor={faturamentoAno} porcentagem={Number(anoPorcentagem)} modo={isDarkMode} />
        
-        <div className='flex min-w-[250px] max-w-full items-center justify-between rounded-t-lg h-10 bg-branco mr-4 ml-4 mt-4 mb-0 border-b-2'>
-          <select value={anoSelecionado} onChange={handleSelectChange} className='bg-branco ml-1 h-7 cursor-pointer '>
+        <div className={`flex min-w-[250px] max-w-full items-center justify-between rounded-t-lg h-10 ${isDarkMode === 'true' ? 'bg-darkClaro': 'bg-white' } mr-4 ml-4 mt-4 mb-0 border-b-2`}>
+          <select value={anoSelecionado} onChange={handleSelectChange} className={`${isDarkMode === 'true' ? 'bg-darkClaro text-white': 'bg-white' } ml-1 h-7 cursor-pointer `}>
             <option value={anoAtual}>
               Faturamento de {anoAtual}
             </option>
@@ -259,7 +267,7 @@ const DashboardComponent: React.FC = () => {
         </div>
 
         <div id='background GraficoAnual'>
-          {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendMesSelecionado={handMesSelecionado} sendMetaSelecionada={handleMetaSelecionada} />} 
+          {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendMesSelecionado={handMesSelecionado} sendMetaSelecionada={handleMetaSelecionada} modo={isDarkMode} />} 
         </div>
 
       </div>

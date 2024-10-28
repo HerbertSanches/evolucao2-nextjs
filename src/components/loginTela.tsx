@@ -101,30 +101,32 @@ const LoginTela: React.FC = () => {
     };
   }, [company]);
 
+  
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-azulEscuro md:bg-azulClaro w-full max-w-full">
       <div
         id="login_container"
-        className="flex overflow-hidden flex-row h-[90vh] w-[70%] items-center justify-center bg-azulEscuro text-white rounded-[20px] sm:shadow-global"
+        className="flex overflow-hidden flex-row h-[90vh] tablet2:w-[1000px]  items-center justify-center bg-azulEscuro text-white rounded-[8px] tablet2:shadow-global ml-5 mr-5"
       >
         <div
           id="metadeCarrossel"
-          className="flex tablet:w-1/2 bg-azulEscuro h-full max-[790px]:hidden"
+          className="hidden tablet2:flex  tablet2:w-1/2 bg-red-500 h-full "
         >
           <Carrosel />
         </div>
   
         {/* Linha Divisória */}
-        <div className="w-[1px] h-2/3 bg-gray-400 mx-2"></div>
+        <div className="w-[1px] h-2/3 bg-gray-400 mx-2 hidden tablet2:flex"></div>
   
         <div
           id="login"
-          className="flex flex-col items-center justify-center w-full md:w-1/2 p-4 md:p-8"
+          className="flex flex-col items-center justify-center w-full tablet2:w-1/2 p-4 md:p-8"
         >
           {/* Logo */}
           <div id="evo_icon" className="w-40 h-40">
-            <Image src={logo} alt="Logo" className="w-40 h-40 object-cover" />
+            <Image src={logo} alt="Logo" className="w-40 h-40 object-contain" />
           </div>
   
           <form
@@ -132,11 +134,18 @@ const LoginTela: React.FC = () => {
             className="flex flex-col items-center gap-4 p-10"
             onSubmit={handleEncode}
           >
+          
             <div>
-              {isClient && (
-                <ComboBox options={empresas} onChange={setSelectedCompanyId} />
-              )}
+            {isLoading ? (
+              <div className="flex justify-center items-center">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
             </div>
+            ) : (
+              isClient && <ComboBox options={empresas} onChange={setSelectedCompanyId} tipoComboBox='login'/>
+            )}
+
+          </div>
+         
   
             <br />
   
