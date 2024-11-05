@@ -3,6 +3,7 @@ import React, { use, useEffect, useState } from "react";
 import api from "@/services/api";
 import DashboardAvisosLoading from "../components/DashboardAvisosLoading"
 import ModalAvisos from "./ModalAvisos";
+import { darkMode } from "@/services/comum.utils";
 
 const AvisosComponent = () => {
   const [dataAvisos, setDataAvisos] = useState('');
@@ -22,8 +23,7 @@ const AvisosComponent = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [avisoSelecionado, setAvisoSelecionado] = useState<string | null>(null);
-  
-  
+  const [mode, setMode] = useState<string | any>('');
   const anoAtual = new Date().getFullYear();
   
   const [responsePagarData, setResponsePagarData] = useState<any>(null);
@@ -35,6 +35,7 @@ const AvisosComponent = () => {
     const idEmpresa = localStorage.getItem('idEmpresa');
     const tokenHeader = localStorage.getItem('token');
     const idUsuario = localStorage.getItem('idUsuario')
+    setMode(darkMode());
   
     const fetchDataGenerinaPagarReceber = async () => {
       
@@ -227,124 +228,128 @@ const AvisosComponent = () => {
   } 
   
   return (
-    <div className="bg-dark h-screen overflow-hidden">
-      <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl p-3'>
-        Dashboard Avisos
-      </h1>
-      
-      <div className='flex flex-col ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px]  bg-slate-300 bg-opacity-50 rounded-[8px] h-auto'> 
-        
-        <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
-          <div className={`h-full w-2 rounded-l-md ${CorBordaPendente()}`}></div>
-         <h1 className="fonte-ev text-8xl h-auto mt-3">Â</h1>
-          
-          {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center ml-2 ">
-            <p className="text-azulEscuro font-bold text-lg">Notas Pendentes</p>
-            <p className="text-azulEscuro text-base">Você tem:</p>
-            <p className="text-azulEscuro text-base">{notasPendentes} notas pendentes.</p> {/* Ajuste de número de notas */}
+
+    <div className={`${mode === 'true' ? 'bg-dark ' : 'bg-white'} h-screen`}>
+
+
+        <h1 className={`flex ${mode === 'true' ? 'text-white bg-darkClaro border-t border-white' : 'text-azulEscuro bg-white'} items-center justify-center font-bold text-xl p-3`}>
+          Dashboard Avisos
+        </h1>
+
+        <div className={`flex flex-col ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px] ${mode === 'true' ? 'bg-dark ' : 'bg-slate-300 bg-opacity-50'} rounded-[8px] h-auto`}>
+
+          <div className={`flex h-28 items-center ${mode === 'true' ? 'bg-darkClaro' : 'bg-white'} bg-branco ml-4 mr-4 mt-3 rounded-lg relative `}>
+            <div className={`h-full w-2 rounded-l-md ${CorBordaPendente()}`}></div>
+            <h1 className={`fonte-ev filter ${mode === 'true' ? 'brightness-0 invert' : ''}  text-8xl h-auto mt-3`}>Â</h1>
+
+            {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
+            <div className="flex flex-col justify-center ml-2 ">
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} font-bold text-lg`}>Notas Pendentes</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>Você tem:</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{notasPendentes} notas pendentes.</p> {/* Ajuste de número de notas */}
+            </div>
+
+            {/* Ícone de três pontos (kebab menu) */}
+            <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('notasPendentes')}>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+            </div>
           </div>
 
-          {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3"  onClick={() => handleOpenModal('notasPendentes')}>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+
+          <div className={`flex h-28 items-center ${mode === 'true' ? 'bg-darkClaro' : 'bg-white'} bg-branco ml-4 mr-4 mt-3 rounded-lg relative `}>
+            <div className={`h-full w-2 rounded-l-md ${CorBordaQntMinima()}`}></div>
+            <h1 className={`fonte-ev filter ${mode === 'true' ? 'brightness-0 invert' : ''}  text-8xl h-auto mt-3`}>n</h1>
+
+            {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
+            <div className="flex flex-col justify-center ml-2">
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} font-bold text-lg`}>Qnt Mínima</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>Você tem:</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{qntMinimoDoRecomendado} mínimo do recomendado.</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{qntMinima} abaixo do mínimo.</p> {/* Ajuste de número de notas */}
+            </div>
+
+            {/* Ícone de três pontos (kebab menu) */}
+            <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('qntMinima')}>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+            </div>
+          </div>
+
+          <div className={`flex h-28 items-center ${mode === 'true' ? 'bg-darkClaro' : 'bg-white'} bg-branco ml-4 mr-4 mt-3 rounded-lg relative `}>
+            <div className={`h-full w-2 rounded-l-md ${CorReceber()}`}></div>
+            <h1 className={`fonte-ev filter ${mode === 'true' ? 'brightness-0 invert' : ''}  text-8xl h-auto mt-3`}>d</h1>
+
+            {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
+            <div className="flex flex-col justify-center ml-2  ">
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} font-bold text-lg`}>Produtos a Vencer</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>Você tem:</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{produtoValidadeVencendo || produtoValidadeVencendo === 0 ? produtoValidadeVencendo : ''} vencendo.</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{produtoValidadeVencido} vencidos.</p> {/* Ajuste de número de notas */}
+            </div>
+
+            {/* Ícone de três pontos (kebab menu) */}
+            <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('produtosVencer')}>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+            </div>
+          </div>
+
+          <div className={`flex h-32 items-center ${mode === 'true' ? 'bg-darkClaro' : 'bg-white'} bg-branco ml-4 mr-4 mt-3 rounded-lg relative `}>
+            <div className={`h-full w-2 rounded-l-md ${CorVencer()}`}></div>
+            <h1 className={`fonte-ev filter ${mode === 'true' ? 'brightness-0 invert' : ''}  text-8xl h-auto mt-3`}>$</h1>
+
+            {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
+            <div className="flex flex-col justify-center ml-2 ">
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} font-bold text-lg`}>Contas a Receber</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>Você tem:</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{contasAReceberVencido} títulos vencidos.</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{contasAReceberHoje} títulos para hoje.</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{contasAReceberSemana} títulos essa semana.</p>
+            </div>
+
+            {/* Ícone de três pontos (kebab menu) */}
+            <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('contasReceber')}>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+            </div>
+          </div>
+
+          <div className={`flex h-32 items-center ${mode === 'true' ? 'bg-darkClaro' : 'bg-white'} bg-branco ml-4 mr-4 mt-3 rounded-lg relative `}>
+            <div className={`h-full w-2 rounded-l-md ${CorPagar()}`}></div>
+            <h1 className={`fonte-ev filter ${mode === 'true' ? 'brightness-0 invert' : ''}  text-8xl h-auto mt-3`}>$</h1>
+
+            {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
+            <div className="flex flex-col justify-center ml-2 ">
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} font-bold text-lg`}>Contas a Pagar</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>Você tem:</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{contasAPagarVencido} títulos vencidos.</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{contasAPagarHoje} títulos para hoje.</p>
+              <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-base`}>{contasAPagarSemana} títulos essa semana.</p>
+            </div>
+
+            {/* Ícone de três pontos (kebab menu) */}
+            <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('contasPagar')}>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+            </div>
           </div>
         </div>
 
+        {avisoSelecionado !== null && (
+          <ModalAvisos
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            tipoAviso={avisoSelecionado}
+          />
+        )}
+      </div>
 
-        <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
-        <div className={`h-full w-2 rounded-l-md ${CorBordaQntMinima()}`}></div>
-         <h1 className="fonte-ev left-0 text-8xl h-auto ">n</h1>
-          
-          {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center ml-2">
-            <p className="text-azulEscuro font-bold text-lg">Qnt Mínima</p>
-            <p className="text-azulEscuro text-base">Você tem:</p>
-            <p className="text-azulEscuro text-base">{qntMinimoDoRecomendado} mínimo do recomendado.</p>
-            <p className="text-azulEscuro text-base">{qntMinima} abaixo do mínimo.</p> {/* Ajuste de número de notas */}
-          </div>
-
-          {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('qntMinima')}>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          </div>
-        </div>
-
-        <div className="flex h-28 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
-        <div className={`h-full w-2 rounded-l-md ${CorReceber()}`}></div>
-         <h1 className="fonte-ev left-0 text-8xl h-auto ">d</h1>
-          
-          {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center ml-2  ">
-            <p className="text-azulEscuro font-bold text-lg">Produtos a Vencer</p>
-            <p className="text-azulEscuro text-base">Você tem:</p>
-            <p className="text-azulEscuro text-base">{produtoValidadeVencendo || produtoValidadeVencendo === 0 ? produtoValidadeVencendo : ''} vencendo.</p> 
-            <p className="text-azulEscuro text-base">{produtoValidadeVencido} vencidos.</p> {/* Ajuste de número de notas */}
-          </div>
-
-          {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('produtosVencer')}>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          </div>
-        </div>
-
-        <div className="flex h-32 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
-        <div className={`h-full w-2 rounded-l-md ${CorVencer()}`}></div>
-         <h1 className="fonte-ev left-0 text-8xl h-auto ">$</h1>
-          
-          {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center ml-2 ">
-            <p className="text-azulEscuro font-bold text-lg">Contas a Receber</p>
-            <p className="text-azulEscuro text-base">Você tem:</p>
-            <p className="text-azulEscuro text-base">{contasAReceberVencido} títulos vencidos.</p> 
-            <p className="text-azulEscuro text-base">{contasAReceberHoje} títulos para hoje.</p>
-            <p className="text-azulEscuro text-base">{contasAReceberSemana} títulos essa semana.</p>
-          </div>
-
-          {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('contasReceber')}>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          </div>
-        </div>
-
-        <div className="flex h-32 items-center bg-branco ml-4 mr-4 mt-3 rounded-lg relative ">
-        <div className={`h-full w-2 rounded-l-md ${CorPagar()}`}></div>
-         <h1 className="fonte-ev left-0 text-8xl h-auto ">$</h1>
-          
-          {/* Texto de Notas Pendentes - agora centralizado verticalmente */}
-          <div className="flex flex-col justify-center ml-2 ">
-            <p className="text-azulEscuro font-bold text-lg">Contas a Pagar</p>
-            <p className="text-azulEscuro text-base">Você tem:</p>
-            <p className="text-azulEscuro text-base">{contasAPagarVencido} títulos vencidos.</p> 
-            <p className="text-azulEscuro text-base">{contasAPagarHoje} títulos para hoje.</p>
-            <p className="text-azulEscuro text-base">{contasAPagarSemana} títulos essa semana.</p>
-          </div>
-
-          {/* Ícone de três pontos (kebab menu) */}
-          <div className="flex flex-col items-center justify-center space-y-1 absolute right-3 p-1 top-3" onClick={() => handleOpenModal('contasPagar')}>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
-          </div>
-        </div>
-      </div>  
-
-      {avisoSelecionado !== null && (
-        <ModalAvisos
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          tipoAviso={avisoSelecionado}
-        />
-      )}
-    </div>
   );
 }
 

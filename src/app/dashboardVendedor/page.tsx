@@ -19,13 +19,12 @@ const DashboardVenda: React.FC = () => {
     return null
   }
 
-
   return (
     <>
       <Header />
       {/* <Suspense fallback={<div>Loading...</div>}> */}
         
-        {windowWidth < 600 ? <DashboardVendedor /> : <DashboardComponentDasktop />} 
+        <DashboardVendedor /> 
         
       {/* </Suspense> */}
       <Footer />

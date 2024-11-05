@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
+import { darkMode } from '@/services/comum.utils';
+
 
 interface AvisosValidadeMap {
   //notas pendentes
@@ -37,6 +39,7 @@ interface ModalProps {
 }
 
 
+
 const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
   const [tituloModal, setTituloModal] = useState("")
   const [tituloColuna1, setTituloColuna1] = useState("");
@@ -44,6 +47,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
   const [tituloColuna3, setTituloColuna3] = useState("");
   const [tituloColuna4, setTituloColuna4] = useState("");
   const [tituloColuna5, setTituloColuna5] = useState("");
+  const [mode, setMode] = useState<string | any>('');
 
   const [coluna1, setColuna1] = useState("Coluna 1");
   const [coluna2, setColuna2] = useState("Coluna 2");
@@ -69,6 +73,7 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
         const tokenHeader = localStorage.getItem('token');
         setTituloModal("Notas Pendentes");
 
+        setMode(darkMode());
         setTituloColuna1("Cód.");
         setTituloColuna2("Tipo Venda");
         setTituloColuna3("Cliente");
@@ -245,30 +250,30 @@ const ModalAvisos: React.FC<ModalProps> = ({ isOpen, onClose, tipoAviso }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className={`fixed inset-0 ${mode === 'true' ? 'bg-zinc-400 bg-opacity-20' : 'bg-black'}  bg-opacity-50 flex justify-center items-center`}>
 
-      <div className="flex flex-col bg-white p-6 pt rounded-lg shadow-lg w-[90%] h-auto max-h-[80vh] overflow-y-auto">
-        <h2 className="text-2xl mb-4">{tituloModal}</h2>
+      <div className={`flex flex-col ${mode === 'true' ? 'bg-dark' : 'bg-white'}  p-6 pt rounded-lg shadow-lg w-[90%] h-auto max-h-[80vh] overflow-y-auto`}>
+        <h2 className={`text-2xl ${mode === 'true' ? 'text-white' : 'text-black'} mb-4`}>{tituloModal}</h2>
         <div  className='overflow-x-auto'>
-          <table className="w-full text-left whitespace-nowrap bg-branco">
+          <table className={`w-full text-left whitespace-nowrap ${mode === 'true' ? 'bg-dark' : 'bg-branco'}`}>
             <thead className='border-none mt-0 bg-branco border-4 top-0'>
               <tr>
-                <th className="bg-branco border text-lg p-2 sticky top-0 ">{tituloColuna1}</th>
-                <th className="bg-branco border text-lg p-2 sticky top-0">{tituloColuna2}</th>
-                <th className="bg-branco border text-lg p-2 sticky top-0">{tituloColuna3}</th>
-                <th className="bg-branco border text-lg p-2 sticky top-0">{tituloColuna4}</th>
-                <th className="bg-branco border text-lg p-2 sticky top-0">{tituloColuna5}</th>
+                  <th className={`${mode === 'true' ? 'bg-dark text-white' : 'bg-branco text-black'} border text-lg p-2 sticky top-0`}>{tituloColuna1}</th>
+                  <th className={`${mode === 'true' ? 'bg-dark text-white' : 'bg-branco text-black'} border text-lg p-2 sticky top-0`}>{tituloColuna2}</th>
+                  <th className={`${mode === 'true' ? 'bg-dark text-white' : 'bg-branco text-black'} border text-lg p-2 sticky top-0`}>{tituloColuna3}</th>
+                  <th className={`${mode === 'true' ? 'bg-dark text-white' : 'bg-branco text-black'} border text-lg p-2 sticky top-0`}>{tituloColuna4}</th>
+                  <th className={`${mode === 'true' ? 'bg-dark text-white' : 'bg-branco text-black'} border text-lg p-2 sticky top-0`}>{tituloColuna5}</th>
               </tr>
             </thead>
             <tbody>
               {tipoAviso === "notasPendentes" && Array.isArray(avisosValidadeMap) ? (
                 avisosValidadeMap.map((item, index) => (
-                  <tr className="hover:bg-blue-100 border-b-2" key={index}>
-                    <td className="border p-2 truncate ">{item.vd_id}</td>
-                    <td className="border p-2 truncate " >{item.vd_tipovenda}</td>
-                    <td className="border p-2 truncate max-w-40" title={item.vd_cliente}>{item.vd_cliente}</td>
-                    <td className="border p-2 truncate ">{formatarDateHora(item.vd_histdtcadastro)}</td>
-                    <td className="border p-2 truncate ">{formatarValor(item.vd_vlrtotal)}</td>
+                  <tr className={`${mode === 'true' ? 'hover:bg-white hover:bg-opacity-5' : ''} border-b-2`} key={index}>
+                    <td className={` ${mode === 'true' ? 'text-white' : 'text-black'} border p-2 truncate `}>{item.vd_id}</td>
+                    <td className={` ${mode === 'true' ? 'text-white' : 'text-black'} border p-2 truncate `}>{item.vd_tipovenda}</td>
+                    <td className={` ${mode === 'true' ? 'text-white' : 'text-black'} border p-2 truncate max-w-40`} title={item.vd_cliente}>{item.vd_cliente}</td>
+                    <td className={` ${mode === 'true' ? 'text-white' : 'text-black'} border p-2 truncate `}>{formatarDateHora(item.vd_histdtcadastro)}</td>
+                    <td className={` ${mode === 'true' ? 'text-white' : 'text-black'} border p-2 truncate `}>{formatarValor(item.vd_vlrtotal)}</td>
                   </tr>
                 ))
                 ) : (

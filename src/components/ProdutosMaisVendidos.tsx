@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
+import { darkMode } from "@/services/comum.utils";
 
 
 interface produtosMaisVendidos {
     pr_descricao: string;
     total: number;
 }
+
+
 
 const ProdutosMaisVendidos = () => {
     const anoAtual = new Date().getFullYear();
@@ -15,6 +18,7 @@ const ProdutosMaisVendidos = () => {
     const [anoSelecionado, setAnoSelecionado] = useState<string>(anoAtualString); 
     const [maisVendidos, setMaisVendidos] = useState<produtosMaisVendidos[]>([]);
     const [quantidadeValorSelecionado, setQuantidadeValorSelecionado] = useState(0);
+    const [mode, setMode] = useState<string | any>('')
     
     const meses = [
         { nome: 'Janeiro', valor: 1 },
@@ -34,6 +38,7 @@ const ProdutosMaisVendidos = () => {
     useEffect(() => {
         const idEmpresa = localStorage.getItem('idEmpresa');
         const tokenHeader = localStorage.getItem('token');
+        setMode(darkMode());
         const fetchDataProdutosMaisVendidos = async () => {
             const responseMetaMesAno = await api.get(`venda/listarmaisvendidos/${idEmpresa}/${quantidadeValorSelecionado}/${anoSelecionado}/${mesSelecionado}`,{});
 
@@ -68,9 +73,16 @@ const ProdutosMaisVendidos = () => {
     console.log(mesSelecionado)
     console.log(anoSelecionado)
     console.log(quantidadeValorSelecionado)
+
+    // const element = containerRef.current.querySelector(`[data-mes='${mesSelecionado}']`);
+    // if (element) {
+    //   (element as HTMLElement).scrollIntoView({ behavior: 'smooth', inline: 'start' });
+    // }
+
+
     return(
         <>
-        <div className="flex space-x-3 overflow-x-auto py-2 bg-azulEscuro ">
+        <div className={`flex space-x-3 overflow-x-auto py-2 ${mode === 'true' ? 'bg-darkClaro' : 'bg-azulEscuro'} `}>
           {meses.map((mes) => (
             <button
                 key={mes.valor}
@@ -97,11 +109,14 @@ const ProdutosMaisVendidos = () => {
         </div>
         
         <main>
-            <h1 className='flex text-azulEscuro items-center justify-center font-bold text-xl mt-3 mb-3'>
+           
+            <h1 className={`flex ${mode === 'true' ? 'bg-darkClaro text-white' : 'bg-white text-azulEscuro'} items-center justify-center font-bold text-xl p-3`}>
                 Dashboard 10 Mais Vendidos
             </h1>
 
-            <div className="flex flex-col ml-3 mr-3 mt-3 pb-2  bg-slate-300 bg-opacity-50 rounded-[8px] h-auto shadow-md">
+            <div className={`${mode === 'true' ? 'bg-dark' : 'bg-white'} h-screen`}>
+
+            <div className={`flex flex-col ml-3 mr-3 pb-2 ${mode === 'true' ? 'bg-dark' : 'bg-slate-300 bg-opacity-50'}  rounded-[8px] h-auto shadow-md`}>
                 <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7 flex justify-end": ""}`}>
                     { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
                     <>
@@ -113,7 +128,7 @@ const ProdutosMaisVendidos = () => {
                     ) : null}  
                 </div> 
 
-                <div className="ml-2 mr-2 mt-2 pb-2 bg-branco rounded-md shadow-md">
+                <div className={`ml-2 mr-2 mt-2 pb-2 ${mode === 'true' ? 'bg-branco' : 'bg-darkClaro'} rounded-md shadow-md`}>
                     <div className="flex flex-row ml-3 mr-3 p-1 mt-1 justify-between text-azulClaro items-center text-base font-semibold border-b-3 border-solid border-cinza">
                         <h1 className="ml-3">Produtos Mais Vendidos</h1>
                         <select value={quantidadeValorSelecionado} onChange={handleSelectValorQuantidadeChange} className='bg-branco text-right justify-center rounded-full p-1 items-end font-semibold mr-1 text-azulClaro cursor-pointer '>
@@ -146,6 +161,9 @@ const ProdutosMaisVendidos = () => {
                     ))}
                 </div>
             </div>
+
+            </div>
+            
         </main>
         </>
             

@@ -23,6 +23,5 @@ export function darkMode() {
   // const [mode, setMode] = useState<string | null>('');
   const setMode = localStorage.getItem('DarkMode');
 
-  // setMode(modeGetLocalStorage); //pegando o mode aqui
   return setMode;
 }

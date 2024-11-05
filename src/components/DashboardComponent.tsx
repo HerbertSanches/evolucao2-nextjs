@@ -139,7 +139,7 @@ const DashboardComponent: React.FC = () => {
         console.log('Grafico anual: ', responseGraficoAnual)
         setDataGraficoAnual(responseGraficoAnual.data.notificacao[3].vendasmes)
 
-        console.log(idEmpresa);
+        console.log(idEmpresa); 
         console.log(idUsuario);
       }
 
@@ -181,7 +181,7 @@ const DashboardComponent: React.FC = () => {
   }; 
 
   const handleMetaSelecionada = (value:any) => {
-    console.log('meta do mes selecionado: ',value)
+    console.log('meta do mes selecionado: ', value)
     setMetaMesSelecionado(value)
   }
 
@@ -224,8 +224,8 @@ const DashboardComponent: React.FC = () => {
 
 
   return (
-    <div className={`w-full h-[100%] ${isDarkMode === 'true' ? 'bg-dark border-t border-white': 'bg-white' } `}>
-      <h1 className={`flex text-white ${isDarkMode === 'true' ? 'bg-darkClaro': 'bg-white' } items-center justify-center font-bold text-xl p-3 mb-3`}>
+    <div className={`w-full h-[calc(100dvh-3rem-50px)] ${isDarkMode === 'true' ? 'bg-dark border-t border-white': 'bg-white' } `}>
+      <h1 className={`flex  ${isDarkMode === 'true' ? 'bg-darkClaro text-white': 'bg-white text-azulEscuro' } items-center justify-center font-bold text-xl p-3 mb-3`}>
         Dashboard Faturamento
       </h1>
      

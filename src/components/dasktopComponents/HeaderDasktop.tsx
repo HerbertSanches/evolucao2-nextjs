@@ -105,7 +105,7 @@ const HeaderDasktop = () => {
           ))}
         </select> */}
         
-        <ComboBox options={ArrayEmpresas} onChange={ChangeEmpresa} tipoComboBox={'header'} />
+        <ComboBox options={ArrayEmpresas} onChange={ChangeEmpresa} tipoComboBox={'header'} isDarkMode="true"/>
   
       </nav>
     </header>

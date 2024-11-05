@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../services/api';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import DoughnutChartWithCenterText from './DoughnutChart';
 import Usuario from "/public/assets/images/usuario-azul.png"
 import Metas from './Metas';
 import DashBoardVendedorLoading from '../components/dashboardVendedorLoading';
 import { darkMode } from '@/services/comum.utils';
+
+
 
 
 interface Funcionario {
@@ -215,7 +217,7 @@ const DashboardVendedor: React.FC = () => {
 
   return (
     <>
-      <div className={`flex space-x-3 overflow-x-auto py-2 ${mode === 'true' ? 'bg-dark' : 'bg-azulEscuro'} `} ref={containerRef}>
+      <div className={`flex space-x-3 overflow-x-auto py-2 ${mode === 'true' ? 'bg-darkClaro' : 'bg-azulEscuro'} `} ref={containerRef}>
           {meses.map((mes) => (
           <button
               key={mes.valor}
@@ -242,9 +244,12 @@ const DashboardVendedor: React.FC = () => {
       </div>
             
       
-      <h1 className='flex text-azulEscuro  bg-red-200items-center justify-center font-bold text-xl mt-3 mb-3'>Dashboard Por Vendedor</h1>
+      <h1 className={`flex  ${mode === 'true' ? 'bg-darkClaro text-white': 'bg-white text-azulEscuro' } items-center justify-center font-bold text-xl p-3`}>
+        Dashboard Por Vendedor
+      </h1>
 
-      <div className='flex flex-col ml-3 mr-3 mt-3 mb-4 pt-[1px] pb-[13px]  bg-slate-300 bg-opacity-50 rounded-[8px] h-auto'>  
+      <div className={`${mode === 'true' ? 'bg-dark' : 'bg-white'} h-[calc(100dvh-7rem-50px)]`}>
+         <div className={`flex flex-col ml-3 mr-3 mb-4 pt-[1px] pb-[13px] ${mode === 'true' ? 'bg-dark' : 'bg-slate-300 bg-opacity-50'}  rounded-[8px] h-auto`}>  
         <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} modo={mode}/>  
         
 
@@ -264,14 +269,14 @@ const DashboardVendedor: React.FC = () => {
           <div key={index} className={`${mode === 'true' ? 'bg-darkClaro' : 'bg-branco'} rounded-lg p-4 flex items-center justify-between shadow-global ml-4 mr-4 mt-3`} >
 
             <div className="flex items-center mr-1">
-              <Image src={Usuario} alt='' className="h-12 w-12 object-contain" />
+              <Image src={Usuario}  width={48} height={48}  alt='' className={`${mode === 'true' ? 'invert brightness-0 contrast-100' : ''} h-12 w-12 object-contain`} />
               <div className="ml-4 truncate">
-                <p className="text-blue-800 font-bold text-[15px] truncate ">{funcionario.ps_nomerazao}</p>
-                <p className="text-blue-800 text-lg text-[18px]">R$: {funcionario.total_mes !== undefined && funcionario.total_mes !== null
+                <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} font-bold text-[15px] truncate `}>{funcionario.ps_nomerazao}</p>
+                <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-lg text-[18px]`}>R$: {funcionario.total_mes !== undefined && funcionario.total_mes !== null
                 ? funcionario.total_mes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                 : '0,00'}</p>
                 
-                <p className="text-blue-800 text-xs">
+                <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-xs`}>
                   Meta R$: {funcionario[chaveMetaMesFuncionario] !== undefined && funcionario[chaveMetaMesFuncionario] !== null
                     ? funcionario[chaveMetaMesFuncionario].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
                     : '0,00'}
@@ -288,6 +293,8 @@ const DashboardVendedor: React.FC = () => {
           </div>
         ))}
       </div> 
+      </div>
+     
     </>
   );
 };
