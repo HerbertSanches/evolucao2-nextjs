@@ -167,25 +167,25 @@ const sqlValidade = async (idEmpresa:number) => {
   const responseDataValidade = await api.post('buscar/generica', encodeValidade, {});
 
 
-// const accountSid = 'AC91775b0355ffa7b544a80765a7951d03';
-// const client = require('twilio')(accountSid, authToken);
+  // const accountSid = 'AC91775b0355ffa7b544a80765a7951d03';
+  // const client = require('twilio')(accountSid, authToken);
 
 
-// const authToken = '64954ba10c4fde27f2e43c00c3ae9df3';
-// const teste= 'VariavelTeste'
+  // const authToken = '64954ba10c4fde27f2e43c00c3ae9df3';
+  // const teste= 'VariavelTeste'
 
 
-// const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-// client.messages
-//     .create({
-//         from: 'whatsapp:+14155238886',
-//         // contentSid: 'HXb5b62575e6e4ff6129ad7c8efe1f983e',
-//         body: `olá estou testando o Twilio integrado com o projeto dashboard web!`,
-//         // contentVariables: '{"1":"12/1","2":"3pm"}',
-//         to: 'whatsapp:+556992274949'
-//     })
-//     .then(message => console.log(`Mensagem enviada com sucesso!  SID: ${message.sid}`))
-//     .catch(error => console.error(`Erro ao enviar mensagem: ${error.message}`));
+  // const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+  // client.messages
+  //     .create({
+  //         from: 'whatsapp:+14155238886',
+  //         // contentSid: 'HXb5b62575e6e4ff6129ad7c8efe1f983e',
+  //         body: `olá estou testando o Twilio integrado com o projeto dashboard web!`,
+  //         // contentVariables: '{"1":"12/1","2":"3pm"}',
+  //         to: 'whatsapp:+556992274949'
+  //     })
+  //     .then(message => console.log(`Mensagem enviada com sucesso!  SID: ${message.sid}`))
+  //     .catch(error => console.error(`Erro ao enviar mensagem: ${error.message}`));
 
   return responseDataValidade.data;
 }

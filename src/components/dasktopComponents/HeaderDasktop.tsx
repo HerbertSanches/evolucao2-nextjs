@@ -2,7 +2,7 @@ import { _capitalize } from "chart.js/dist/helpers/helpers.core";
 import { useState, useEffect } from "react";
 import React from "react";
 import { ComboBox, EmpresaOption } from "../ComboBox";
-
+import { darkMode } from "@/services/comum.utils";
 
 // Defina a estrutura da empresa
 // interface Empresa {
@@ -18,10 +18,6 @@ interface usuarioGrupo {
 
 const HeaderDasktop = () => {
 
-
-
-
-  
   const [ArrayEmpresas, setArrayEmpresas] = useState<EmpresaOption[]>([]);
   const [usuarioGrupo, setUsuarioGrupo] = useState<usuarioGrupo[]>([]);
   const [urlEmpresa, setUrlEmpresas] = useState('');
@@ -34,13 +30,13 @@ const HeaderDasktop = () => {
   }
 
   useEffect(() => {
+    setMode(darkMode())
+  },[mode]);
+
+  useEffect(() => {
     const empresas = localStorage.getItem('empresas');
     const storedUsuarioGrupo = localStorage.getItem('usuarioGrupo');
     const empresaLocalStorage = localStorage.getItem('idEmpresa');
-    
-    const modeGetLocalStorage = localStorage.getItem('darkMode');
-
-    setMode(modeGetLocalStorage); //pegando o mode aqui
     const url = localStorage.getItem('urlEmpresa');
     const nome = localStorage.getItem('NOMEFUNCIONARIO');
 

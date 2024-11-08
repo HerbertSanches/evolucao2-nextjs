@@ -2,13 +2,10 @@ import React, { useEffect, useState } from "react";
 import api from "../services/api";
 import { darkMode } from "@/services/comum.utils";
 
-
 interface produtosMaisVendidos {
     pr_descricao: string;
     total: number;
 }
-
-
 
 const ProdutosMaisVendidos = () => {
     const anoAtual = new Date().getFullYear();
@@ -34,6 +31,10 @@ const ProdutosMaisVendidos = () => {
         { nome: 'Novembro', valor: 11 },
         { nome: 'Dezembro', valor: 12 },
     ];
+
+    useEffect(() => {
+        setMode(darkMode())
+    },[mode]);
 
     useEffect(() => {
         const idEmpresa = localStorage.getItem('idEmpresa');
@@ -86,10 +87,10 @@ const ProdutosMaisVendidos = () => {
           {meses.map((mes) => (
             <button
                 key={mes.valor}
-                className={`px-4 min-w-24 h-7 bg-branco rounded-full p-1 items-center font-semibold text-14 justify-center ${
+                className={`px-4 min-w-24 h-7 rounded-full p-1 items-center font-semibold text-14 justify-center ${
                     mesSelecionado === mes.valor
-                    ? 'bg-green-400 text-white '
-                    : 'text-azulEscuro'
+                    ? mode === 'true' ? 'bg-azulClaro text-white' : 'bg-green-400 text-white'
+                    : mode === 'true' ? 'bg-dark text-white' : 'bg-branco text-azulEscuro'
                 }`}
                 onClick={() => handleMesClick(mes.valor)}
                 data-mes={mes.valor} // Adiciona o valor do mês como um data attribute
@@ -98,7 +99,7 @@ const ProdutosMaisVendidos = () => {
             </button>
             ))}
 
-          <select value={anoSelecionado} onChange={handleSelectAnoChange} className='justify-center rounded-full p-1 items-center font-semibold mr-1 text-azulEscuro cursor-pointer '>
+          <select value={anoSelecionado} onChange={handleSelectAnoChange} className={`${mode === 'true' ? 'bg-dark text-branco':'bg-branco text-azulEscuro'} justify-center rounded-full p-1 items-center font-semibold mr-1 text-azulEscuro cursor-pointer`}>
                 <option value={anoAtual}>
                 Vendas de {anoAtual}
                 </option>
@@ -117,7 +118,7 @@ const ProdutosMaisVendidos = () => {
             <div className={`${mode === 'true' ? 'bg-dark' : 'bg-white'} h-screen`}>
 
             <div className={`flex flex-col ml-3 mr-3 pb-2 ${mode === 'true' ? 'bg-dark' : 'bg-slate-300 bg-opacity-50'}  rounded-[8px] h-auto shadow-md`}>
-                <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7 flex justify-end": ""}`}>
+                <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? 'h-7 flex justify-end': ''}`}>
                     { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
                     <>
                         <button  id='btnFiltro' onClick={handleResetarMesAno} 
@@ -128,12 +129,12 @@ const ProdutosMaisVendidos = () => {
                     ) : null}  
                 </div> 
 
-                <div className={`ml-2 mr-2 mt-2 pb-2 ${mode === 'true' ? 'bg-branco' : 'bg-darkClaro'} rounded-md shadow-md`}>
-                    <div className="flex flex-row ml-3 mr-3 p-1 mt-1 justify-between text-azulClaro items-center text-base font-semibold border-b-3 border-solid border-cinza">
+                <div className={`ml-2 mr-2 mt-2 pb-2 ${mode === 'true' ? 'bg-darkClaro' : 'bg-branco'} rounded-md shadow-md`}>
+                    <div className={`flex flex-row ml-3 mr-3 p-1 mt-1 justify-between ${mode === 'true' ? 'text-branco' : 'text-azulEscuro'} items-center text-base font-semibold border-b-3 border-solid border-cinza`}>
                         <h1 className="ml-3">Produtos Mais Vendidos</h1>
-                        <select value={quantidadeValorSelecionado} onChange={handleSelectValorQuantidadeChange} className='bg-branco text-right justify-center rounded-full p-1 items-end font-semibold mr-1 text-azulClaro cursor-pointer '>
+                        <select value={quantidadeValorSelecionado} onChange={handleSelectValorQuantidadeChange} className={`bg-branco text-right justify-center rounded-full p-1 items-end font-semibold mr-1 ${mode === 'true' ? 'text-branco bg-darkClaro' : 'text-azulEscuro'} cursor-pointer`}>
                             <option value={0}>
-                            Quantidade
+                                Quantidade
                             </option>
                             <option value={1}>Valor em R$</option>
                         </select>
@@ -145,13 +146,13 @@ const ProdutosMaisVendidos = () => {
                         >
                             <span
                                 title={maisVendidos.pr_descricao}
-                                className="flex px-4 min-w-24 h-7 rounded-full items-center text-14 justify-center truncate text-center"
+                                className={`flex px-4 min-w-24 h-7 rounded-full items-center text-14 ${mode === 'true' ? 'text-branco' : 'text-azulEscuro'} justify-center truncate text-center`}
                             >
                                 {maisVendidos.pr_descricao}
                             </span>
 
                             <span 
-                                className="flex w-auto px-4 min-w-24 h-7 rounded-full p-1 items-center text-14 justify-center text-center"
+                                className={`flex w-auto px-4 min-w-24 h-7 rounded-full p-1 items-center text-14 ${mode === 'true' ? 'text-branco' : 'text-azulEscuro'} justify-center text-center`}
                             >
                                 {maisVendidos.total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                             </span>

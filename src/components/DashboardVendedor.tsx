@@ -221,10 +221,10 @@ const DashboardVendedor: React.FC = () => {
           {meses.map((mes) => (
           <button
               key={mes.valor}
-              className={`px-4 min-w-24 h-7 bg-branco rounded-full p-1 items-center font-semibold text-14 justify-center ${
+              className={`px-4 min-w-24 h-7  rounded-full p-1 items-center font-semibold text-14 justify-center ${
                 mesSelecionado === mes.valor
-                  ? 'bg-green-400 text-white '
-                  : 'text-azulEscuro'
+                  ? mode === 'true' ? 'bg-azulClaro text-white' : 'bg-green-400 text-white'
+                  : mode === 'true' ? 'bg-dark text-white' : 'bg-branco text-azulEscuro'
               }`}
               onClick={() => handleClick(mes.valor)}
               data-mes={mes.valor} // Adiciona o valor do mês como um data attribute
@@ -233,8 +233,7 @@ const DashboardVendedor: React.FC = () => {
           </button>
           ))}
 
-          <select value={anoSelecionado} onChange={handleSelectChange} className='justify-center rounded-full p-1 items-center font-semibold bg-branco mr-1 text-azulEscuro cursor-pointer '>
-              <option value={anoAtual}>
+          <select value={anoSelecionado} onChange={handleSelectChange} className={`${mode === 'true' ? 'bg-dark text-branco':'bg-branco text-azulEscuro'} justify-center rounded-full p-1 items-center font-semibold mr-1 cursor-pointer `}>              <option value={anoAtual}>
               Vendas de {anoAtual}
               </option>
               <option value={anoAtual - 1}>Vendas de {anoAtual - 1}</option>

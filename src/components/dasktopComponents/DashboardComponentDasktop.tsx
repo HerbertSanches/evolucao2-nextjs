@@ -269,12 +269,8 @@ const DashboardComponentDasktop = () => {
     }
   }
 
-
-
-
-
   return(
-    <div className={`${mode ==='S' ? 'bg-dark' : null}  h-[calc(100dvh-4rem)]`}>
+    <div className={`${mode ==='true' ? 'bg-dark' : null}  h-[calc(100dvh-4rem)]`}>
       
       <MesesComponent onMesSelecionado={handleMesSelecionado} />
     
