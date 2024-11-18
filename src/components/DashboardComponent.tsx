@@ -266,7 +266,7 @@ const DashboardComponent: React.FC = () => {
           ) : null} 
         </div>
 
-        <div id='background GraficoAnual'>
+        <div id='background GraficoAnual' className='mr-4 ml-4 mt-0'>
           {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendMesSelecionado={handMesSelecionado} sendMetaSelecionada={handleMetaSelecionada} modo={isDarkMode} />} 
         </div>
 

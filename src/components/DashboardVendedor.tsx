@@ -248,50 +248,50 @@ const DashboardVendedor: React.FC = () => {
       </h1>
 
       <div className={`${mode === 'true' ? 'bg-dark' : 'bg-white'} h-[calc(100dvh-7rem-50px)]`}>
-         <div className={`flex flex-col ml-3 mr-3 mb-4 pt-[1px] pb-[13px] ${mode === 'true' ? 'bg-dark' : 'bg-slate-300 bg-opacity-50'}  rounded-[8px] h-auto`}>  
-        <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} modo={mode}/>  
-        
+        <div className={`flex flex-col ml-3 mr-3 mb-4 pt-[1px] pb-[13px] ${mode === 'true' ? 'bg-dark' : 'bg-slate-300 bg-opacity-50'}  rounded-[8px] h-auto`}>  
+          <Metas metaMes={metaMes} mes={mesSelecionado-1} metaAno={metaAno} ano={anoSelecionado} modo={mode}/>  
+          
 
-        <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7 flex justify-end": ""}`}>
-        { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
-          <>
-            <button  id='btnFiltro' onClick={resetarMesAno} 
-              className='text-azulEscuro text-[8px] mt-2 mr-4 bg-branco rounded-md p-1 shadow-md '>
-              Filtrado: mês {mesSelecionado} ano {anoSelecionado} X
-            </button>
-          </>
-        ) : null}  
+          <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? "h-7 flex justify-end": ""}`}>
+          { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
+            <>
+              <button  id='btnFiltro' onClick={resetarMesAno} 
+                className='text-azulEscuro text-[8px] mt-2 mr-4 bg-branco rounded-md p-1 shadow-md '>
+                Filtrado: mês {mesSelecionado} ano {anoSelecionado} X
+              </button>
+            </>
+          ) : null}  
+          </div> 
+
+          {metafuncionario.map((funcionario, index) => (
+
+            <div key={index} className={`${mode === 'true' ? 'bg-darkClaro' : 'bg-branco'} rounded-lg p-4 flex items-center justify-between shadow-global ml-4 mr-4 mt-3`} >
+
+              <div className="flex items-center mr-1">
+                <Image src={Usuario}  width={48} height={48}  alt='' className={`${mode === 'true' ? 'invert brightness-0 contrast-100' : ''} h-12 w-12 object-contain`} />
+                <div className="ml-4 truncate">
+                  <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} font-bold text-[15px] truncate `}>{funcionario.ps_nomerazao}</p>
+                  <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-lg text-[18px]`}>R$: {funcionario.total_mes !== undefined && funcionario.total_mes !== null
+                  ? funcionario.total_mes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                  : '0,00'}</p>
+                  
+                  <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-xs`}>
+                    Meta R$: {funcionario[chaveMetaMesFuncionario] !== undefined && funcionario[chaveMetaMesFuncionario] !== null
+                      ? funcionario[chaveMetaMesFuncionario].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                      : '0,00'}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center relative" style={{ width: '80px', height: '80px' }}>
+                <div className="absolute inset-0 flex items-center justify-center ">
+                  <DoughnutChartWithCenterText modo={mode} porcentagem={Number(((funcionario.total_mes / funcionario[chaveMetaMesFuncionario])* 100).toFixed(0))}/>
+                </div>
+              </div>
+
+            </div>
+          ))}
         </div> 
-
-        {metafuncionario.map((funcionario, index) => (
-
-          <div key={index} className={`${mode === 'true' ? 'bg-darkClaro' : 'bg-branco'} rounded-lg p-4 flex items-center justify-between shadow-global ml-4 mr-4 mt-3`} >
-
-            <div className="flex items-center mr-1">
-              <Image src={Usuario}  width={48} height={48}  alt='' className={`${mode === 'true' ? 'invert brightness-0 contrast-100' : ''} h-12 w-12 object-contain`} />
-              <div className="ml-4 truncate">
-                <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} font-bold text-[15px] truncate `}>{funcionario.ps_nomerazao}</p>
-                <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-lg text-[18px]`}>R$: {funcionario.total_mes !== undefined && funcionario.total_mes !== null
-                ? funcionario.total_mes.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                : '0,00'}</p>
-                
-                <p className={`${mode === 'true' ? 'text-white' : 'text-azulEscuro'} text-xs`}>
-                  Meta R$: {funcionario[chaveMetaMesFuncionario] !== undefined && funcionario[chaveMetaMesFuncionario] !== null
-                    ? funcionario[chaveMetaMesFuncionario].toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-                    : '0,00'}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center relative" style={{ width: '80px', height: '80px' }}>
-              <div className="absolute inset-0 flex items-center justify-center ">
-                <DoughnutChartWithCenterText modo={mode} porcentagem={Number(((funcionario.total_mes / funcionario[chaveMetaMesFuncionario])* 100).toFixed(0))}/>
-              </div>
-            </div>
-
-          </div>
-        ))}
-      </div> 
       </div>
      
     </>

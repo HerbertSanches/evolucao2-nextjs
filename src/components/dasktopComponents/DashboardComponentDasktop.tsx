@@ -4,10 +4,12 @@ import MetasDasktop from "./MetasDasktop";
 import { darkMode } from "@/services/comum.utils";
 import FaturamentoDasktop from "./FaturamentoDasktop";
 import api from "@/services/api";
+import GraficoAnual from "../GraficoAnual";
 
 const DashboardComponentDasktop = () => {
   const [mesSelecionado, setMesSelecionado] = useState(new Date().getMonth() + 1);
   const [mode, setMode] = useState<string | null>('');
+  
 
   const handleMesSelecionado = (mes:any) => {
     console.log("Mês recebido do filho:", mes);
@@ -16,7 +18,8 @@ const DashboardComponentDasktop = () => {
   };
 
   useEffect(() => {
-    setMode(darkMode())
+    setMode(darkMode());
+   
   },[mode])
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
@@ -270,7 +273,7 @@ const DashboardComponentDasktop = () => {
   }
 
   return(
-    <div className={`${mode ==='true' ? 'bg-dark' : null}  h-[calc(100dvh-4rem)]`}>
+    <div className={`${mode ==='true' ? 'bg-dark' : null}  h-100dvh`}>
       
       <MesesComponent onMesSelecionado={handleMesSelecionado} />
     
@@ -320,6 +323,26 @@ const DashboardComponentDasktop = () => {
       </div>
 
 
+      <div className="max-w-5xl ml-1 rounded-2xl overflow-hidden max-h-[525px]">   
+        <div className={`flex max-w-5xl overflow-hidden items-center justify-between rounded-t-2xl h-10 ${mode === 'true' ? 'bg-darkClaro': 'bg-white' } border-b-2`}>
+          <select value={anoSelecionado} onChange={handleSelectChange} className={`${mode === 'true' ? 'bg-darkClaro text-white': 'bg-white' } ml-1 h-7 cursor-pointer `}>
+            <option value={anoAtual}>
+              Faturamento de {anoAtual}
+            </option>
+            <option value={anoAtual - 1}>Faturamento de {anoAtual - 1}</option>
+            <option value={anoAtual - 2}>Faturamento de {anoAtual - 2}</option>
+            <option value={anoAtual - 3}>Faturamento de {anoAtual - 3}</option>
+          </select>
+
+          { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
+          <>
+            <button onClick={resetarMesAno} className='text-azulEscuro text-[8px] mr-1 bg-cinza rounded-md p-1 w-max-50px shadow-md'>Filtrado: mês {mesSelecionado} ano {anoSelecionado} X</button>
+          </>
+          ) : null} 
+        </div>
+      
+        {dataMeta && <GraficoAnual vendas={dataGraficoAnual} metas={dataMeta} sendMesSelecionado={handMesSelecionado} sendMetaSelecionada={handleMetaSelecionada} modo={mode} />} 
+      </div>
       
     </div>
   )

@@ -59,7 +59,7 @@ type props = {
   sendMetaSelecionada: (value: number) => void;
   vendas: Vendas[];
   metas:Metas[];
-  modo:string;
+  modo:string | null;
 }
 
 const GraficoAnual = ({ sendMesSelecionado, sendMetaSelecionada, vendas, metas, modo }:props) => {
@@ -235,7 +235,7 @@ const GraficoAnual = ({ sendMesSelecionado, sendMetaSelecionada, vendas, metas, 
   
   console.log(meses)
   return (
-    <div className={`min-w-[250px] max-w-full max-h-[500px] ${modo === 'true' ? 'bg-darkClaro': 'bg-white'} rounded-b-lg mr-4 ml-4 mt-0 `}>
+    <div className={`min-w-[250px] max-w-full max-h-[500px] ${modo === 'true' ? 'bg-darkClaro': 'bg-white'} rounded-b-2xl  `}>
       <Bar ref={chartRef} data={data} options={options} />
     </div>
   );

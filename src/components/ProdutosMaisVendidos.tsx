@@ -117,58 +117,57 @@ const ProdutosMaisVendidos = () => {
 
             <div className={`${mode === 'true' ? 'bg-dark' : 'bg-white'} h-screen`}>
 
-            <div className={`flex flex-col ml-3 mr-3 pb-2 ${mode === 'true' ? 'bg-dark' : 'bg-slate-300 bg-opacity-50'}  rounded-[8px] h-auto shadow-md`}>
-                <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? 'h-7 flex justify-end': ''}`}>
-                    { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
-                    <>
-                        <button  id='btnFiltro' onClick={handleResetarMesAno} 
-                        className='text-azulEscuro text-[8px] mt-2 mr-4 bg-branco rounded-md p-1 shadow-md '>
-                        Filtrado: mês {mesSelecionado} ano {anoSelecionado} X
-                        </button>
-                    </>
-                    ) : null}  
-                </div> 
+                <div className={`flex flex-col ml-3 mr-3 pb-2 ${mode === 'true' ? 'bg-dark' : 'bg-slate-300 bg-opacity-50'}  rounded-[8px] h-auto shadow-md`}>
+                    <div className={`${mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado) ? 'h-7 flex justify-end': ''}`}>
+                        { mesAtual !== mesSelecionado || anoAtual !== Number(anoSelecionado)  ? (
+                        <>
+                            <button  id='btnFiltro' onClick={handleResetarMesAno} 
+                            className='text-azulEscuro text-[8px] mt-2 mr-4 bg-branco rounded-md p-1 shadow-md '>
+                            Filtrado: mês {mesSelecionado} ano {anoSelecionado} X
+                            </button>
+                        </>
+                        ) : null}  
+                    </div> 
 
-                <div className={`ml-2 mr-2 mt-2 pb-2 ${mode === 'true' ? 'bg-darkClaro' : 'bg-branco'} rounded-md shadow-md`}>
-                    <div className={`flex flex-row ml-3 mr-3 p-1 mt-1 justify-between ${mode === 'true' ? 'text-branco' : 'text-azulEscuro'} items-center text-base font-semibold border-b-3 border-solid border-cinza`}>
-                        <h1 className="ml-3">Produtos Mais Vendidos</h1>
-                        <select value={quantidadeValorSelecionado} onChange={handleSelectValorQuantidadeChange} className={`bg-branco text-right justify-center rounded-full p-1 items-end font-semibold mr-1 ${mode === 'true' ? 'text-branco bg-darkClaro' : 'text-azulEscuro'} cursor-pointer`}>
-                            <option value={0}>
-                                Quantidade
-                            </option>
-                            <option value={1}>Valor em R$</option>
-                        </select>
-                    </div>
-
-                    {maisVendidos.map((maisVendidos) => (
-                        <div className="flex items-center justify-between border-b border-solid ml-2 mr-2 p-1 mt-1 border-cinza"
-                        key={maisVendidos.pr_descricao}
-                        >
-                            <span
-                                title={maisVendidos.pr_descricao}
-                                className={`flex px-4 min-w-24 h-7 rounded-full items-center text-14 ${mode === 'true' ? 'text-branco' : 'text-azulEscuro'} justify-center truncate text-center`}
-                            >
-                                {maisVendidos.pr_descricao}
-                            </span>
-
-                            <span 
-                                className={`flex w-auto px-4 min-w-24 h-7 rounded-full p-1 items-center text-14 ${mode === 'true' ? 'text-branco' : 'text-azulEscuro'} justify-center text-center`}
-                            >
-                                {maisVendidos.total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </span>
-                            
-                            
+                    <div className={`ml-2 mr-2 mt-2 pb-2 ${mode === 'true' ? 'bg-darkClaro' : 'bg-branco'} rounded-md shadow-md`}>
+                        <div className={`flex flex-row ml-3 mr-3 p-1 mt-1 justify-between ${mode === 'true' ? 'text-branco' : 'text-azulEscuro'} items-center text-base font-semibold border-b-3 border-solid border-cinza`}>
+                            <h1 className="ml-3">Produtos Mais Vendidos</h1>
+                            <select value={quantidadeValorSelecionado} onChange={handleSelectValorQuantidadeChange} className={`bg-branco text-right justify-center rounded-full p-1 items-end font-semibold mr-1 ${mode === 'true' ? 'text-branco bg-darkClaro' : 'text-azulEscuro'} cursor-pointer`}>
+                                <option value={0}>
+                                    Quantidade
+                                </option>
+                                <option value={1}>Valor em R$</option>
+                            </select>
                         </div>
-                    ))}
+
+                        {maisVendidos.map((maisVendidos) => (
+                            <div className="flex items-center justify-between border-b border-solid ml-2 mr-2 p-1 mt-1 border-cinza"
+                            key={maisVendidos.pr_descricao}
+                            >
+                                <span
+                                    title={maisVendidos.pr_descricao}
+                                    className={`flex px-4 min-w-24 h-7 rounded-full items-center text-14 ${mode === 'true' ? 'text-branco' : 'text-azulEscuro'} justify-center truncate text-center`}
+                                >
+                                    {maisVendidos.pr_descricao}
+                                </span>
+
+                                <span 
+                                    className={`flex w-auto px-4 min-w-24 h-7 rounded-full p-1 items-center text-14 ${mode === 'true' ? 'text-branco' : 'text-azulEscuro'} justify-center text-center`}
+                                >
+                                    {maisVendidos.total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </span>
+                                
+                                
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
 
             </div>
             
         </main>
         </>
-            
-        
+                  
     )
 }
 
